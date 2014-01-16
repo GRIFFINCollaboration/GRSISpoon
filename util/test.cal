@@ -1,0 +1,12 @@
+
+Bob	{
+	NAME: steve
+	detector: 5
+	PIXEL:	4	5
+	NUMBER:	4001
+	// C0 + C1*X + C2*X^2 ... CN*X^N
+	ENG_COEFF:  0.23 .909 
+	CFD_COEFF:  3 
+	LED_COEFF:
+	TIME_COEFF:
+}

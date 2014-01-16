@@ -1,0 +1,20 @@
+
+CXX    = g++
+
+MIDASSRC    = TMidasEvent.cxx TMidasFile.cxx HttpOdb.cxx TMidasOnline.cxx XmlOdb.cxx 
+MIDASOBJS   = $(MIDASSRC:.cxx=.o)
+CFLAGS = -fPIC 
+
+
+ROOT = `root-config --cflags --libs`
+
+
+all: libMidasInterface
+
+
+libMidasInterface: $(MIDASOBJS)
+	$(CXX) $(CFLAGS) -shared $(MIDASOBJS) -o libMidasInterface.so  $(ROOT)
+
+%.o: %.cxx
+	$(CXX) -c  $< $(ROOT)
+
