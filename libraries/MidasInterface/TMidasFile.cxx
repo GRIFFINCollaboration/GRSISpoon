@@ -429,11 +429,18 @@ int	TMidasFile::GetSubRunNumber()	{
 	if(fFilename.length()==0)
 		return -1;
 	std::size_t found = fFilename.rfind("-");
-	if(found == std::string::npos)
-		return -1;
-	std::string temp = fFilename.substr(found+1,3);
-	//printf("%i \n",atoi(temp.c_str()));
-	return atoi(temp.c_str());
+	if(found != std::string::npos) {
+		std::string temp = fFilename.substr(found+1,3);
+		//printf("%i \n",atoi(temp.c_str()));
+		return atoi(temp.c_str());
+	}
+	found = fFilename.rfind("_");
+	if(found != std::string::npos) {
+		std::string temp = fFilename.substr(found+1,3);
+		//printf("%i \n",atoi(temp.c_str()));
+		return atoi(temp.c_str());
+	}
+	return -1;
 };
 
 

@@ -1,4 +1,7 @@
+#include <string>
+#include <vector>
 
+#include <TRandom.h>
 #include <TSystem.h>
 #include <TUnixSystem.h>
 #include <TSysEvtHandler.h>
@@ -6,8 +9,8 @@
 
 #include <signal.h>
 
+#include "Globals.h"
 #include "TigInput.h"
-
 #include "TigUtilities.h"
 
 ClassImp(TigInput)
@@ -79,16 +82,20 @@ int		TigInput::TabCompletionHook(char* buf,int* pLoc,ostream& out)	{
 }
 
 void TigInput::PrintLogo(bool lite)	{
-
+	
 	//const char *root_version = gROOT->GetVersion();
 	if(!lite)	{
+  	const std::string &ref = ProgramName();	
+  	const unsigned int reflength = ref.length() - 78;
+		const unsigned int width = reflength + (reflength % 2);
+				
 		//printf(DBLACK);
-		printf("\t  *******************************************\n");
-//		printf("\t  *                                         *\n");
-		printf("\t  *             GRSI SPOON                  *\n");
-		printf("\t  *             version 1.0                 *\n");
-//		printf("\t  *                                         *\n");
-		printf("\t  *******************************************\n");
+		printf("\t*%s*\n", std::string(width,'*').c_str());	
+		printf("\t*%*s%*s*\n",width/2+5,"GRSI SPOON", width/2-5, "");
+	
+		printf("\t*%*s%*s*\n",width/2+reflength/2, ref.c_str(), width/2-reflength/2, "");
+		printf("\t*%*s%*s*\n",width/2+5, "version 1.0", width/2-5, "");
+		printf("\t*%s*\n", std::string(width,'*').c_str());	
 		//printf(RESET_COLOR "\n");
 	}
 

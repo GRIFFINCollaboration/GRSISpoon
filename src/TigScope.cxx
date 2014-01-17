@@ -2,6 +2,7 @@
 #include "TigScope.h"
 #include "TServer.h"
 
+#include "TigInput.h"
 #include "TParser.h"
 
 ClassImp(TigScope)
@@ -382,6 +383,7 @@ void TigScope::Draw(TTigFragment *frag)	{
 
 void TigScope::SetOptions()	{
 	printf("Setting options.\n");
+	//TigInput::instance()->PrintLogo(false);
 	if(fmidasfile)	{
 		fIsOffline = true;
 		ExecuteLoop(fmidasfile);

@@ -54,8 +54,6 @@ struct FSPC	{
 	std::string type_units;
 };
 
-
-
-
+const std::string &ProgramName(void);
 
 #endif
