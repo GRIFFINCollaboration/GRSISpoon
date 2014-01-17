@@ -14,7 +14,3 @@ In light of GRIFFIN's enormous (200 TB/week) throughput of raw data to disk, a n
 3.  Independent web server: a relatively simple web server that waits for AJAX get requests from a web page, parses them into commands for the sort core's API, and returns the result in a way that can be parsed by the page's visualization.  
 
 4.  Visualization web page: a web app sitting on top of the server described above, which will allow any Chrome or Firefox user to visualize (via the gammaSpectrum framework) any histogram that can be defined by the sort core's API (specific feature list TBD).
-
-
-
-xyz
