@@ -14,3 +14,14 @@ In light of GRIFFIN's enormous (200 TB/week) throughput of raw data to disk, a n
 3.  Independent web server: a relatively simple web server that waits for AJAX get requests from a web page, parses them into commands for the sort core's API, and returns the result in a way that can be parsed by the page's visualization.  
 
 4.  Visualization web page: a web app sitting on top of the server described above, which will allow any Chrome or Firefox user to visualize (via the gammaSpectrum framework) any histogram that can be defined by the sort core's API (specific feature list TBD).
+
+##Usage
+
+GRSISpoon relies on MIDAS and ROOT (versions TBD).  With them installed and working, follow these steps to get GRSISpoon off the ground:
+
+1. Run the setup script, SOURCEME.sh or .csh depending on your shell preference.  Make sure the paths to ROOT and MIDAS are set correctly therein!
+2. do `make` at GRSISpoon's root; hopefully everything compiles
+3. `./bin/grsisort` launches the program in interactive mode
+
+Alternatively, you can launch as `./bin/grsisort -p 9091` to launch a server listening on port 9091 (or whatever port you want).  More usage docs coming soon!
+
