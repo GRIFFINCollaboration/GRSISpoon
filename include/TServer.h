@@ -34,6 +34,12 @@ class TServer : public TObject	{
 		void Monitor();
 
 		void DoStuff(std::string,TSocket*);
+		void DoQuery(std::string,TSocket*);
+
+		void SendString(TSocket* sock, const char* str);
+		void SendHttpReply(TSocket* sock, const char* mimetype, const char* message);
+		void SendHttpReply(TSocket* sock, const char* mimetype, const std::string& str);
+
 
 	public:
 		void Stop();
