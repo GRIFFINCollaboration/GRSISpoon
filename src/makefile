@@ -14,13 +14,10 @@ LIBDIR += -L$(MIDASSYS)/linux/lib
 GCC = g++ 
 ROOT = `root-config --cflags`
 LDROOT = `root-config --glibs`
-LIBS = -lutil
-LIBS += -lrt
-LIBS += -lz
-LIBS += -lXMLParser   
 
-LIBS += -lTigInput
+LIBS = -lTigInput
 LIBS += -lMidasInterface
+LIBS += -lXMLParser   
 LIBS += -lEventLoop
 LIBS += -lTigress
 LIBS += -lTigOcilloscope
@@ -30,7 +27,9 @@ LIBS += -lTServer
 LIBS += -lTParser
 LIBS += -lmidas
 
-
+LIBS += -lutil
+LIBS += -lrt
+LIBS += -lz
 
 OBJECTS = main.o TigScope.o TigScopeDict.o 
 
