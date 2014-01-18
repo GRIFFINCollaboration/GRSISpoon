@@ -287,10 +287,10 @@ void TigScope::PrintHelp()	{
 	printf( DBLUE "\t--help              \t" DRED "print this menu." RESET_COLOR "\n");
 	printf( DBLUE "\t-e <experiment name>\t" DRED "midas online experiment name." RESET_COLOR "\n");
 	printf( DBLUE "\t-h <host name>      \t" DRED "midas online host name." RESET_COLOR "\n");
-	printf( DBLUE "\t-f <midas file>     \t" DRED "midas data file." RESET_COLOR "\n");
+	printf( DBLUE "\t-f <midas file>     \t" DRED "midas data file, and sort the file." RESET_COLOR "\n");
 	printf( DBLUE "\t-o <odb.xml>        \t" DRED "use odb saved to file, currently only xml format works." RESET_COLOR "\n");
 	printf( DBLUE "\t-c <file.cal>       \t" DRED "read custom calibration file." RESET_COLOR "\n");
-	//printf( DBLUE "\t-c <file.cal>       \t" DRED "read custom calibration file." RESET_COLOR "\n");
+	printf( DBLUE "\t-p <port num>       \t" DRED "start server on port <port num>." RESET_COLOR "\n");
 	//printf( DBLUE "\t-r <root file>      \t" DRED "root input file containing FragmentTree." RESET_COLOR "\n");
 
 	printf( DBLUE "\t-i	\t" DGREEN "start program in interactive mode." RESET_COLOR "\n");
