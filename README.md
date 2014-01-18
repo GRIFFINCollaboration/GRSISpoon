@@ -25,3 +25,14 @@ GRSISpoon relies on MIDAS and ROOT (versions TBD).  With them installed and work
 
 Alternatively, you can launch as `./bin/grsisort -p 9091` to launch a server listening on port 9091 (or whatever port you want).  More usage docs coming soon!
 
+##Testing
+
+Currently, the test suite for GRSISpoon is a simple procedure:
+
+1.  Sort the benchmark file ./testSuite/run27422_000.mid
+2.  Run the root macro `root -b -l ./testSuite/testGauntlet.C`
+3.  The macro will tell you all is well (so pls PR!), or that something failed (pls fix or justify before PR).
+
+The test just compares the tree you get from sorting the benchmark file with the tree I got from sorting the benchmark file, and demands they are identical up to timestamps.  As an added bonus, `testGauntlet.C` should serve as an example of how to read GRSISpoon's ROOT output.
+
+Please note that passing the test suite is *required* for merging code into the collaboration's repo!  If you think there is a good reason why your changes don't match, open an issue to discuss the situation before attempting a merge.
