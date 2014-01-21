@@ -17,7 +17,7 @@ TRf::~TRf() 	{	}
 
 void TRf::SetRf(TTigFragment *frag)	{
 
-	if(frag->HasWave())	{
+	if(!frag->wavebuffer.empty())	{
 		FindPhase(frag->wavebuffer);
 		rftime = frag->TimeToTrig - phase;
 	}
