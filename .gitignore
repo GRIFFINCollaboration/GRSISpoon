@@ -2,4 +2,5 @@
 !words.o
 *.a
 *.so
-bin/*
+/bin/*
+*Dict.[c,h]*
