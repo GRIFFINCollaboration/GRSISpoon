@@ -85,7 +85,13 @@ void TigInput::PrintLogo(bool lite)	{
 	
 	//const char *root_version = gROOT->GetVersion();
 	if(!lite)	{
-  	const std::string &ref = ProgramName();	
+	#if PLATFORM == Linux
+		const std::string &ref = ProgramName();	
+	#else 
+		const std::strinf &ref = "Nuclear Data";
+	#endif
+
+
   	const unsigned int reflength = ref.length() - 78;
 		const unsigned int width = reflength + (reflength % 2);
 				
