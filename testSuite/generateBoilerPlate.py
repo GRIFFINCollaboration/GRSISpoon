@@ -18,7 +18,7 @@ leaves = [
  	'ODBType',
  	'ChannelName',
  	'ChannelNumber',
- 	'ChannelRaw',
+ 	'ChannelAddress',
  	'Cfd',
  	'Led',
  	'TimeToTrig',

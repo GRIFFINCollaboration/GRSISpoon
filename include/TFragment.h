@@ -2,14 +2,10 @@
 #define TFRAGMENT_H
 
 #include<vector>
-#include<queue>
-#include<string>
+
 #include<time.h>
 
-//#include"TH1F.h"
-#include<TRefArray.h>
-#include<TNamed.h>
-#include<TRandom.h>
+#include<TObject.h>
 
 #ifndef __CINT__
 #include "Globals.h"
@@ -17,7 +13,7 @@
 
 //using namespace std;
 
-class TFragment : public TNamed	{
+class TFragment : public TObject	{
 
   public:
     TFragment();
@@ -30,42 +26,17 @@ class TFragment : public TNamed	{
     int TriggerId;	//->
     int FragmentId;	//->
     int TriggerBitPattern;		//->
-    std::string DigitizerType; 	//->      // currently tig10 or tig64
-    int ODBType;	//->
-    
-    std::string ChannelName;	//->
-    int ChannelNumber;	//->
-    int ChannelRaw;	//->
-    int Cfd;	//->
-    int Led;	//->
-    int TimeToTrig; //->
-    int Charge;	//->
-    float ChargeCal;	//->
-    
-    int TimeStampLow;	//->
-    int TimeStampHigh;	//->
-    int TimeStampLive;	//->
-    int TimeStampTR;  	//->       // triggers requested
-    int TimeStampTA;	//->         // triggers accepted
-    
-    int SamplesFound;	//->
-    //TH1F waveform;
-    
-    bool SlowRiseTime;	//->
-    bool PileUp;	//->
 
+    int ChannelAddress;	//->
+    int Cfd;	//->
+    int Charge;	//->
+
+  	unsigned long TimeStamp;
+    
     std::vector<int>  wavebuffer;	//->	
       
-    void	Clear(); //!
-    void 	Print(); //!
-    
-    bool	HasWave() { //!     
-      return !wavebuffer.empty(); 
-    };
-    //in order to use root sort function when the fragments are in arrays 
-    //puts newset id at the beginning of the array, older ids at the end.
-    bool IsSortable() const {return kTRUE;}; //!
-    int	 Compare(const TObject *obj) const; //! compare by trigger and fragment id 
+    virtual void	Clear(); //!
+    virtual void 	Print(); //!
         
     ClassDef(TFragment,1);  // TFragment structure
 };

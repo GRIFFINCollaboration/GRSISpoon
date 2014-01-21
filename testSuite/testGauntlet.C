@@ -22,7 +22,8 @@ void testGauntlet()	{
 
 	Int_t nentries_st = (Int_t)benchmarkTree->GetEntries();
 	Int_t nentries_ct = (Int_t)contenderTree->GetEntries();
-
+	
+	TStopwatch w;
 
 	if(nentries_ct != nentries_st)	{
 		printf("warning standrad  tree has " "%i fragments!" "\n"  ,nentries_st;);
@@ -30,6 +31,7 @@ void testGauntlet()	{
 		return;
 	}
 
+	float percent; 
 	for(Int_t i=0; i<nentries_st;i++)	{
 		benchmarkTree->GetEntry(i);
 		contenderTree->GetEntry(i);
@@ -38,10 +40,18 @@ void testGauntlet()	{
 		if(status<0) 
 			printf("\terror on entry number: %i!\n",nentries);
 
-
+		if(i%500==0)	{
+			percent = (float)i/(float)nentries_st * 100;
+			printf("\t %.1f %% done. %.2f sec elapsed.             \r",percent,w.RealTime()); 
+			w.Continue();
+		}
 
 	}
+	percent = (float)i/(float)nentries_st * 100;
+	printf("\t %.1f %% done. %.2f sec elapsed.             \n\n",percent,w.RealTime()); 
+	//printf("\n\n"); 
 	
+	return;
 }
 
           
@@ -97,8 +107,8 @@ int CompareFragments(TTigFragment *frag1, TTigFragment *frag2)	{
 		return -1;				
 	}
 
-	if(frag1->ChannelRaw		!=        frag2->ChannelRaw)	{
-		printf("Raw Channel Values do not match!\n");
+	if(frag1->ChannelAddress		!=        frag2->ChannelAddress)	{
+		printf("Address Channel Values do not match!\n");
 		return -1;				
 	}
 
