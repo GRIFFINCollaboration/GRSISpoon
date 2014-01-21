@@ -11,15 +11,22 @@ OBJECTS= TigInput.o TigInputDict.o
 
 all: libTigInput.a libTigInput.so
 
+ifeq	($(PLATFROM),Linux)
 libTigInput.so: $(OBJECTS) words.o
 	g++ --shared $(CFLAGS) -Wl,-soname=libTigInput.so -olibTigInput.so $^
 	cp libTigInput.so ..
 
-ifeq	($(PLATFROM),Linux)
 libTigInput.a: $(OBJECTS) words.o
 	ar rcs libTigInput.a $^
 	cp libTigInput.a ..
 else
+
+
+libTigInput.so: $(OBJECTS) 
+	g++ --shared $(CFLAGS) -Wl,-soname=libTigInput.so -olibTigInput.so $^
+	cp libTigInput.so ..
+
+
 libTigInput.a: $(OBJECTS) 
 	ar rcs libTigInput.a $^
 	cp libTigInput.a ..
