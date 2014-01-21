@@ -12,7 +12,7 @@ OBJECTS= TigInput.o TigInputDict.o
 all: libTigInput.a libTigInput.so
 
 libTigInput.so: $(OBJECTS) words.o
-	g++ --shared $(CFLAGS) -Wl,-soname=libTigInput.so -olibTigInput.so $^
+	g++ --shared $(CFLAGS) -Wl,-install_name,libTigInput.so, -olibTigInput.so $^
 	cp libTigInput.so ..
 
 ifeq	($(PLATFROM),Linux)
