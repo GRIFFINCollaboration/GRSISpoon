@@ -15,9 +15,16 @@ libTigInput.so: $(OBJECTS) words.o
 	g++ --shared $(CFLAGS) -Wl,-soname=libTigInput.so -olibTigInput.so $^
 	cp libTigInput.so ..
 
+ifeq	($(PLATFROM),Linux)
 libTigInput.a: $(OBJECTS) words.o
 	ar rcs libTigInput.a $^
 	cp libTigInput.a ..
+else
+libTigInput.a: $(OBJECTS) 
+	ar rcs libTigInput.a $^
+	cp libTigInput.a ..
+endif
+
 
 
 TigInput.o: TigInput.cxx
