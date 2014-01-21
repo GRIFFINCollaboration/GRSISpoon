@@ -1,0 +1,5 @@
+*.o
+!words.o
+*.a
+*.so
+bin/*
