@@ -58,7 +58,6 @@ int TParser::TigressDATAToFragment(int *data, int size,unsigned int midasserialn
 		fLastMidasId = midasserialnumber;
 	}
 	
-
 	for(int x=0;x<size;x++)	{
 		int dword =	*(data+x);
 		int type	=	(dword & 0xf0000000); //>> 28;
@@ -66,26 +65,26 @@ int TParser::TigressDATAToFragment(int *data, int size,unsigned int midasserialn
 	  int value =	(dword & 0x0fffffff);
 		switch(type)	{
 			case 0x00000000: // waveform data 
-        if(eventfragment->SamplesFound > (100000) ) {printf("number of wave samples found is to great\n"); break;}       
+        if(eventfragment->wavebuffer.size() > (100000) ) {printf("number of wave samples found is to great\n"); break;}       
         if (value & 0x00002000) {
           int temp =  value & 0x00003fff;
           temp = ~temp;
           temp = (temp & 0x00001fff) + 1;
           //eventfragment->waveform.Fill(eventfragment->SamplesFound++,-temp); 
-					eventfragment->wavebuffer.push_back(-temp);	eventfragment->SamplesFound++;
+					eventfragment->wavebuffer.push_back(-temp);	//eventfragment->SamplesFound++;
         } else {
           //eventfragment->waveform.Fill(eventfragment->SamplesFound++,(value & 0x00001fff));  
-					eventfragment->wavebuffer.push_back((value & 0x00001fff)); eventfragment->SamplesFound++;
+					eventfragment->wavebuffer.push_back((value & 0x00001fff)); //eventfragment->SamplesFound++;
         }
 				if ((value >> 14) & 0x00002000) {
 				  int temp =  (value >> 14) & 0x00003fff;
           temp = ~temp;
           temp = (temp & 0x00001fff) + 1;
 		     	//eventfragment->waveform.Fill(eventfragment->SamplesFound++,-temp); 
-					eventfragment->wavebuffer.push_back(-temp);	eventfragment->SamplesFound++;
+					eventfragment->wavebuffer.push_back(-temp);	//eventfragment->SamplesFound++;
         } else {
           //eventfragment->waveform.Fill(eventfragment->SamplesFound++,((value >> 14) & 0x00001fff));       
-					eventfragment->wavebuffer.push_back( ((value >> 14) & 0x00001fff) );	eventfragment->SamplesFound++;
+					eventfragment->wavebuffer.push_back( ((value >> 14) & 0x00001fff) );	//eventfragment->SamplesFound++;
         }
 				break; 
       case 0x10000000: // trapeze data 
@@ -180,7 +179,7 @@ int TParser::TigressDATAToFragment(int *data, int size,unsigned int midasserialn
       case 0xa0000000:  // timestamp
 				{
 					int time[5];
-					time[0]  = *(data + x);
+					time[0] = *(data + x);
 					x += 1;
 					time[1] =	*(data + x);	//& 0x0fffffff;
 					if( (time[1] & 0xf0000000) != 0xa0000000) {
@@ -244,6 +243,7 @@ int TParser::TigressDATAToFragment(int *data, int size,unsigned int midasserialn
 //									printf("timestamp probelm default.\t%08x\t%08x\t%i\n",time[1], 0xa0000000,x );  
 									break;
 							};
+							eventfragment->SetTimeStamp();
 						}
 					}
 				}
@@ -254,7 +254,7 @@ int TParser::TigressDATAToFragment(int *data, int size,unsigned int midasserialn
 				break;
       case 0xc0000000: // port info,  New Channel 
 				//eventfragment->channel =  FSPC_to_channel( value ) ;
-        eventfragment->ChannelRaw =  value;
+        eventfragment->ChannelAddress =  value;
 				//if(slave<3) {eventfragment->DigitizerType = "tig64";}
 				//else{eventfragment->DigitizerType = "tig10";}
         break;

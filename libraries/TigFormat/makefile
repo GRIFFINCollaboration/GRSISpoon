@@ -6,7 +6,7 @@ INCD = $(BASE)/include
 
 .PHONY: all clean gone
 
-OBJECTS= TFragment.o TTigFragmentDict.o TFragmentDict.o TFragmentQueue.o TFragmentQueueDict.o
+OBJECTS= TFragment.o TTigFragment.o TTigFragmentDict.o TFragmentDict.o TFragmentQueue.o TFragmentQueueDict.o
 
 all: libTigFormat.a libTigress.so
 
@@ -29,6 +29,9 @@ TFragmentDict.o: TFragmentDict.cxx
 
 TFragmentDict.cxx: $(INCD)/TFragment.h
 	rootcint $@ -c $<
+
+TTigFragment.o: TTigFragment.cxx
+	g++ -c -fPIC $(CFLAGS) $< $(INC) `root-config --cflags`
 
 TTigFragmentDict.o: TTigFragmentDict.cxx
 	g++ -c -fPIC $(CFLAGS) TTigFragmentDict.cxx $(INC) `root-config --cflags`

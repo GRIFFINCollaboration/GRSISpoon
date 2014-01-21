@@ -89,13 +89,13 @@ void CalibrationManager::CalibrateFragment(TTigFragment *frag)	{
   if(NameChannelMap.count(frag->ChannelName.substr(0,10)) == 1)	{
 	temp = NameChannelMap[frag->ChannelName.substr(0,10)];
   } 
-  else if(AddressChannelMap.count(frag->ChannelRaw & 0x00ffffff) == 1)	{
-	temp = AddressChannelMap[frag->ChannelRaw & 0x00ffffff];
+  else if(AddressChannelMap.count(frag->ChannelAddress & 0x00ffffff) == 1)	{
+	temp = AddressChannelMap[frag->ChannelAddress & 0x00ffffff];
   }
   else	{
     return;
   }
-  //printf("	frag->ChannelRaw & 0x00ffffff  =  0x%08x\t0x%08x\n",frag->ChannelRaw & 0x00ffffff,temp);
+  //printf("	frag->ChannelAddress & 0x00ffffff  =  0x%08x\t0x%08x\n",frag->ChannelRaw & 0x00ffffff,temp);
   temp->CalibrateFragment(frag);
 
 	
