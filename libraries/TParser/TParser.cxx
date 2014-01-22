@@ -60,7 +60,7 @@ int TParser::TigressDATAToFragment(int *data, int size,unsigned int midasserialn
 	
 	for(int x=0;x<size;x++)	{
 		int dword =	*(data+x);
-		int type	=	(dword & 0xf0000000); //>> 28;
+		unsigned int type	=	(dword & 0xf0000000); //>> 28;
 		int slave =	(dword & 0x0ff00000) >> 20;
 	  int value =	(dword & 0x0fffffff);
 		switch(type)	{

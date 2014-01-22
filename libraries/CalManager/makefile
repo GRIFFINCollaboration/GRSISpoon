@@ -8,10 +8,10 @@ INCD = $(BASE)/include
 
 OBJECTS= TChannel.o TChannelDict.o CalibrationManager.o CalibrationManagerDict.o
 
-all: libCalManager.a libCalManager.so
+all: libCalManager.so #libCalManager.a
 
 libCalManager.so: $(OBJECTS)
-	g++ --shared $(CFLAGS) -Wl,-soname=libCalManager.so -olibCalManager.so $(OBJECTS)
+	$(COMPILESHARED)$@ $(CFLAGS) -olibCalManager.so $(OBJECTS)
 	cp libCalManager.so ..
 
 libCalManager.a: $(OBJECTS)

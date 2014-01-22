@@ -8,10 +8,10 @@ INCD = $(BASE)/include
 
 OBJECTS= TServer.o TServerDict.o 
 
-all: libTServer.a libTServer.so
+all: libTServer.so #libTServer.a
 
 libTServer.so: $(OBJECTS)
-	g++ --shared $(CFLAGS) -Wl,-soname=libTServer.so -olibTServer.so $(OBJECTS)
+	$(COMPILESHARED)$@ $(CFLAGS) -olibTServer.so $(OBJECTS)
 	cp libTServer.so ..
 
 libTServer.a: $(OBJECTS)

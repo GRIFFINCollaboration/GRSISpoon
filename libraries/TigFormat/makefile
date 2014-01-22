@@ -8,15 +8,15 @@ INCD = $(BASE)/include
 
 OBJECTS= TFragment.o TTigFragment.o TTigFragmentDict.o TFragmentDict.o TFragmentQueue.o TFragmentQueueDict.o
 
-all: libTigFormat.a libTigress.so
+all: libFormat.so #libTigress.a
 
-libTigress.so: $(OBJECTS)
-	g++ --shared $(CFLAGS) -Wl,-soname=libTigress.so -olibTigress.so $(OBJECTS)
-	cp libTigress.so ..
+libFormat.so: $(OBJECTS)
+	$(COMPILESHARED)$@ $(CFLAGS) -o$@ $(OBJECTS)
+	cp libFormat.so ..
 
-libTigFormat.a: $(OBJECTS)
-	ar rcs libTigFormat.a $(OBJECTS)
-	cp libTigFormat.a ..
+libFormat.a: $(OBJECTS)
+	ar rcs libFormat.a $(OBJECTS)
+	cp libFormat.a ..
 
 ########################################
 ########################################

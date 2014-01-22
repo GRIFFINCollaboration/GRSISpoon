@@ -13,23 +13,20 @@ all: libTigInput.a libTigInput.so
 
 ifeq	($(PLATFROM),Linux)
 libTigInput.so: $(OBJECTS) words.o
-	g++ --shared $(CFLAGS) -Wl,-soname=libTigInput.so -olibTigInput.so $^
+	g++ --shared $(CFLAGS) -Wl,-install_name libTigInput.so -olibTigInput.so $^
 	cp libTigInput.so ..
 
 libTigInput.a: $(OBJECTS) words.o
 	ar rcs libTigInput.a $^
 	cp libTigInput.a ..
 else
-
-
-libTigInput.so: $(OBJECTS) 
-	g++ --shared $(CFLAGS) -Wl,-soname=libTigInput.so -olibTigInput.so $^
+libTigInput.so: $(OBJECTS)
+	$(COMPILESHARED)$@ $(CFLAGS) -o $@ $^
 	cp libTigInput.so ..
 
-
-libTigInput.a: $(OBJECTS) 
-	ar rcs libTigInput.a $^
-	cp libTigInput.a ..
+.PHONY: libTigInput.a
+libTigInput.a:
+	echo 'done'
 endif
 
 

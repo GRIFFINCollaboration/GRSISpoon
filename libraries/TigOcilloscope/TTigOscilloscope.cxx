@@ -1,21 +1,21 @@
 
 
-#include "TTigOcilloscope.h"
+#include "TTigOscilloscope.h"
 #include "TTigOFrame.h"
 	
 //#include "TigScope.h"	
 //#include "TigInput.h"
 
 
-ClassImp(TTigOcilloscope)
+ClassImp(TTigOscilloscope)
 
-TTigOcilloscope::TTigOcilloscope()	{	
+TTigOscilloscope::TTigOscilloscope()	{	
 
 	oframe = new TTigOFrame(gClient->GetRoot());
 
 }
 
-TTigOcilloscope::~TTigOcilloscope()	{	
+TTigOscilloscope::~TTigOscilloscope()	{	
 //cleanup
 
 

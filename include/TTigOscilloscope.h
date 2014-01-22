@@ -1,16 +1,16 @@
-#ifndef TTIGOCILLOSCOPE_H
-#define TTIGOCILLOSCOPE_H
+#ifndef TTIGOSCILLOSCOPE_H
+#define TTIGOSCILLOSCOPE_H
 
 #include <map>
 
 #include "TTigOFrame.h"
 #include "TTigFragment.h"
 
-class TTigOcilloscope : public TObject	{
+class TTigOscilloscope : public TObject	{
 
 	public:
-		TTigOcilloscope();
-		~TTigOcilloscope();
+		TTigOscilloscope();
+		~TTigOscilloscope();
 
 		
 
@@ -22,7 +22,7 @@ class TTigOcilloscope : public TObject	{
 
 
 
-	ClassDef(TTigOcilloscope,0)
+	ClassDef(TTigOscilloscope,0)
 
 };
 
