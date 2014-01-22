@@ -3,9 +3,20 @@ ALLDIRS = $(SUBDIRS)
 
 PLATFORM := $(shell uname)
 
-export PLATFROM:= $(PLATFORM)
+export PLATFORM:= $(PLATFORM)
 
-export CFLAGS = -std=c++0x -O2 #--enable-libstdcxx-time
+export CFLAGS = -std=c++0x -O0 -I$(PWD)/include -v
+
+ifeq ($(PLATFORM),Darwin)
+export CFLAGS += -DOS_DARWIN --stdlib=libc++
+export LFLAGS=-dynamiclib -single_module -undefined dynamic_lookup
+export SHAREDSWITCH    = -install_name # ENDING SPACE
+export CPP = xcrun clang++
+else
+export SHAREDSWITCH    = -shared -Wl,-soname,#NO ENDING SPACE
+export CPP = g++
+endif
+export COMPILESHARED   = $(CPP) $(LFLAGS) $(SHAREDSWITCH)#NO ENDING SPACE
 
 export BASE:= $(CURDIR)
 #export MDASSYS:= /opt/midas-64

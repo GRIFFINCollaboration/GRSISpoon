@@ -7,26 +7,26 @@ INCD = $(BASE)/include
 
 .PHONY: all clean gone
 
-OBJECTS= TTigOFrame.o TTigOcilloscope.o TTigOcilloscopeDict.o 
+OBJECTS= TTigOFrame.o TTigOscilloscope.o TTigOscilloscopeDict.o 
 
-all: libTigOcilloscope.a libTigOcilloscope.so
+all: libOscilloscope.so #libOscilloscope.a
 
-libTigOcilloscope.so: $(OBJECTS)
-	g++ --shared $(CFLAGS) -Wl,-soname=libTigOcilloscope.so -olibTigOcilloscope.so $(OBJECTS)
-	cp libTigOcilloscope.so ..
+libOscilloscope.so: $(OBJECTS)
+	$(COMPILESHARED)$@ $(CFLAGS) -olibOscilloscope.so $(OBJECTS)
+	cp libOscilloscope.so ..
 
-libTigOcilloscope.a: $(OBJECTS)
-	ar rcs libTigOcilloscope.a $(OBJECTS)
-	cp libTigOcilloscope.a ..
+#libOscilloscope.a: $(OBJECTS)
+#	ar rcs libOscilloscope.a $(OBJECTS)
+#	cp libOscilloscope.a ..
 
-TTigOcilloscope.o: TTigOcilloscope.o
-	g++ -c -fPIC $(CFLAGS) TTigOcilloscope.cxx $(INC) `root-config --cflags`
+TTigOscilloscope.o: TTigOscilloscope.o
+	g++ -c -fPIC $(CFLAGS) TTigOscilloscope.cxx $(INC) `root-config --cflags`
 
-TTigOcilloscopeDict.o: TTigOcilloscopeDict.cxx
-	g++ -c -fPIC $(CFLAGS) TTigOcilloscopeDict.cxx $(INC) `root-config --cflags`
+TTigOscilloscopeDict.o: TTigOscilloscopeDict.cxx
+	g++ -c -fPIC $(CFLAGS) TTigOscilloscopeDict.cxx $(INC) `root-config --cflags`
 
-TTigOcilloscopeDict.cxx: $(INCD)/TTigOcilloscope.h
-	rootcint TTigOcilloscopeDict.cxx -c $(INCD)/TTigOcilloscope.h
+TTigOscilloscopeDict.cxx: $(INCD)/TTigOscilloscope.h
+	rootcint TTigOscilloscopeDict.cxx -c $(INCD)/TTigOscilloscope.h
 
 TTigOFrame.o: TTigOFrame.cxx
 	g++ -c -fPIC $(CFLAGS) TTigOFrame.cxx $(INC) `root-config --cflags`

@@ -4,13 +4,11 @@ ifndef BASE
 BASE=../..
 endif
 
-CXXFLAGS = -g -fPIC -O2 -Wall -Wuninitialized
+CFLAGS += -Wall -Wuninitialized
 
 # optional ZLIB library
 
-CXXFLAGS += -DHAVE_ZLIB
-
-CXXFLAGS += -I$(BASE)/include
+CFLAGS += -DHAVE_ZLIB
 
 # ROOT libraries
 
@@ -18,7 +16,7 @@ CXXFLAGS += -I$(BASE)/include
 #ROOTLIBS  = -L$(ROOTSYS)/lib $(shell $(ROOTSYS)/bin/root-config --libs)  -lXMLParser -lThread
 #ROOTGLIBS = -L$(ROOTSYS)/lib $(shell $(ROOTSYS)/bin/root-config --glibs) -lXMLParser -lThread
 #RPATH    += -Wl,-rpath,$(ROOTSYS)/lib
-CXXFLAGS += -DHAVE_ROOT $(shell $(ROOTSYS)/bin/root-config --cflags) -std=c++0x
+CFLAGS += -DHAVE_ROOT $(shell $(ROOTSYS)/bin/root-config --cflags) -std=c++0x
 #endif
 
 ALL:= libMidasInterface.a libMidasInterface.so
@@ -30,7 +28,7 @@ OBJS += TMidasFile.o
 OBJS += TMidasFileDict.o
 
 ifdef MIDASSYS
-CXXFLAGS += -I$(MIDASSYS)/include
+CFLAGS += -I$(MIDASSYS)/include
 OBJS += TMidasOnline.o
 endif
 
@@ -46,14 +44,14 @@ libMidasInterface.a: $(OBJS)
 	cp -p $@ $(BASE)/libraries
 
 libMidasInterface.so: $(OBJS)
-	g++ --shared -Wl,-soname=libMidasInterface.so -olibMidasInterface.so $(OBJS) -L$(ROOTSYS)/lib -lNet 
+	$(COMPILESHARED)$@ $(CFLAGS) -olibMidasInterface.so $(OBJS) -L$(ROOTSYS)/lib -lNet 
 	cp -p $@ $(BASE)/libraries
 
 #%Dict.cxx: %.h
 #	LD_LIBRARY_PATH=$(ROOTSYS)/lib $(ROOTSYS)/bin/rootcint -f $@ -c $^
 
 %.o: %.cxx
-	$(CXX) $(CXXFLAGS) -c $<
+	$(CXX) $(CFLAGS) -c $<
 
 TMidasFileDict.cxx: $(BASE)/include/TMidasFile.h
 	rootcint TMidasFileDict.cxx -c $(BASE)/include/TMidasFile.h

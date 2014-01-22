@@ -9,10 +9,10 @@ INCD = $(BASE)/include
 
 OBJECTS= TParser.o TParserDict.o 
 
-all: libTParser.a libTParser.so
+all: libTParser.so #libTParser.a
 
 libTParser.so: $(OBJECTS)
-	g++ --shared $(CFLAGS) -Wl,-soname=libTParser.so -olibTParser.so $(OBJECTS)
+	$(COMPILESHARED)$@ $(CFLAGS) -olibTParser.so $(OBJECTS)
 	cp libTParser.so ..
 
 libTParser.a: $(OBJECTS)

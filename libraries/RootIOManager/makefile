@@ -8,10 +8,10 @@ INCD = $(BASE)/include
 
 OBJECTS= RootIOManager.o RootIOManagerDict.o 
 
-all: libRootIOManager.a libRootIOManager.so
+all: libRootIOManager.so #libRootIOManager.a
 
 libRootIOManager.so: $(OBJECTS)
-	g++ --shared $(CFLAGS) -Wl,-soname=libRootIOManager.so -olibRootIOManager.so $(OBJECTS)
+	$(COMPILESHARED)$@ $(CFLAGS) -olibRootIOManager.so $(OBJECTS)
 	cp libRootIOManager.so ..
 
 libRootIOManager.a: $(OBJECTS)

@@ -11,16 +11,14 @@ INCD = $(BASE)/include
 #ROOTFUNCTIONS = ../libRootFunctions/libRootFunctions.a
 OBJS= TPeriodicClass.o EventLoop.o TPeriodicClassDict.o EventLoopDict.o
 
-all: libEventLoop.a libEventLoop.so
+all: libEventLoop.so #libEventLoop.a
 
-CFLAGS = -std=c++0x
-
-libEventLoop.a: $(OBJS)  
-	ar rcs libEventLoop.a TPeriodicClass.o EventLoop.o 
-	cp libEventLoop.a ..
+#libEventLoop.a: $(OBJS)  
+#	ar rcs libEventLoop.a TPeriodicClass.o EventLoop.o 
+#	cp libEventLoop.a ..
 
 libEventLoop.so: $(OBJS)
-	g++ --shared $(CLAGS) -Wl,-soname=libEventLoop.so -olibEventLoop.so $(OBJS)
+	$(COMPILESHARED)$@ $(CFLAGS) -olibEventLoop.so $(OBJS)
 	cp libEventLoop.so ..
 
 #########################################################################
@@ -28,10 +26,10 @@ libEventLoop.so: $(OBJS)
 
 
 TPeriodicClass.o: TPeriodicClass.cxx
-	g++ -c -fPIC $(CLFAGS) TPeriodicClass.cxx $(INC) `root-config --cflags`
+	g++ -c -fPIC $(CFLAGS) TPeriodicClass.cxx $(INC) `root-config --cflags`
 
 TPeriodicClassDict.o: TPeriodicClassDict.cxx
-	g++ -c -fPIC $(CLFAGS) TPeriodicClassDict.cxx $(INC) `root-config --cflags`
+	g++ -c -fPIC $(CFLAGS) TPeriodicClassDict.cxx $(INC) `root-config --cflags`
 
 TPeriodicClassDict.cxx: $(INCD)/TPeriodicClass.hxx
 	rootcint TPeriodicClassDict.cxx -c $(INCD)/TPeriodicClass.hxx

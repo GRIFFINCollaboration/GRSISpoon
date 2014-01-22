@@ -6,12 +6,12 @@ INC = -I$(BASE)/include
 
 .PHONY: all clean gone
 
-OBJECTS= TCloverData.o TCloverDataDict.o TCrystalData.o TCrystalDataDict.o TigressHit.o TigressHitDict.o TTigress.o TTigressDict.o  TRf.o TRfDict.o TS3.o TS3Data.o S3Hit.o TSiLi.o TSiLiData.o SiLiHit.o
+OBJECTS= TCloverData.o TCloverDataDict.o TCrystalData.o TCrystalDataDict.o TigressHit.o TigressHitDict.o TTigress.o TTigressDict.o TS3.o TS3Data.o S3Hit.o TSiLi.o TSiLiData.o SiLiHit.o
 
-all: libTAnalysis.a libTAnalysis.so
+all: libTAnalysis.so #libTAnalysis.a
 
 libTAnalysis.so: $(OBJECTS)
-	g++ --shared -Wl,-soname=TAnalysis -olibTAnalysis.so $(OBJECTS)
+	$(COMPILESHARED)$@ $(CFLAGS) -olibTAnalysis.so $(OBJECTS)
 	cp libTAnalysis.so ..
 
 libTAnalysis.a: $(OBJECTS)
