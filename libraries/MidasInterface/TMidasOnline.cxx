@@ -19,6 +19,10 @@
 //#include "hardware.h"
 //#include "ybos.h"
 
+// for older versions of midas
+#ifndef TR_ASYNC
+#define TR_ASYNC ASYNC
+#endif
 
 TMidasOnline::TMidasOnline() // ctor
 {

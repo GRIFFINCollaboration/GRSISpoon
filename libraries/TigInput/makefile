@@ -5,37 +5,33 @@ endif
 INC = -I$(BASE)/include
 INCD = $(BASE)/include
 
+export CFLAGS += `root-config --cflags`
+
 .PHONY: all clean gone
 
-OBJECTS= TigInput.o TigInputDict.o 
-
-all: libTigInput.a libTigInput.so
-
-ifeq	($(PLATFROM),Linux)
-libTigInput.so: $(OBJECTS) words.o
-	g++ --shared $(CFLAGS) -Wl,-install_name libTigInput.so -olibTigInput.so $^
-	cp libTigInput.so ..
-
-libTigInput.a: $(OBJECTS) words.o
-	ar rcs libTigInput.a $^
-	cp libTigInput.a ..
-else
-libTigInput.so: $(OBJECTS)
-	$(COMPILESHARED)$@ $(CFLAGS) -o $@ $^
-	cp libTigInput.so ..
-
-.PHONY: libTigInput.a
-libTigInput.a:
-	echo 'done'
+OBJECTS=TigInput.o TigInputDict.o
+TARGETS=libTigInput.so
+ifeq	($(PLATFORM),Linux)
+PERMOBJECTS = words.o
+TARGETS += libTigInput.a
 endif
 
 
+all: $(TARGETS)
+
+libTigInput.so: $(OBJECTS) $(PERMOBJECTS)
+	$(COMPILESHARED)$@ $(CFLAGS) -o$@ $^
+	cp libTigInput.so ..
+
+libTigInput.a: $(OBJECTS) $(PERMOBJECTS)
+	ar rcs libTigInput.a $^
+	cp libTigInput.a ..
 
 TigInput.o: TigInput.cxx
-	g++ -c -fPIC $(CFLAGS) TigInput.cxx $(INC) `root-config --cflags`
+	g++ -c $(CFLAGS) TigInput.cxx $(INC)
 
 TigInputDict.o: TigInputDict.cxx
-	g++ -c -fPIC $(CFLAGS) TigInputDict.cxx $(INC) `root-config --cflags`
+	g++ -c $(CFLAGS) TigInputDict.cxx $(INC)
 
 TigInputDict.cxx: $(INCD)/TigInput.h
 	rootcint TigInputDict.cxx -c $(INCD)/TigInput.h

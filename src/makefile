@@ -30,7 +30,9 @@ LIBS += -lTParser
 LIBS += -lmidas
 
 LIBS += -lutil
-#LIBS += -lrt
+ifeq ($(PLATFORM),Linux)
+LIBS += -lrt
+endif
 LIBS += -lz
 
 OBJECTS = main.o TigScope.o TigScopeDict.o 
