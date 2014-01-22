@@ -2,6 +2,8 @@ SUBDIRS = TigInput  MidasInterface EventLoop TigFormat TigOcilloscope CalManager
 ALLDIRS = $(SUBDIRS) 
 #LASTDIR = $(notdir $(CURDIR))
 
+export CFLAGS += -fPIC
+
 .PHONY: subdirs $(ALLDIRS) clean 
 subdirs: $(SUBDIRS)
 
