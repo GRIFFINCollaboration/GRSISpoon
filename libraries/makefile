@@ -1,4 +1,4 @@
-SUBDIRS = TigInput  MidasInterface EventLoop TigFormat TigOcilloscope CalManager RootIOManager  TServer TAnalysis TParser
+SUBDIRS = TigInput  MidasInterface EventLoop TigFormat TigOscilloscope CalManager RootIOManager  TServer TAnalysis TParser
 ALLDIRS = $(SUBDIRS) 
 #LASTDIR = $(notdir $(CURDIR))
 

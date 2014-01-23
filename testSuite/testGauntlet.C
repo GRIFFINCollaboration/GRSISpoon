@@ -26,8 +26,8 @@ void testGauntlet()	{
 	TStopwatch w;
 
 	if(nentries_ct != nentries_st)	{
-		printf("warning standrad  tree has " "%i fragments!" "\n"  ,nentries_st;);
-		printf("warning contender tree has " "%i fragments!" "\n"  ,nentries_ct;);
+		printf("warning standrad  tree has " "%i fragments!" "\n"  ,nentries_st);
+		printf("warning contender tree has " "%i fragments!" "\n"  ,nentries_ct);
 		return;
 	}
 
@@ -52,7 +52,7 @@ void testGauntlet()	{
 	//printf("\n\n"); 
 	
 	return;
-}
+};
 
           
 int CompareFragments(TTigFragment *frag1, TTigFragment *frag2)	{
@@ -165,6 +165,6 @@ int CompareFragments(TTigFragment *frag1, TTigFragment *frag2)	{
 
 
 
-}
+};
 
 
