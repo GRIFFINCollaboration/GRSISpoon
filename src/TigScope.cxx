@@ -161,103 +161,120 @@ TTigFragment *TigScope::ExtractFragment(TMidasEvent *mevent)	{
 
 
 bool TigScope::HandleOptions(int argc,char **argv)	{
-	if(argc==0)
-		return true;
-
+   if(argc==0) {return true;}
 	if(argc==1)	{
 		PrintHelp();
 		return false;
 	}
 		
-
-  std::vector<std::string> args;
-  for (int i=0; i<argc; i++)	{
-	  if (strcmp(argv[i],"--help")==0 || strcmp(argv[i],"-help")==0)	{
-			PrintHelp();
-			//refresh();
-			break;
-		}
-    args.push_back(argv[i]);
-  }
-	for(unsigned int i=1; i<args.size(); i++)	{	// loop over the commandline options
-		std::string arg = args[i];
-		if(arg[0] == '-')	{
-			char val = arg[1];
-			if(islower(val))
-				val = val + 'A' -'a';
+   std::vector<std::string> args;
+   for (int i=0; i<argc; i++)	{
+	   if (strcmp(argv[i],"--help")==0 || strcmp(argv[i],"-help")==0)	{
+	      PrintHelp();
+	      //refresh();
+	      break;
+	   }
+      args.push_back(argv[i]);
+   }
+   for(unsigned int i=1; i<args.size(); i++)	{	// loop over the commandline options
+      std::string arg = args[i];
+      if(arg[0] == '-')	{
+         char val = arg[1];
+         if(islower(val)) val = val + 'A' -'a';
 			switch(val)	{
-				case 'E':
-					if(arg[2] == '\0')
-						if(i<argc-1 && (args[i+1])[0] != '-' )
-						arg = args[++i];
-					else
-						arg.erase(0,2);		
+			case 'E':  // Set experiment name
+			   if(arg[2] == '\0') {
+				   if(i<argc-1 && (args[i+1])[0] != '-' ) { 
+					   arg = args[++i];
+					}   
+					else {
+					   arg.erase(0,2);
+					}   		
 					exptname = arg;//.c_str();
-					break;
-				case 'H':
-					if(arg[2] == '\0')
-						if(i<argc-1 && (args[i+1])[0] != '-' )
-							arg = args[++i];
-					else
-						arg.erase(0,2);		
-					hostname = arg;//.c_str();
-					break;
-                case 'P':
-                    if(arg[2] == '\0')
-                        if(i<argc-1 && (args[i+1])[0] != '-' )
-                            arg = args[++i];
-                    else
-                        arg.erase(0,2);
-					TServer::instance(atoi(arg.c_str()));
-                    break;
-				case 'F':
-					if(arg[2] == '\0')
-						if(i<argc-1 && (args[i+1])[0] != '-' )
-						arg = args[++i];
-					else
-						arg.erase(0,2);		
-					mfileinname = arg;//.c_str();
-					fIsOffline = true;
-					break;
-				case 'O':
-					if(arg[2] == '\0')
-						if(i<argc-1 && (args[i+1])[0] != '-' )
-						arg = args[++i];
-					else
-						arg.erase(0,2);		
-					odbfname = arg;//.c_str();
-					CalibrationManager::instance()->SetODBFileName(odbfname.c_str());
-					break;
-				case 'C':
-					if(arg[2] == '\0')
-						if(i<argc-1 && (args[i+1])[0] != '-' )
-						arg = args[++i];
-					else
-						arg.erase(0,2);		
-					calfname = arg;//.c_str();
-					CalibrationManager::instance()->SetCalFileName(calfname.c_str());
-					break;
-				case 'I':
-					fInteractiveMode = true;
-					break;
-				case 'R':
-					if(arg[2] == '\0')
-						if(i<argc-1 && (args[i+1])[0] != '-' )
-						arg = args[++i];
-					else
-						arg.erase(0,2);		
-					rfileinname = arg;//.c_str();
-					break;
-				case 'S':
+				}	
+			   break;
+			case 'H':  // Set hostname
+			   if(arg[2] == '\0') {
+			      if(i<argc-1 && (args[i+1])[0] != '-' ) {
+					   arg = args[++i];
+					}   
+					else {
+                  arg.erase(0,2);	
+               }			
+            }
+            hostname = arg;//.c_str();
+            break;
+         case 'P':  // Set port number for server
+            if(arg[2] == '\0') {
+               if(i<argc-1 && (args[i+1])[0] != '-' ) {
+                  arg = args[++i];
+               }
+               else {
+                  arg.erase(0,2);
+               }
+            }
+				TServer::instance(atoi(arg.c_str()));
+            break;
+			case 'F':  // Set filename
+		      if(arg[2] == '\0') {
+			      if(i<argc-1 && (args[i+1])[0] != '-' ) {
+				      arg = args[++i];
+				   }
+					else {
+					   arg.erase(0,2);
+					}
+				}
+				mfileinname = arg;//.c_str();
+				fIsOffline = true;
+				break;
+			case 'O': // Set alternate ODB file
+            if(arg[2] == '\0') {
+				   if(i<argc-1 && (args[i+1])[0] != '-' ) {
+					   arg = args[++i];
+					}
+					else {
+					   arg.erase(0,2);
+					}
+            }   
+				odbfname = arg;//.c_str();
+				CalibrationManager::instance()->SetODBFileName(odbfname.c_str());
+				break;
+			case 'C':  // Set calibration file
+			   if(arg[2] == '\0') {
+				   if(i<argc-1 && (args[i+1])[0] != '-' ) {
+					   arg = args[++i];
+					}
+					else {
+					   arg.erase(0,2);
+					}
+            }
+            calfname = arg;//.c_str();
+            CalibrationManager::instance()->SetCalFileName(calfname.c_str());
+				break;
+			case 'I':  
+            fInteractiveMode = true;
+            break;
+			case 'R':
+            if(arg[2] == '\0') {
+				   if(i<argc-1 && (args[i+1])[0] != '-' ) {
+                  arg = args[++i];
+               }
+					else {
+                  arg.erase(0,2);
+               }
+				}
+				rfileinname = arg;//.c_str();
+				break;
+			case 'S':
 					fScopeMode = true;
 					break;
-				case 'T':
+			case 'T':
 					fTestMode	= true;
 					break;
 //				case 'H':
 //					PrintHelp();
 //					return false;
-				default:
+			default:
 					printf("commmand %s not understood. ignoring %s, try --help.\n",arg.c_str(),arg.c_str());			
 					break;
 			};
