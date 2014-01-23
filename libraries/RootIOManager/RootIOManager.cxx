@@ -10,11 +10,12 @@
 
 //class TigScope;
 
-RootIOManager *RootIOManager::fRootIOManager = 0;
+RootIOManager *RootIOManager::fRootIOManager = NULL;
 
 RootIOManager *RootIOManager::instance()	{
-	if(!fRootIOManager)
+	if(fRootIOManager == NULL) {
 		fRootIOManager = new RootIOManager();
+	}
 	return fRootIOManager;
 }
 
