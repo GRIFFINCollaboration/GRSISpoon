@@ -4,9 +4,11 @@ BASE = ../..
 endif
 INC = -I$(BASE)/include
 
+CFLAGS += $(shell root-config --cflags)
+
 .PHONY: all clean gone
 
-OBJECTS= TCloverData.o TCloverDataDict.o TCrystalData.o TCrystalDataDict.o TigressHit.o TigressHitDict.o TTigress.o TTigressDict.o TS3.o TS3Data.o S3Hit.o TSiLi.o TSiLiData.o SiLiHit.o
+OBJECTS= TCloverData.o TCloverDataDict.o TCrystalData.o TCrystalDataDict.o TigressHit.o TigressHitDict.o TTigress.o TTigressDict.o TS3.o TS3Data.o S3Hit.o TSiLi.o TSiLiData.o SiLiHit.o TRfFitter.o TRfFitterDict.o
 
 all: libTAnalysis.so #libTAnalysis.a
 
@@ -53,17 +55,6 @@ TigressHitDict.o: TigressHitDict.cxx
 
 TigressHitDict.cxx: $(BASE)/include/TigressHit.h
 	rootcint TigressHitDict.cxx -c $(BASE)/include/TigressHit.h
-
-
-TRf.o: TRf.cxx
-	g++ -c -fPIC TRf.cxx $(INC) `root-config --cflags`
-
-TRfDict.o: TRfDict.cxx
-	g++ -c -fPIC TRfDict.cxx $(INC) `root-config --cflags`
-
-TRfDict.cxx: $(BASE)/include/TRf.h
-	rootcint TRfDict.cxx -c $(BASE)/include/TRf.h
-
 
 
 TS3.o: TS3.cxx
@@ -122,17 +113,15 @@ SiLiDict.o: SiLiHitDict.cxx
 SiLiHitDict.cxx: $(BASE)/include/SiLiHit.h
 	rootcint SiLiHitDict.cxx -c $(BASE)/include/SiLiHit.h
 
+%.o: %.cxx
+	$(CXX) -c $^ $(CFLAGS) $(CPPFLAGS)
 
-
-
-
-
-
-
+%Dict.cxx: $(BASE)/include/%.h
+	rootcint $@ -c $^
 
 clean:
-	$(RM) *.o *~ *Dict* *a *so
+	$(RM) *.o *~ *Dict.* *a *so
 
 gone:
-	$(RM) *Dict* *a *.o *~
+	$(RM) *Dict.* *a *.o *~
 

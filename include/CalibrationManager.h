@@ -1,4 +1,3 @@
-
 #ifndef CALIBRATIONMANAGER_H
 #define CALIBRATIONMANAGER_H
 
@@ -10,67 +9,87 @@
 #include "TChannel.h"
 #include "VirtualOdb.h"
 
-class	CalibrationManager	{
+class CalibrationManager {
 
-	public:
-		static CalibrationManager *instance();
-		~CalibrationManager();
+ public:
+   static CalibrationManager *instance();
 
-		bool UseODBFromFile()					{ return fuseodbfile;};
-		bool UseCALFromFile()					{ return fusecalfile;};
+   ~CalibrationManager();
 
-		const char *GetODBFileName()			{	return fodbfilename.c_str();};
-		const char *GetCALFileName()			{	return fcalfilename.c_str();};
+   bool UseODBFromFile() {
+      return fuseodbfile;
+   };
+   bool UseCALFromFile() {
+      return fusecalfile;
+   };
 
-		void SetODBFileName(const char *oname)	{fodbfilename = oname; 
-																						 printf("odb file set to: %s\n",oname);		
-																						 fuseodbfile=true;};
-		void SetCalFileName(const char *cname)	{fcalfilename = cname; 
-																						 printf("cal file set to: %s\n",cname);
-																						 fusecalfile=true;};
+   const char *GetODBFileName() {
+      return fodbfilename.c_str();
+   };
+   const char *GetCALFileName() {
+      return fcalfilename.c_str();
+   };
 
-			
+   void SetODBFileName(const char *oname) {
+      fodbfilename = oname;
+      printf("odb file set to: %s\n", oname);
+      fuseodbfile = true;
+   };
+   void SetCalFileName(const char *cname) {
+      fcalfilename = cname;
+      printf("cal file set to: %s\n", cname);
+      fusecalfile = true;
+   };
 
 
-	private:
-		static CalibrationManager *fCalibrationManager;
-		CalibrationManager();
 
-		std::map<int,TChannel*> AddressChannelMap;
-		std::map<std::string,TChannel*> NameChannelMap;
 
-		void MergeChannels(TChannel*,TChannel*);
+ private:
+   static CalibrationManager *fCalibrationManager;
+   CalibrationManager();
 
-		enum InfileOptions {JUNK, NAME, DETECTOR, COEFFICIENTS, PIXEL, NUMBER, ENG_COEFF, CFD_COEFF, LED_COEFF, TIME_COEFF, STREAM, ADDRESS};
-		void set_enum_map();
-		std::map<std::string,int> enum_map;
-		int StringToEnum(std::string);
+   std::map < int, TChannel * >AddressChannelMap;
+   std::map < std::string, TChannel * >NameChannelMap;
 
-		static std::string WhiteSpaces;//( " \f\n\r\t\v" ); 
-		void trim(std::string*,const std::string& trimChars = WhiteSpaces);
+   void MergeChannels(TChannel *, TChannel *);
 
-	public:
-		void ReadXMLOdb(VirtualOdb*);
-		void ReadCalibrationFile();
+   enum InfileOptions { JUNK, NAME, DETECTOR, COEFFICIENTS, PIXEL, NUMBER,
+          ENG_COEFF, CFD_COEFF, LED_COEFF, TIME_COEFF,
+      STREAM, ADDRESS
+   };
+   void set_enum_map();
+   std::map < std::string, int >enum_map;
+   int StringToEnum(std::string);
 
-		TChannel *GetChannel(int fspc) {return AddressChannelMap[fspc];	};
-		TChannel *GetChannel(const char *name) { std::string sname = name;
-												 return NameChannelMap[sname];	};
+   static const std::string fgWhiteSpaces;      //( " \f\n\r\t\v" ); 
+   void trim(std::string *, const std::string & trimChars = fgWhiteSpaces);
 
-		void AddChannel(TChannel*);
-		void AddVirtualChannel(TChannel*);
-	
-		void CalibrateFragment(TTigFragment *frag);
+ public:
+   void ReadXMLOdb(VirtualOdb *);
+   void ReadCalibrationFile();
 
-		//SetChannel(
-	private:
-		bool fuseodbfile;
-		bool fusecalfile;
+   TChannel *GetChannel(int fspc) {
+      return AddressChannelMap[fspc];
+   };
+   TChannel *GetChannel(const char *name) {
+      std::string sname = name;
+      return NameChannelMap[sname];
+   };
 
-		std::string fodbfilename;
-		std::string fcalfilename;
-		
-		ClassDef(CalibrationManager,0);
+   void AddChannel(TChannel *);
+   void AddVirtualChannel(TChannel *);
+
+   void CalibrateFragment(TTigFragment * frag);
+
+   //SetChannel(
+ private:
+   bool fuseodbfile;
+   bool fusecalfile;
+
+   std::string fodbfilename;
+   std::string fcalfilename;
+
+   ClassDef(CalibrationManager, 0);
 };
 
 
