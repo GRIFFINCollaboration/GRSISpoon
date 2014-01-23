@@ -10,11 +10,12 @@
 
 //class TigScope;
 
-RootIOManager *RootIOManager::fRootIOManager = 0;
+RootIOManager *RootIOManager::fRootIOManager = NULL;
 
 RootIOManager *RootIOManager::instance()	{
-	if(!fRootIOManager)
+	if(fRootIOManager == NULL) {
 		fRootIOManager = new RootIOManager();
+	}
 	return fRootIOManager;
 }
 
@@ -122,7 +123,7 @@ void RootIOManager::HandleFragments()	{
 }
 
 void RootIOManager::FragmentSwitchBoard(TTigFragment *fragment)	{
-	if(!fragment)
+	if(fragment == NULL)
 		return;
 	// if(TigScope::instance()->IsOffline())
 		FillTree(fragment);
@@ -162,6 +163,8 @@ bool RootIOManager::CloseRootFile()	{
 	if(!frootfile)
 		return false;
 	frootfile->cd();
+
+	TFragmentQueue::instance()->CheckStatus();
 	
 	if(fouttree)	{
 		//fouttree->Write();

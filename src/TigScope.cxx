@@ -5,6 +5,8 @@
 #include "TigInput.h"
 #include "TParser.h"
 
+#include "TFragmentQueue.h"
+
 ClassImp(TigScope)
 
 TigScope *TigScope::fTigScope = NULL;
@@ -20,6 +22,7 @@ TigScope *TigScope::instance(int argc, char** argv)	{
 }
 
 TigScope::TigScope(int argc,char** argv)	{	
+	TFragmentQueue::instance();
 	fInteractiveMode	=	false;;
 	fScopeMode			=	false;
 	fIsOnline			=	false;
@@ -37,6 +40,8 @@ TigScope::TigScope(int argc,char** argv)	{
 	
 	fTigScope = this;		
 
+	fTotalFragments = 0;
+
 	SetOptions();
 }
 
@@ -47,14 +52,16 @@ bool TigScope::ProcessMidasEvent(TMidasEvent *mevent)	{
 	if(!mevent)
 		return false;
 	//fMidasEventsProcessed++;
-    int NumFragsFound = 0;
+    //int NumFragsFound = 0;
 	void *ptr;
 	int banksize = 0;
+	int testnumber = 0;
 	switch(mevent->GetEventId())	{
 		case 1:
 			banksize = mevent->LocateBank(NULL, "WFDN", &ptr);
-			 if(banksize)    
-				NumFragsFound = TParser::instance()->TigressDATAToFragment((int*)ptr,banksize,mevent->GetSerialNumber(),mevent->GetTimeStamp());
+			if(banksize)    {
+				fTotalFragments += TParser::instance()->TigressDATAToFragment((int*)ptr,banksize,mevent->GetSerialNumber(),mevent->GetTimeStamp());
+			}
 			break;
 		default:
 			break;
@@ -66,6 +73,7 @@ void TigScope::Initialize(void) {	}
 
 void TigScope::BeginRun(int transition,int run,int time)	{
 	printf("Begin run called.\n");
+	fTotalFragments = 0;
 //	fflush(stdout);
 	CalibrationManager::instance()->ReadXMLOdb(GetODB());
 	if(CalibrationManager::instance()->UseCALFromFile())
@@ -81,6 +89,7 @@ void TigScope::BeginRun(int transition,int run,int time)	{
 
 void TigScope::EndRun(int transition,int run,int time)		{
 	printf("\nend run called.\t%i\t%i\n",TFragmentQueue::instance()->Size(),RootIOManager::instance()->FragProcessorIsOn());
+	printf("\tTotal Fragments Extracted from midas file: " CYAN "%i" RESET_COLOR "\n",fTotalFragments); 
 	//while(RootIOManager::instance()->FragProcessorIsOn())	{
 	if(IsOnline())	{
 		StopSignal();
@@ -147,7 +156,7 @@ TTigFragment *TigScope::ExtractFragment(TMidasEvent *mevent)	{
 		void *ptr;
 		int banksize = mevent->LocateBank(NULL, "WFDN", &ptr);
 		if(banksize)	
-			int NumberOfFrags = TParser::instance()->TigressDATAToFragment((int*)ptr,banksize,mevent->GetSerialNumber(),mevent->GetTimeStamp());
+			fTotalFragments += TParser::instance()->TigressDATAToFragment((int*)ptr,banksize,mevent->GetSerialNumber(),mevent->GetTimeStamp());
 
 		banksize = mevent->LocateBank(NULL, "GRF0", &ptr);
 		if(banksize)	

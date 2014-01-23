@@ -21,11 +21,12 @@ class TFragmentQueue : public TObject {
 	
 	public:
 		static TFragmentQueue *instance();
+		virtual ~TFragmentQueue();
 
 	private:
 		static TFragmentQueue *fFragmentQueueClassPointer;
 		TFragmentQueue();
-		~TFragmentQueue();
+	
 
 		std::queue<TTigFragment*> fFragmentQueue;
 		int fFragsInQueue;
@@ -43,10 +44,14 @@ class TFragmentQueue : public TObject {
 		TStopwatch *sw;
 		void ResetRateCounter();
 
+		unsigned int fTotalFragsIn;
+		unsigned int fTotalFragsOut;	
+
 #ifndef __CINT__
 #ifndef NO_MUTEX
-		std::mutex All;
-		std::mutex Sorted;
+	public:
+		static std::mutex All;
+		static std::mutex Sorted;
 #endif
 #endif
 
@@ -63,7 +68,9 @@ class TFragmentQueue : public TObject {
 		void StartStatusUpdate();
 		void StopStatusUpdate();
 		void CheckStatus();
-		
+
+		unsigned int GetTotalFragsIn() { return fTotalFragsIn;}
+		unsigned int GetTotalFragsOut()	{	return fTotalFragsOut;}
 
 		bool Running() { return !fStop;}
 		void Stop() { fStop = true;}
