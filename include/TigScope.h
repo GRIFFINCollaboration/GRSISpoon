@@ -74,7 +74,7 @@ class TigScope : public EventLoop, public TObject	{
 	private:
 		TStopwatch *fScopeWatch;		
 		//VirtualOdb* fODB;
-
+		unsigned int fTotalFragments;
 
 	private:
 
