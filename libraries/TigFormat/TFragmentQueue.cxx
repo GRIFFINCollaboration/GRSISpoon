@@ -30,6 +30,8 @@ TFragmentQueue::TFragmentQueue()	{
 
 	//StartStatusUpdate();
 
+	fTotalFragsIn = 0;
+	fTotalFragsOut = 0;
 }
 
 TFragmentQueue::~TFragmentQueue()	{	}
@@ -62,7 +64,7 @@ void TFragmentQueue::Add(TTigFragment *frag)	{
 	std::unique_lock<std::mutex> sorted(Sorted,std::defer_lock);
 	sorted.lock();
 
-
+	fTotalFragsIn++;
 
 	fFragmentQueue.push(frag);
 	fFragsInQueue++;
@@ -90,6 +92,7 @@ void TFragmentQueue::Pop()	{
 	fFragmentQueue.pop();
 	fFragsInQueue--;
 	fragments_out++;
+	fTotalFragsOut++;
 	sorted.unlock();
 	delete frag;
 }
@@ -117,6 +120,10 @@ void TFragmentQueue::CheckStatus()	{
 	all.lock();
 	printf( BLUE   "# Fragments currently in Q = %d" RESET_COLOR "\n",Size());
 	printf( DGREEN "# Fragments currently in T = %d" RESET_COLOR "\n",RootIOManager::instance()->TreeSize());
+
+	printf( BLUE   "# Total Fragments put in Q     = %d" RESET_COLOR "\n",fTotalFragsIn);
+	printf( DGREEN "# Total Fragments taken from Q = %d" RESET_COLOR "\n",fTotalFragsOut);
+
 	all.unlock();
 	return;
 };

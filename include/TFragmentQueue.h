@@ -43,6 +43,9 @@ class TFragmentQueue : public TObject {
 		TStopwatch *sw;
 		void ResetRateCounter();
 
+		unsigned int fTotalFragsIn;
+		unsigned int fTotalFragsOut;	
+
 #ifndef __CINT__
 #ifndef NO_MUTEX
 		std::mutex All;
