@@ -5,6 +5,8 @@
 #include "TigInput.h"
 #include "TParser.h"
 
+#include "TFragmentQueue.h"
+
 ClassImp(TigScope)
 
 TigScope *TigScope::fTigScope = NULL;
@@ -20,6 +22,7 @@ TigScope *TigScope::instance(int argc, char** argv)	{
 }
 
 TigScope::TigScope(int argc,char** argv)	{	
+	TFragmentQueue::instance();
 	fInteractiveMode	=	false;;
 	fScopeMode			=	false;
 	fIsOnline			=	false;
@@ -52,11 +55,13 @@ bool TigScope::ProcessMidasEvent(TMidasEvent *mevent)	{
     //int NumFragsFound = 0;
 	void *ptr;
 	int banksize = 0;
+	int testnumber = 0;
 	switch(mevent->GetEventId())	{
 		case 1:
 			banksize = mevent->LocateBank(NULL, "WFDN", &ptr);
-			 if(banksize)    
+			if(banksize)    {
 				fTotalFragments += TParser::instance()->TigressDATAToFragment((int*)ptr,banksize,mevent->GetSerialNumber(),mevent->GetTimeStamp());
+			}
 			break;
 		default:
 			break;
