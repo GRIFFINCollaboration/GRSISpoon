@@ -51,10 +51,10 @@ class TigScope : public EventLoop, public TObject	{
 		void PrintHelp();
 		void Draw(TTigFragment*);
 		
-		bool IsInteractive()	{	return fInteractiveMode;};
-		bool IsScopeOnly()		{	return fScopeMode;};
-		bool IsOnline()				{	return fIsOnline;};
-		bool IsOffline()			{	return fIsOffline;};
+		int  IsInteractive()	{ 	return fInteractiveMode;}
+		bool IsScopeOnly()	{	return fScopeMode;	}
+		bool IsOnline()		{	return fIsOnline;	}
+		bool IsOffline()	{	return fIsOffline;	}
 		
 		//int GetRunNumber()	{	if(!fmidasfile) return 0; return fmidasfile->GetRunNumber();}; doesn't really work.
 		int GetSubRunNumber()	{	if(!fmidasfile) return 0; return fmidasfile->GetSubRunNumber();};

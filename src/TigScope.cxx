@@ -23,7 +23,7 @@ TigScope *TigScope::instance(int argc, char** argv)	{
 
 TigScope::TigScope(int argc,char** argv)	{	
 	TFragmentQueue::instance();
-	fInteractiveMode	=	false;;
+	fInteractiveMode		=	false;
 	fScopeMode			=	false;
 	fIsOnline			=	false;
 	fIsOffline			=	false;
@@ -248,7 +248,11 @@ bool TigScope::HandleOptions(int argc,char **argv)	{
 					break;
 				case 'I':
 					fInteractiveMode = true;
-					break;
+					val = arg[2];
+					if(islower(val)){val = val + 'A' -'a';}
+					if(val=='P');
+					TigInput::instance()->SetPython(true);
+					break;                  	
 				case 'R':
 					if(arg[2] == '\0')
 						if(i<argc-1 && (args[i+1])[0] != '-' )

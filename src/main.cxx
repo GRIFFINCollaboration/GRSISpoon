@@ -21,7 +21,7 @@ int main(int argc,char **argv)	{
 		printf("goodbye.\n");
 	}
 
-	else if(gSCOPE->IsInteractive())	{
+	else if(gSCOPE->IsInteractive()>0)	{
 		input = TigInput::instance();			
 		input->Run(true);
 	}
