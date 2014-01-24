@@ -22,7 +22,7 @@ int main(int argc,char **argv)	{
 	}
 
 	else if(gSCOPE->IsInteractive()>0)	{
-		input = TigInput::instance();			
+		input = TigInput::instance(TigScope::instance()->IsPyMode());			
 		input->Run(true);
 	}
 	
