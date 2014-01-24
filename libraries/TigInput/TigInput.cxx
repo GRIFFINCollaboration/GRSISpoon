@@ -6,6 +6,7 @@
 #include <TUnixSystem.h>
 #include <TSysEvtHandler.h>
 #include <TSocket.h>
+#include <TPython.h>
 
 #include <signal.h>
 
@@ -17,16 +18,17 @@ ClassImp(TigInput)
 
 TigInput *TigInput::fTigInput = NULL;
 
+
 TigInput *TigInput::instance(int *argc, char **argv, const char *appClassName,
-														 void *options,int numOptions, bool noLogo)	{
+			      void *options,int numOptions, bool noLogo,bool py_flag)	{
 	if(!fTigInput)
-		fTigInput = new TigInput(appClassName,argc,argv,options,numOptions,true);
+		fTigInput = new TigInput(appClassName,argc,argv,options,numOptions,true,py_flag);
 	return fTigInput;
 }
 
 
 TigInput::TigInput(const char *appClassName, int *argc, char **argv,
-                   void *options, Int_t numOptions, Bool_t noLogo)
+                   void *options, Int_t numOptions, Bool_t noLogo,bool py_flag)
 					:TRint(appClassName, argc, argv, options, numOptions,noLogo)
 					,fRunning(kFALSE)
 					,fUseRintInterruptHandler(kFALSE)
@@ -38,13 +40,8 @@ TigInput::TigInput(const char *appClassName, int *argc, char **argv,
 					,fSocketClientHost("localhost")
 					,fSocketClientPort(9099)
 {
-   fRintInterruptHandler = gSystem->RemoveSignalHandler(GetSignalHandler());
-
-//   fTIGInterruptHandler = new ROMEInterruptHandler();
-//   fTIGInterruptHandler->Add();
-//   SetSignalHandler(fROMEInterruptHandler);
-
-   fUseRintInterruptHandler = kFALSE;
+		fRintInterruptHandler = gSystem->RemoveSignalHandler(GetSignalHandler());
+		fUseRintInterruptHandler = kFALSE;
 
 		//--- install default handlers
 		//UnixSignal(kSigChild,                 SigHandler);
@@ -58,9 +55,14 @@ TigInput::TigInput(const char *appClassName, int *argc, char **argv,
 		UnixSignal(kSigFloatingException,     SigHandler);
 		//UnixSignal(kSigWindowChanged,         SigHandler);
 		PrintLogo(false);
-
 		//SetPrompt( DYELLOW "TIGRESS [%d]" RESET_COLOR);
 		SetPrompt( DYELLOW "GRSI [%d]" RESET_COLOR);
+		printf("fpython = %i\n",TigInput::fpython);
+		if(py_flag) {
+			printf("in start python....\n");
+			//gSystem->Load("libPyROOT");
+			TPython::Prompt();
+		}
 }
 
 
@@ -77,7 +79,7 @@ bool TigInput::HandleTermInput()
 //   return true;
 }
 
-int		TigInput::TabCompletionHook(char* buf,int* pLoc,ostream& out)	{
+int TigInput::TabCompletionHook(char* buf,int* pLoc,ostream& out)	{
 	return TRint::TabCompletionHook(buf,pLoc,out);
 }
 

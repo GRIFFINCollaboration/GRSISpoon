@@ -27,6 +27,7 @@ LIBS += -lRootIOManager
 LIBS += -lCalManager
 LIBS += -lTServer
 LIBS += -lTParser
+LIBS += -lPyROOT
 LIBS += -lmidas
 
 LIBS += -lutil
