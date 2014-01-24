@@ -23,7 +23,8 @@ TigScope *TigScope::instance(int argc, char** argv)	{
 
 TigScope::TigScope(int argc,char** argv)	{	
 	TFragmentQueue::instance();
-	fInteractiveMode	=	false;;
+	fInteractiveMode		=	false;
+	fpythonMode			=	false;
 	fScopeMode			=	false;
 	fIsOnline			=	false;
 	fIsOffline			=	false;
@@ -211,14 +212,16 @@ bool TigScope::HandleOptions(int argc,char **argv)	{
 						arg.erase(0,2);		
 					hostname = arg;//.c_str();
 					break;
-                case 'P':
-                    if(arg[2] == '\0')
-                        if(i<argc-1 && (args[i+1])[0] != '-' )
-                            arg = args[++i];
-                    else
-                        arg.erase(0,2);
+				case 'P':
+                    			if(arg[2] == '\0')	{
+                        			if(i<argc-1 && (args[i+1])[0] != '-' )
+                            				arg = args[++i];
+					}
+                    			else{
+                        			arg.erase(0,2);
+					}
 					TServer::instance(atoi(arg.c_str()));
-                    break;
+                    			break;
 				case 'F':
 					if(arg[2] == '\0')
 						if(i<argc-1 && (args[i+1])[0] != '-' )
@@ -248,7 +251,12 @@ bool TigScope::HandleOptions(int argc,char **argv)	{
 					break;
 				case 'I':
 					fInteractiveMode = true;
-					break;
+					val = arg[2];
+					if(islower(val)){val = val + 'A' -'a';}
+					if(val=='P')	{
+						fpythonMode = true;
+					}
+					break;                  	
 				case 'R':
 					if(arg[2] == '\0')
 						if(i<argc-1 && (args[i+1])[0] != '-' )
@@ -303,6 +311,7 @@ void TigScope::PrintHelp()	{
 	//printf( DBLUE "\t-r <root file>      \t" DRED "root input file containing FragmentTree." RESET_COLOR "\n");
 
 	printf( DBLUE "\t-i	\t" DGREEN "start program in interactive mode." RESET_COLOR "\n");
+	printf( DBLUE "\t-ip	\t" DGREEN "start program in interactive python mode." RESET_COLOR "\n");
 	//printf( DBLUE "\t-t	\t" DGREEN "start program in test mode." RESET_COLOR "\n");
 	printf( DBLUE "\t-s	\t" DGREEN "start program in scope mode." RESET_COLOR "\n");
 }

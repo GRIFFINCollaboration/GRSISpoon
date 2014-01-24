@@ -17,9 +17,9 @@ TFragmentQueue *TFragmentQueue::instance()	{
 		//do nothing
 	}
 	if(fFragmentQueueClassPointer==NULL)	{
-	printf(BLUE "\nfrag que ptr = 0x%08x" RESET_COLOR "\n",fFragmentQueueClassPointer);
+	//printf(BLUE "\nfrag que ptr = 0x%08x" RESET_COLOR "\n",fFragmentQueueClassPointer);
 		fFragmentQueueClassPointer = new TFragmentQueue();
-	printf(RED "\nfrag que ptr = 0x%08x" RESET_COLOR "\n",fFragmentQueueClassPointer);
+	//printf(RED "\nfrag que ptr = 0x%08x" RESET_COLOR "\n",fFragmentQueueClassPointer);
 	}
 	TFragmentQueue::All.unlock();
 	return fFragmentQueueClassPointer;
