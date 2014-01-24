@@ -225,15 +225,19 @@ bool TigScope::HandleOptions(int argc,char **argv)	{
 				TServer::instance(atoi(arg.c_str()));
             break;
 			case 'F':  // Set filename
-		      if(arg[2] == '\0') {
-			      if(i<argc-1 && (args[i+1])[0] != '-' ) {
-				      arg = args[++i];
+			   NumMFiles = 0;
+		      if(arg[2] == '\0') {	      
+		         while(i<argc-1 && (args[i+1])[0] != '-' ) {
+		            arg = args[++i];
+		            NumMFiles++;
+		            mfileinname.push_back(arg);
 				   }
-					else {
-					   arg.erase(0,2);
-					}
-				}
-				mfileinname = arg;//.c_str();
+				}   
+		      else {
+				   arg.erase(0,2);
+				   NumMFiles++;
+				   mfileinname.push_back(arg);//.c_str();
+				}						
 				fIsOffline = true;
 				break;
 			case 'O': // Set alternate ODB file
@@ -295,8 +299,8 @@ bool TigScope::HandleOptions(int argc,char **argv)	{
 	if(odbfname.length()>0)
 		CalibrationManager::instance()->SetODBFileName(odbfname.c_str());
 	
-	if(mfileinname.length()>0)	{
-		SetMidasFile(mfileinname.c_str());
+	if(mfileinname[NumMFiles-1].length()>0)	{
+		SetMidasFile(mfileinname[NumMFiles-1].c_str());
 		fIsOffline = true;
 	}
 
@@ -337,10 +341,10 @@ if(hostname.length()>0)
 else
 	printf("\thost name is set to:       " DRED "null" RESET_COLOR "\n",hostname.c_str());
 
-if(mfileinname.length()>0)
-	printf("\tinput midas file name:     " DBLUE "%s" RESET_COLOR "\n",mfileinname.c_str());
+if(mfileinname[NumMFiles].length()>0)
+	printf("\tinput midas file name:     " DBLUE "%s" RESET_COLOR "\n",mfileinname[NumMFiles].c_str());
 else
-	printf("\tinput midas file name:     " DRED "null" RESET_COLOR "\n",mfileinname.c_str());
+	printf("\tinput midas file name:     " DRED "null" RESET_COLOR "\n",mfileinname[NumMFiles].c_str());
 
 if(odbfname.length()>0)
 	printf("\todb file name is set to:   " DBLUE "%s" RESET_COLOR "\n",odbfname.c_str());

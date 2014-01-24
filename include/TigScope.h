@@ -82,7 +82,10 @@ class TigScope : public EventLoop, public TObject	{
 		void SetOptions();
 		std::string hostname;
 		std::string exptname;
-		std::string mfileinname;  
+		
+		std::vector<std::string> mfileinname; 
+		int NumMFiles;
+		 
 		std::string rfileinname;  
 		std::string odbfname;
 		std::string calfname;

@@ -44,7 +44,7 @@ libMidasInterface.a: $(OBJS)
 	cp -p $@ $(BASE)/libraries
 
 libMidasInterface.so: $(OBJS)
-	$(COMPILESHARED)$@ $(CFLAGS) -olibMidasInterface.so $(OBJS) -L$(ROOTSYS)/lib -lNet 
+	$(COMPILESHARED)$@ $(CFLAGS) -olibMidasInterface.so $(OBJS) -L$(ROOTSYS)/lib #-lNet 
 	cp -p $@ $(BASE)/libraries
 
 #%Dict.cxx: %.h
