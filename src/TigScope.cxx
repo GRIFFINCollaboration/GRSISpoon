@@ -23,7 +23,8 @@ TigScope *TigScope::instance(int argc, char** argv)	{
 
 TigScope::TigScope(int argc,char** argv)	{	
 	TFragmentQueue::instance();
-	fInteractiveMode	=	false;;
+	fInteractiveMode		=	false;
+	fpythonMode			=	false;
 	fScopeMode			=	false;
 	fIsOnline			=	false;
 	fIsOffline			=	false;
@@ -324,6 +325,7 @@ void TigScope::PrintHelp()	{
 	//printf( DBLUE "\t-r <root file>      \t" DRED "root input file containing FragmentTree." RESET_COLOR "\n");
 
 	printf( DBLUE "\t-i	\t" DGREEN "start program in interactive mode." RESET_COLOR "\n");
+	printf( DBLUE "\t-ip	\t" DGREEN "start program in interactive python mode." RESET_COLOR "\n");
 	//printf( DBLUE "\t-t	\t" DGREEN "start program in test mode." RESET_COLOR "\n");
 	printf( DBLUE "\t-s	\t" DGREEN "start program in scope mode." RESET_COLOR "\n");
 }

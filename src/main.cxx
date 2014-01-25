@@ -21,8 +21,8 @@ int main(int argc,char **argv)	{
 		printf("goodbye.\n");
 	}
 
-	else if(gSCOPE->IsInteractive())	{
-		input = TigInput::instance();			
+	else if(gSCOPE->IsInteractive()>0)	{
+		input = TigInput::instance(TigScope::instance()->IsPyMode());			
 		input->Run(true);
 	}
 	

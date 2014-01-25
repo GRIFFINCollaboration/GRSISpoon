@@ -51,11 +51,12 @@ class TigScope : public EventLoop, public TObject	{
 		void PrintHelp();
 		void Draw(TTigFragment*);
 		
-		bool IsInteractive()	{	return fInteractiveMode;};
-		bool IsScopeOnly()		{	return fScopeMode;};
-		bool IsOnline()				{	return fIsOnline;};
-		bool IsOffline()			{	return fIsOffline;};
-		
+		int  IsInteractive()	{ 	return fInteractiveMode;}
+		bool IsScopeOnly()	{	return fScopeMode;	}
+		bool IsOnline()		{	return fIsOnline;	}
+		bool IsOffline()	{	return fIsOffline;	}
+		bool IsPyMode()		{	return fpythonMode;	}	
+	
 		//int GetRunNumber()	{	if(!fmidasfile) return 0; return fmidasfile->GetRunNumber();}; doesn't really work.
 		int GetSubRunNumber()	{	if(!fmidasfile) return 0; return fmidasfile->GetSubRunNumber();};
 		
@@ -91,6 +92,7 @@ class TigScope : public EventLoop, public TObject	{
 		std::string calfname;
 
 		bool fInteractiveMode;
+		bool fpythonMode;
 		bool fScopeMode;
 		bool fTestMode;
 		bool fIsOnline;

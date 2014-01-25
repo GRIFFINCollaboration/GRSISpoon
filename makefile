@@ -40,6 +40,7 @@ grsisort: src
 
 clean:
 	@$(RM) *~
+	$(RM) ./bin/grsisort
 	@for dir in $(ALLDIRS); do \
 	$(MAKE) -C $$dir $@; \
 	done
