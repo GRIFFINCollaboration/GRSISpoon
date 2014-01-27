@@ -61,7 +61,13 @@ TigInput::TigInput(const char *appClassName, int *argc, char **argv,
 		if(py_flag) {
 			printf("in start python....\n");
 			//gSystem->Load("libPyROOT");
-			TPython::Prompt();
+			TPython *pyp = new TPython();
+
+			//TPython::ExecScript("/home/bender/Programs/GRSISpoon/test.py",0,0);
+			//pyp->ExecScript("/home/bender/Programs/GRSISpoon/test.py",0,0);
+			
+			pyp->Prompt();
+			//TPython::Prompt();
 		}
 }
 

@@ -85,7 +85,7 @@ class TigScope : public EventLoop, public TObject	{
 		std::string exptname;
 		
 		std::vector<std::string> mfileinname; 
-		int NumMFiles;
+		//int fNumMFiles;
 		 
 		std::string rfileinname;  
 		std::string odbfname;

@@ -171,124 +171,133 @@ TTigFragment *TigScope::ExtractFragment(TMidasEvent *mevent)	{
 
 
 bool TigScope::HandleOptions(int argc,char **argv)	{
-   if(argc==0) {return true;}
+	if(argc==0) {return true;}
 	if(argc==1)	{
 		PrintHelp();
 		return false;
 	}
 		
-   std::vector<std::string> args;
-   for (int i=0; i<argc; i++)	{
-	   if (strcmp(argv[i],"--help")==0 || strcmp(argv[i],"-help")==0)	{
-	      PrintHelp();
-	      //refresh();
-	      break;
-	   }
-      args.push_back(argv[i]);
-   }
-   for(unsigned int i=1; i<args.size(); i++)	{	// loop over the commandline options
-      std::string arg = args[i];
-      if(arg[0] == '-')	{
-         char val = arg[1];
-         if(islower(val)) val = val + 'A' -'a';
+	std::vector<std::string> args;
+	for (int i=0; i<argc; i++)	{
+		if (strcmp(argv[i],"--help")==0 || strcmp(argv[i],"-help")==0)	{
+			PrintHelp();
+	      		break;
+	  	 }
+		args.push_back(argv[i]);
+	}
+	for(unsigned int i=1; i<args.size(); i++)	{	// loop over the commandline options
+		std::string arg = args[i];
+		if(arg[0] == '-')	{
+			char val = arg[1];
+			if(islower(val)) val = val + 'A' -'a';
 			switch(val)	{
-			case 'E':  // Set experiment name
-			   if(arg[2] == '\0') {
-				   if(i<argc-1 && (args[i+1])[0] != '-' ) { 
-					   arg = args[++i];
+				case 'E':  // Set experiment name
+					if(arg[2] == '\0') {
+						if(i<argc-1 && (args[i+1])[0] != '-' ) { 
+						arg = args[++i];
 					}   
 					else {
 					   arg.erase(0,2);
 					}   		
 					exptname = arg;//.c_str();
-				}	
-			   break;
-			case 'H':  // Set hostname
-			   if(arg[2] == '\0') {
-			      if(i<argc-1 && (args[i+1])[0] != '-' ) {
-					   arg = args[++i];
+					}	
+			   		break;
+				case 'H':  // Set hostname
+			   		if(arg[2] == '\0') {
+						if(i<argc-1 && (args[i+1])[0] != '-' ) {
+							arg = args[++i];
+						}   
+						else {
+							arg.erase(0,2);	
+						}			
+            				}
+            				hostname = arg;//.c_str();
+					break;
+				case 'P':  // Set port number for server
+					if(arg[2] == '\0') {
+						if(i<argc-1 && (args[i+1])[0] != '-' ) {
+						arg = args[++i];
+						}
+						else {
+							arg.erase(0,2);
+						}
+					}
+					TServer::instance(atoi(arg.c_str()));
+					break;
+				case 'F':  // Set filename
+					//NumMFiles = 0;
+					if(arg[2] == '\0') {	      
+						while(i<argc-1 && (args[i+1])[0] != '-' ) {
+						arg = args[++i];
+						//NumMFiles++;
+						mfileinname.push_back(arg);
+				   		}
 					}   
 					else {
-                  arg.erase(0,2);	
-               }			
-            }
-            hostname = arg;//.c_str();
-            break;
-         case 'P':  // Set port number for server
-            if(arg[2] == '\0') {
-               if(i<argc-1 && (args[i+1])[0] != '-' ) {
-                  arg = args[++i];
-               }
-               else {
-                  arg.erase(0,2);
-               }
-            }
-				TServer::instance(atoi(arg.c_str()));
-            break;
-			case 'F':  // Set filename
-			   NumMFiles = 0;
-		      if(arg[2] == '\0') {	      
-		         while(i<argc-1 && (args[i+1])[0] != '-' ) {
-		            arg = args[++i];
-		            NumMFiles++;
-		            mfileinname.push_back(arg);
-				   }
-				}   
-		      else {
-				   arg.erase(0,2);
-				   NumMFiles++;
-				   mfileinname.push_back(arg);//.c_str();
-				}						
-				fIsOffline = true;
-				break;
-			case 'O': // Set alternate ODB file
-            if(arg[2] == '\0') {
-				   if(i<argc-1 && (args[i+1])[0] != '-' ) {
-					   arg = args[++i];
+						arg.erase(0,2);
+				   		//NumMFiles++;
+						mfileinname.push_back(arg);//.c_str();
+						while(i<argc-1 && (args[i+1])[0] != '-' ) {
+							arg = args[++i];
+							//NumMFiles++;
+							mfileinname.push_back(arg);
+				   		}
+					}						
+					fIsOffline = true;
+					break;
+				case 'O': // Set alternate ODB file
+					if(arg[2] == '\0') {
+						if(i<argc-1 && (args[i+1])[0] != '-' ) {
+							arg = args[++i];
+						}
+						else {
+							arg.erase(0,2);
+						}
+					}   
+					odbfname = arg;//.c_str();
+					//CalibrationManager::instance()->SetODBFileName(odbfname.c_str());
+					break;
+				case 'C':  // Set calibration file
+					if(arg[2] == '\0') {
+						if(i<argc-1 && (args[i+1])[0] != '-' ) {
+						arg = args[++i];
+						}
+						else {
+							arg.erase(0,2);
+						}
+            				}
+					calfname = arg;//.c_str();
+					//CalibrationManager::instance()->SetCalFileName(calfname.c_str());
+					break;
+				case 'I':  
+					fInteractiveMode = true;	
+					if(arg[2] != '\0'){
+					        val = arg[2];
+        			 		if(islower(val)) val = val + 'A' -'a';
+									if(val == 'P') fpythonMode = true;
 					}
-					else {
-					   arg.erase(0,2);
+		        		break;
+				case 'R':
+        				if(arg[2] == '\0') {
+						if(i<argc-1 && (args[i+1])[0] != '-' ) {
+							arg = args[++i];
+						}
+						else {
+							arg.erase(0,2);
+						}
 					}
-            }   
-				odbfname = arg;//.c_str();
-				CalibrationManager::instance()->SetODBFileName(odbfname.c_str());
-				break;
-			case 'C':  // Set calibration file
-			   if(arg[2] == '\0') {
-				   if(i<argc-1 && (args[i+1])[0] != '-' ) {
-					   arg = args[++i];
-					}
-					else {
-					   arg.erase(0,2);
-					}
-            }
-            calfname = arg;//.c_str();
-            CalibrationManager::instance()->SetCalFileName(calfname.c_str());
-				break;
-			case 'I':  
-            fInteractiveMode = true;
-            break;
-			case 'R':
-            if(arg[2] == '\0') {
-				   if(i<argc-1 && (args[i+1])[0] != '-' ) {
-                  arg = args[++i];
-               }
-					else {
-                  arg.erase(0,2);
-               }
-				}
-				rfileinname = arg;//.c_str();
-				break;
-			case 'S':
+					rfileinname = arg;//.c_str();
+					break;
+				case 'S':
 					fScopeMode = true;
 					break;
-			case 'T':
+				case 'T':
 					fTestMode	= true;
 					break;
 //				case 'H':
 //					PrintHelp();
 //					return false;
-			default:
+				default:
 					printf("commmand %s not understood. ignoring %s, try --help.\n",arg.c_str(),arg.c_str());			
 					break;
 			};
@@ -300,8 +309,12 @@ bool TigScope::HandleOptions(int argc,char **argv)	{
 	if(odbfname.length()>0)
 		CalibrationManager::instance()->SetODBFileName(odbfname.c_str());
 	
-	if(mfileinname[NumMFiles-1].length()>0)	{
-		SetMidasFile(mfileinname[NumMFiles-1].c_str());
+	if(calfname.length()>0)
+		CalibrationManager::instance()->SetCalFileName(calfname.c_str());
+
+	
+	if(mfileinname.size()>0 && mfileinname[mfileinname.size()-1].length()>0)	{
+		SetMidasFile(mfileinname[mfileinname.size()-1].c_str());
 		fIsOffline = true;
 	}
 
@@ -343,10 +356,10 @@ if(hostname.length()>0)
 else
 	printf("\thost name is set to:       " DRED "null" RESET_COLOR "\n",hostname.c_str());
 
-if(mfileinname[NumMFiles].length()>0)
-	printf("\tinput midas file name:     " DBLUE "%s" RESET_COLOR "\n",mfileinname[NumMFiles].c_str());
+if(mfileinname[mfileinname.size()].length()>0)
+	printf("\tinput midas file name:     " DBLUE "%s" RESET_COLOR "\n",mfileinname[mfileinname.size()].c_str());
 else
-	printf("\tinput midas file name:     " DRED "null" RESET_COLOR "\n",mfileinname[NumMFiles].c_str());
+	printf("\tinput midas file name:     " DRED "null" RESET_COLOR "\n",mfileinname[mfileinname.size()].c_str());
 
 if(odbfname.length()>0)
 	printf("\todb file name is set to:   " DBLUE "%s" RESET_COLOR "\n",odbfname.c_str());
