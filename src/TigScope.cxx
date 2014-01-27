@@ -431,7 +431,12 @@ void TigScope::SetOptions()	{
 	//TigInput::instance()->PrintLogo(false);
 	if(fmidasfile)	{
 		fIsOffline = true;
-		ExecuteLoop(fmidasfile);
+
+		for(int m=0;m<mfileinname.size();m++)	{
+			SetMidasFile(mfileinname[m].c_str());
+			ExecuteLoop(fmidasfile);
+		}
+
 	}
 	else if(hostname.length()>0 && exptname.length()>0)	{
 		fIsOnline = true;
