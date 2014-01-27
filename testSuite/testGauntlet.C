@@ -38,7 +38,7 @@ void testGauntlet()	{
 
 		int status = CompareFragments(frag_bench,frag_contd);
 		if(status<0) 
-			printf("\terror on entry number: %i!\n",nentries);
+			printf("\terror on entry number: %i\n",i);
 
 		if(i%500==0)	{
 			percent = (float)i/(float)nentries_st * 100;
