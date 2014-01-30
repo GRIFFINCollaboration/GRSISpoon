@@ -11,13 +11,12 @@ inclibs+= libRfFitter.so
 
 export CFLAGS += -fPIC
 
-.PHONY: subdirs $(ALLDIRS) clean 
-subdirs: $(SUBDIRS)
+.PHONY: subdirs $(ALLDIRS) clean copy 
+subdirs: $(SUBDIRS) 
 
 $(ALLDIRS):
 	@$(MAKE) -C $@
-	$(COMPILESHARED)$@ $(CFLAGS) -olibTAnalysis.so $(OBJECTS)
-	cp libTAnalysis.so ..	
+	#$(COMPILESHARED)$@ $(CFLAGS) -olibTAnalysis.so $(OBJECTS)
 
 clean:
 	@$(RM) *a *so *~
