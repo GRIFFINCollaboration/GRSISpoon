@@ -57,7 +57,7 @@ TigInput::TigInput(const char *appClassName, int *argc, char **argv,
 		PrintLogo(false);
 		//SetPrompt( DYELLOW "TIGRESS [%d]" RESET_COLOR);
 		SetPrompt( DYELLOW "GRSI [%d]" RESET_COLOR);
-		printf("fpython = %i\n",TigInput::fpython);
+		//printf("fpython = %i\n",TigInput::fpython);
 		if(py_flag) {
 			printf("in start python....\n");
 			//gSystem->Load("libPyROOT");
@@ -69,6 +69,7 @@ TigInput::TigInput(const char *appClassName, int *argc, char **argv,
 			pyp->Prompt();
 			//TPython::Prompt();
 		}
+		//Run();
 }
 
 

@@ -8,6 +8,9 @@
 #include "RootIOManager.h"
 #include "TigScope.h"
 
+#include <TObject.h>
+#include <TString.h>
+
 //class TigScope;
 
 RootIOManager *RootIOManager::fRootIOManager = NULL;
@@ -28,6 +31,9 @@ RootIOManager::RootIOManager()	{
 	fRunningProcessor = false;
 	foutlist = 0;
 	fcounter = 0;
+
+	finputchain = 0;
+	finputfilelist = 0;
 }
 
 RootIOManager::~RootIOManager()	{	}
@@ -228,8 +234,30 @@ TH1 *RootIOManager::Make2DProjection(std::string command,std::string gate)	{
 }
 
 
+void RootIOManager::SetRootFileInName( const char *rinname)	{
+	printf(RED "Root FILE in name = %s" RESET_COLOR "\n",rinname);
+	TString *file_name = new TString(rinname);
+	if(!finputfilelist)	{
+		finputfilelist = new TList();
+	}
+	finputfilelist->Add((TObject*)file_name);
+
+}
 
 
+void RootIOManager::SetFragmentTreeAnalysisMode()	{
+	if(!finputfilelist)	{
+		return;
+	}
+	finputchain = new TChain("FragmentTree");
+	TIter next(finputfilelist);
+	while(TString *name = (TString*)next())	{
+		finputchain->Add(name->Data());
+	}
+
+	//finputchain->Dump();
+
+}
 
 
 

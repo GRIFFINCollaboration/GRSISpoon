@@ -13,6 +13,7 @@
 #include <TObject.h>
 #include <TFile.h>
 #include <TTree.h>
+#include <TChain.h>
 #include <TTreeIndex.h>
 
 
@@ -38,6 +39,9 @@ class RootIOManager : public TObject{
 		TTree *fonlinetree;
 		TTigFragment *fbufferfrag;
 
+		TChain *finputchain;	
+		TList *finputfilelist;
+		
 		TList *foutlist;
 		std::map<std::string,TList*> outlistmap;
 
@@ -48,6 +52,10 @@ class RootIOManager : public TObject{
 	public:
 		bool FragProcessorIsOn()	{	return fRunningProcessor;	};
 		void Stop(); //	{	fRunningProcessor = false; return;	};
+
+		void SetFragmentTreeAnalysisMode();
+
+		void SetRootFileInName(const char*);
 		bool CloseRootFile();
 
 		int TreeSize()	{	return fcounter;	};

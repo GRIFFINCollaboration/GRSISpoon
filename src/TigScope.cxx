@@ -194,33 +194,33 @@ bool TigScope::HandleOptions(int argc,char **argv)	{
 				case 'E':  // Set experiment name
 					if(arg[2] == '\0') {
 						if(i<argc-1 && (args[i+1])[0] != '-' ) { 
-						arg = args[++i];
-					}   
+							arg = args[++i];
+						}   
+					}
 					else {
 					   arg.erase(0,2);
 					}   		
 					exptname = arg;//.c_str();
-					}	
 			   		break;
 				case 'H':  // Set hostname
 			   		if(arg[2] == '\0') {
 						if(i<argc-1 && (args[i+1])[0] != '-' ) {
 							arg = args[++i];
 						}   
-						else {
-							arg.erase(0,2);	
-						}			
-            				}
-            				hostname = arg;//.c_str();
+					}
+					else {
+						arg.erase(0,2);	
+					}			
+            		hostname = arg;//.c_str();
 					break;
 				case 'P':  // Set port number for server
 					if(arg[2] == '\0') {
 						if(i<argc-1 && (args[i+1])[0] != '-' ) {
 						arg = args[++i];
 						}
-						else {
-							arg.erase(0,2);
-						}
+					}
+					else {
+						arg.erase(0,2);
 					}
 					TServer::instance(atoi(arg.c_str()));
 					break;
@@ -250,22 +250,24 @@ bool TigScope::HandleOptions(int argc,char **argv)	{
 						if(i<argc-1 && (args[i+1])[0] != '-' ) {
 							arg = args[++i];
 						}
-						else {
-							arg.erase(0,2);
-						}
-					}   
+					}
+					else {
+						arg.erase(0,2);
+					}
+					   
 					odbfname = arg;//.c_str();
 					//CalibrationManager::instance()->SetODBFileName(odbfname.c_str());
 					break;
 				case 'C':  // Set calibration file
 					if(arg[2] == '\0') {
 						if(i<argc-1 && (args[i+1])[0] != '-' ) {
-						arg = args[++i];
-						}
-						else {
-							arg.erase(0,2);
-						}
-            				}
+							arg = args[++i];
+							}
+					}
+					else {
+						arg.erase(0,2);
+					}
+            		
 					calfname = arg;//.c_str();
 					//CalibrationManager::instance()->SetCalFileName(calfname.c_str());
 					break;
@@ -278,13 +280,13 @@ bool TigScope::HandleOptions(int argc,char **argv)	{
 					}
 		        		break;
 				case 'R':
-        				if(arg[2] == '\0') {
+        			if(arg[2] == '\0') {
 						if(i<argc-1 && (args[i+1])[0] != '-' ) {
 							arg = args[++i];
 						}
-						else {
-							arg.erase(0,2);
-						}
+					}
+					else {
+						arg.erase(0,2);
 					}
 					rfileinname = arg;//.c_str();
 					break;
@@ -312,6 +314,9 @@ bool TigScope::HandleOptions(int argc,char **argv)	{
 	if(calfname.length()>0)
 		CalibrationManager::instance()->SetCalFileName(calfname.c_str());
 
+	if(rfileinname.length()>0)
+		RootIOManager::instance()->SetRootFileInName(rfileinname.c_str());
+
 	
 	if(mfileinname.size()>0 && mfileinname[mfileinname.size()-1].length()>0)	{
 		SetMidasFile(mfileinname[mfileinname.size()-1].c_str());
@@ -335,7 +340,7 @@ void TigScope::PrintHelp()	{
 	printf( DBLUE "\t-o <odb.xml>        \t" DRED "use odb saved to file, currently only xml format works." RESET_COLOR "\n");
 	printf( DBLUE "\t-c <file.cal>       \t" DRED "read custom calibration file." RESET_COLOR "\n");
 	printf( DBLUE "\t-p <port num>       \t" DRED "start server on port <port num>." RESET_COLOR "\n");
-	//printf( DBLUE "\t-r <root file>      \t" DRED "root input file containing FragmentTree." RESET_COLOR "\n");
+	printf( DBLUE "\t-r <root file>      \t" DRED "root input file containing FragmentTree." RESET_COLOR "\n");
 
 	printf( DBLUE "\t-i	\t" DGREEN "start program in interactive mode." RESET_COLOR "\n");
 	printf( DBLUE "\t-ip	\t" DGREEN "start program in interactive python mode." RESET_COLOR "\n");
@@ -428,10 +433,25 @@ void TigScope::Draw(TTigFragment *frag)	{
 
 void TigScope::SetOptions()	{
 	printf("Setting options.\n");
-	//TigInput::instance()->PrintLogo(false);
-	if(fmidasfile)	{
-		fIsOffline = true;
+	// This member function tries to start the program in the mode detected by the Handle Options function.
 
+	//TigInput::instance()->PrintLogo(false);
+
+	if(rfileinname.length()>0)	{
+		// If a root input file is specified (right now just a fragment tree) 
+		// set the enivorment to help the user analysis the tree, 
+		//
+		// i.e set up a chain, set fragment branch address, set some other root varibles 
+		// that make sorting/examining  easier.                                       //pcb
+		fInteractiveMode = true;
+		RootIOManager::instance()->SetFragmentTreeAnalysisMode();
+	}
+	else if(mfileinname.size()>0)	{
+		//If a root input file is not set, check whether the user has
+		//set the sort midas file option.  The Following for loop loops
+		//over all midas files read on the command line and creates individual
+		//fragment tree files for each one (file is created where the program is run   //pcb
+		fIsOffline = true;
 		for(int m=0;m<mfileinname.size();m++)	{
 			SetMidasFile(mfileinname[m].c_str());
 			ExecuteLoop(fmidasfile);
@@ -439,10 +459,17 @@ void TigScope::SetOptions()	{
 
 	}
 	else if(hostname.length()>0 && exptname.length()>0)	{
+		//if a root input file is not set and no midas files are set 
+		//check whether the user specified a host and experiment name 
+		//to connect to online.  If strated in this mode, the program waits 
+		//for run start and run ends coming from the mhttpd page and creates 
+		//a fragment.root file for each one.                                          //pcb
 		fIsOnline = true;
 		ExecuteLoop(0,0,(char*) hostname.c_str(),(char*) exptname.c_str());
 	}
 	else
+		// if nothing is detected, open the program in an interactive mode 
+		// waiting for the user to give commands.                                   //pcb
 		fInteractiveMode = true;
 
 }
