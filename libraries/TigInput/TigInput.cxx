@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include <cstdlib>
 
 #include <TRandom.h>
 #include <TSystem.h>
@@ -11,8 +12,10 @@
 #include <signal.h>
 
 #include "Globals.h"
+
 #include "TigInput.h"
 #include "TigUtilities.h"
+
 
 ClassImp(TigInput)
 
@@ -54,6 +57,14 @@ TigInput::TigInput(const char *appClassName, int *argc, char **argv,
 		//UnixSignal(kSigUrgent,                SigHandler);
 		UnixSignal(kSigFloatingException,     SigHandler);
 		//UnixSignal(kSigWindowChanged,         SigHandler);
+		
+		//printf( DGREEN "getenv = %s" RESET_COLOR "\n", getenv("GRSISYS"));
+		//std::string grsi_path = getenv("GRSISYS");
+		//if(grsi_path.length()>0)	{
+		//	grsi_path += "/.grsirc";
+		//	fGrsiEnv = new TEnv(grsi_path.c_str());	
+		//}
+		
 		PrintLogo(false);
 		//SetPrompt( DYELLOW "TIGRESS [%d]" RESET_COLOR);
 		SetPrompt( DYELLOW "GRSI [%d]" RESET_COLOR);

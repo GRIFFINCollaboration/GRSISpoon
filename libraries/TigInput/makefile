@@ -2,7 +2,8 @@
 ifndef BASE
 BASE = ../..
 endif
-INC = -I$(BASE)/include
+INC =  -I$(BASE)/include
+INC += -I$(MIDASSYS)/include
 INCD = $(BASE)/include
 
 export CFLAGS += `root-config --cflags`
