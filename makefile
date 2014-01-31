@@ -36,7 +36,7 @@ $(ALLDIRS):
 	@$(MAKE) -C $@
 
 grsisort: src
-	cp $^/grsisort bin/$@
+	mv $^/grsisort bin/$@
 
 clean:
 	@$(RM) *~

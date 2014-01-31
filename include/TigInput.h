@@ -7,6 +7,7 @@
 #include <RConfig.h>
 #include <TRint.h>
 #include <TSysEvtHandler.h>
+#include <TEnv.h>
 
 #include "Globals.h"
 
@@ -23,6 +24,8 @@ class TigInput : public TRint	{
 //		TNetFolder     *fSocketClientNetFolder;   // Socket client for remote execution
 		TString         fSocketClientHost;        // Hostname for remote execution
 		int           	fSocketClientPort;        // Port number for remote execution
+
+		//TEnv		*fGrsiEnv;
 
 	private:
 		TigInput(const char *appClassName, int *argc, char **argv,

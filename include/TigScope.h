@@ -15,6 +15,7 @@
 //#include <TDirectoryFile.h>
 
 #include <TObject.h>
+#include <TEnv.h>
 #include <TStopwatch.h>
 #include <TList.h>
 #include <TH1.h>
@@ -61,10 +62,13 @@ class TigScope : public EventLoop, public TObject	{
 		int GetSubRunNumber()	{	if(!fmidasfile) return 0; return fmidasfile->GetSubRunNumber();};
 		
 		void StopSignal();	
+		TEnv *GetEnv()		{	return fGrsiEnv;	}
+			
 	
 	private:
 		static TigScope *fTigScope;
 		TigScope(int,char**);
+		TEnv *fGrsiEnv;
 
 		TMidasFile *fmidasfile;
 		TMidasEvent *fmidasevent;
@@ -81,6 +85,7 @@ class TigScope : public EventLoop, public TObject	{
 
 		bool HandleOptions(int,char**);
 		void SetOptions();
+		void SetRootEnv();
 		std::string hostname;
 		std::string exptname;
 		

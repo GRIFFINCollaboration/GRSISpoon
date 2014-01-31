@@ -7,6 +7,8 @@
 
 #include "TFragmentQueue.h"
 
+#include <TROOT.h>
+
 ClassImp(TigScope)
 
 TigScope *TigScope::fTigScope = NULL;
@@ -36,7 +38,17 @@ TigScope::TigScope(int argc,char** argv)	{
 	ftigfragment	= 0;
 
 	wavehist = new TList();
-	
+
+	std::string grsi_settings;	
+	if(getenv("GRSISYS"))	{
+		grsi_settings.append(getenv("GRSISYS"));	
+		grsi_settings.append("/");
+		//printf(DGREEN "grsi_settings = %s" RESET_COLOR "\n", grsi_settings.c_str() );
+	}
+	grsi_settings.append(".grsirc");
+	fGrsiEnv = new TEnv(grsi_settings.c_str());
+	//gROOT->ProcessLine(TString(".x ") + fGrsiEnv.GetValue("Rint.Load",""))
+
 	HandleOptions(argc,argv);
 	
 	fTigScope = this;		
@@ -44,6 +56,7 @@ TigScope::TigScope(int argc,char** argv)	{
 	fTotalFragments = 0;
 
 	SetOptions();
+	SetRootEnv();	
 }
 
 TigScope::~TigScope()	{	}
@@ -474,5 +487,9 @@ void TigScope::SetOptions()	{
 
 }
 
+void TigScope::SetRootEnv()	{
+	gEnv->SetValue("Rint.Logon",GetEnv()->GetValue("GRSI.Logon",""));
 
+
+}
 
