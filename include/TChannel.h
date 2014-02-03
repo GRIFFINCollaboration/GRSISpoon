@@ -96,6 +96,7 @@ class TChannel : public TNamed	{
 		void DestroyTIMECal();
 
 		void Print();
+		void PrintFormatted();
 		void Clear();
       
 	  ClassDef(TChannel,1)
