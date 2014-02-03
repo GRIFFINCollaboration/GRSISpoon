@@ -38,6 +38,8 @@ $(ALLDIRS):
 grsisort: src
 	mv $^/grsisort bin/$@
 
+
+
 clean:
 	@$(RM) *~
 	$(RM) ./bin/grsisort

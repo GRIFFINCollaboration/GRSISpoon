@@ -81,6 +81,8 @@ class CalibrationManager {
 
    void CalibrateFragment(TTigFragment * frag);
 
+   void OutputCalFile(std::string calfilenameput = "");
+
    //SetChannel(
  private:
    bool fuseodbfile;

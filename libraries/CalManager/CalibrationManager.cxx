@@ -5,6 +5,9 @@
 #include <sstream>
 #include <cctype>
 
+#include <unistd.h>
+#include <fcntl.h>
+
 #include <string>
 
 ClassImp(CalibrationManager)
@@ -484,3 +487,41 @@ int CalibrationManager::StringToEnum(std::string input)
    }
    return enum_map[input];
 }
+
+
+void CalibrationManager::OutputCalFile(std::string calfilenameout)	{
+	//prints the context of addresschannelmap formatted correctly to stdout if
+	//no file name is passed to the function.  If a file name is passed to the function
+	//prints the context of addresschannelmap formatted correctly to a file with the given
+	//name.  This will earse and rewrite the file if the file already exisits!
+	//
+	//current min steps to use from the command line from interactive mode:
+	//  TMidasFile mfile; mfile.Open("midas_file_name");
+	//  TMidasEvent event; mfile.Read(&event);  <---- Assuming the ODB is stored in the first midas entery!!
+	//  VirtualOdb *odb = new XmlOdb(event.GetData(),event.GetDataSize());
+	//  CalibrationManager::instance()->ReadXmlOdb(odb)
+	//  CalibrationManager::instance()->OutputCalFile();
+	//
+	//  pcb.
+	//
+	//
+
+	std::map < int, TChannel * >::iterator iter;
+	FILE *c_outputfile;
+	if(calfilenameout.length()>0)	{
+		c_outputfile = freopen (calfilenameout.c_str(),"w",stdout);
+	}
+	for(iter = AddressChannelMap.begin(); iter != AddressChannelMap.end(); iter++)	{
+		iter->second->PrintFormatted();
+	}
+	if(calfilenameout.length()>0)	{
+		fclose(c_outputfile);
+		int fd = open("/dev/tty", O_WRONLY);
+    	stdout = fdopen(fd, "w");
+		//stdout = fdopen(1,"w");
+		//stdout = fdopen(STDOUT_FILENO, "w");
+	}
+
+	return;
+}
+

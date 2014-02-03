@@ -34,6 +34,7 @@ endif
 
 #ifdef ROOTSYS
 OBJS += XmlOdb.o HttpOdb.o
+OBJS += XmlOdbDict.o
 #endif
 
 all: $(ALL)
@@ -58,6 +59,9 @@ TMidasFileDict.cxx: $(BASE)/include/TMidasFile.h
 
 TMidasEventDict.cxx: $(BASE)/include/TMidasEvent.h
 	rootcint TMidasEventDict.cxx -c $(BASE)/include/TMidasEvent.h
+
+XmlOdbDict.cxx: $(BASE)/include/XmlOdb.h
+	rootcint XmlOdbDict.cxx -c $(BASE)/include/XmlOdb.h
 
 
 dox:

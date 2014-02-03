@@ -2,7 +2,7 @@
 
 setenv GRSISYS $PWD
 echo GRSISYS is now $GRSISYS
-setenv MIDASSYS /opt/midas-64
+setenv MIDASSYS /opt/midas
 echo MIDASSYS is now $MIDASSYS
 setenv LD_LIBRARY_PATH $PWD/libraries:$MIDASSYS/linux/lib
 echo LD_LIBRARY_PATH is now $LD_LIBRARY_PATH
