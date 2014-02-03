@@ -20,8 +20,11 @@
 
 /// Access to ODB saved in XML format inside midas .mid files
 
-struct XmlOdb : VirtualOdb
+
+class XmlOdb : public VirtualOdb
 {
+  public:
+	
   TDOMParser* fParser; ///< XML parser for the XML-encoded ODB data
   TXMLNode*   fOdb;    ///< Pointer to the root of the ODB tree
 
@@ -61,6 +64,8 @@ struct XmlOdb : VirtualOdb
   float    odbReadFloat(const char*name, int index, float  defaultValue );
   const char* odbReadString(const char*name, int index, const char* defaultValue );
   int      odbReadArraySize(const char*name);
+
+  ClassDef(XmlOdb,0)	
 };
 
 #endif

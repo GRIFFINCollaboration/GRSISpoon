@@ -21,6 +21,8 @@
 
 #include <TList.h>
 
+ClassImp(XmlOdb);
+
 XmlOdb::XmlOdb(const char*xbuf,int bufLength) //ctor
 {
 	printf("xmlodb thingie running...\n");
