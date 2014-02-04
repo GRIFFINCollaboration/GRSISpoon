@@ -65,8 +65,6 @@ void TFragmentQueue::StopStatusUpdate()	{
 void TFragmentQueue::Add(TTigFragment *frag)	{
 	CalibrationManager::instance()->CalibrateFragment(frag);
 
-	unsigned int added_test = fTotalFragsIn;
-
 	//if(fTotalFragsIn == 0){
 	//	printf("\nIn fragment queue %i\n", frag->MidasId);
 	//}
@@ -80,9 +78,10 @@ void TFragmentQueue::Add(TTigFragment *frag)	{
 		while(!TFragmentQueue::Sorted.try_lock())	{
 			//do nothing	
 		}
-		fTotalFragsIn++;
 
 		fFragmentQueue.push(frag);
+
+		fTotalFragsIn++;
 		fFragsInQueue++;
 		fragments_in++;
 		//sorted.unlock();

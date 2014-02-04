@@ -69,12 +69,32 @@ bool TigScope::ProcessMidasEvent(TMidasEvent *mevent)	{
     //int NumFragsFound = 0;
 	void *ptr;
 	int banksize = 0;
-	int testnumber = 0;
+	//int testnumber = 0;
+	//int tFinQ_before = 0;
 	switch(mevent->GetEventId())	{
 		case 1:
 			banksize = mevent->LocateBank(NULL, "WFDN", &ptr);
 			if(banksize)    {
-				fTotalFragments += TParser::instance()->TigressDATAToFragment((int*)ptr,banksize,mevent->GetSerialNumber(),mevent->GetTimeStamp());
+				try	{
+					//tFinQ_before = TFragmentQueue::instance()->GetTotalFragsIn();			
+
+					fTotalFragments += TParser::instance()->TigressDATAToFragment((int*)ptr,banksize,mevent->GetSerialNumber(),mevent->GetTimeStamp());
+				}
+				catch (const std::bad_alloc&)	{
+					//printf(RED "\nCAUGHT A BAD_ALLOX!!" RESET_COLOR "\n");
+					//printf(BLUE "\tTotal frags in q before = %i" RESET_COLOR "\n", tFinQ_before);
+					//printf(BLUE "\tTotal frags in q after  = %i" RESET_COLOR "\n", TFragmentQueue::instance()->GetTotalFragsIn());
+					//printf("\tfTotalFragments = %i\n",fTotalFragments);
+					//printf("\tptr             = 0x%08x\n",ptr);
+					//printf("\tbanksize        = %i\n",banksize);
+					//mevent->Print("a");
+					//printf( RED "************************" RESET_COLOR "\n");
+
+					//this happens sometimes on large (<2GB ) files. I am not sure why, the fragment 
+					//is created correctly (via new) and properly inserted into the que.  Until I 
+					//see some bad effects, this catch block will keep the main loop from aborting.
+
+				}
 			}
 			break;
 		default:
