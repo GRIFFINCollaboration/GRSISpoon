@@ -1,25 +1,13 @@
 #ifndef __SharcDATA__
 #define __SharcDATA__
 /*****************************************************************************
- * Copyright (C) 2009-2013    this file is part of the NPTool Project        *
- *                                                                           *
- * For the licensing terms see $NPTOOL/Licence/NPTool_Licence                *
- * For the list of contributors see $NPTOOL/Licence/Contributors             *
- *****************************************************************************/
-
-/*****************************************************************************
- * Original Author: Adrien MATTA  contact address: a.matta@surrey.ac.uk      *
- *                                                                           *
- * Creation Date  : November 2012                                            *
- * Last update    :                                                          *
- *---------------------------------------------------------------------------*
- * Decription:                                                               *
- *  This class hold the Sharc Silicon array raw data (Made for TIG64 card)   *
- *                                                                           *
- *---------------------------------------------------------------------------*
- * Comment:                                                                  *
- *                                                                           *
- *                                                                           *
+ *
+ *  The current layout of the 'data;' is inspired by and should be compatable
+ *  with the NPTOOLS analysis kit maintained by our friends at the univeristy 
+ *  of Surrey.   These class however are unique to the triumf sort code.
+ *
+ *  pcb
+ *                                                                           
  *****************************************************************************/
 
 // STL
@@ -38,7 +26,7 @@ private:
   vector<UShort_t>   fSharc_StripFront_DetectorNbr;
   vector<UShort_t>   fSharc_StripFront_StripNbr;
   vector<Double_t>   fSharc_StripFront_Energy;
-  vector<UInt_t>	   fSharc_StripFront_Charge;
+  vector<UInt_t>	 fSharc_StripFront_Charge;
   vector<Double_t>   fSharc_StripFront_TimeCFD;
   vector<Double_t>   fSharc_StripFront_TimeLED;
   vector<Double_t>   fSharc_StripFront_Time;
@@ -46,7 +34,7 @@ private:
   vector<UShort_t>   fSharc_StripBack_DetectorNbr;
   vector<UShort_t>   fSharc_StripBack_StripNbr;
   vector<Double_t>   fSharc_StripBack_Energy;
-  vector<UInt_t>		 fSharc_StripBack_Charge;
+  vector<UInt_t>	 fSharc_StripBack_Charge;
   vector<Double_t>   fSharc_StripBack_TimeCFD;
   vector<Double_t>   fSharc_StripBack_TimeLED;
   vector<Double_t>   fSharc_StripBack_Time;
