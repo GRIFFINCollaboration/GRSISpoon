@@ -1,4 +1,4 @@
-SUBDIRS = TTigress TS3 TSiLi TRf
+SUBDIRS = TTigress TS3 TSiLi TRf TSharc
 ALLDIRS = $(SUBDIRS) 
 #LASTDIR = $(notdir $(CURDIR))
 

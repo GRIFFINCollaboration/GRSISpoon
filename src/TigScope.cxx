@@ -93,6 +93,8 @@ bool TigScope::ProcessMidasEvent(TMidasEvent *mevent)	{
 					//this happens sometimes on large (<2GB ) files. I am not sure why, the fragment 
 					//is created correctly (via new) and properly inserted into the que.  Until I 
 					//see some bad effects, this catch block will keep the main loop from aborting.
+					//	
+					//		pcb
 
 				}
 			}
