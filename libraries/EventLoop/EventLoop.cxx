@@ -65,7 +65,7 @@ int EventLoop::ExecuteLoop(TMidasFile *mfile,char *odbfname,char *hostname,char 
 		if(mfile)	{
 			printf("filename = %s\n",mfile->GetFilename());
 			std::thread MidasThread(&EventLoop::ProcessMidasFile, this, mfile);	
-			MidasThread.join();
+			MidasThread.join();      //creatres a thread and holds open till the thread terminates.   pcb.
 			//MidasThread.detach();
 		}
 		else if(hostname && exptname)	{
@@ -74,9 +74,9 @@ int EventLoop::ExecuteLoop(TMidasFile *mfile,char *odbfname,char *hostname,char 
 			//MidasThread.join();
 			//in
 		}
-		else
+		else	{
 			return 1;
-
+		}
 	//}
 	return 0;
 }
