@@ -194,7 +194,7 @@ bool RootIOManager::CloseRootFile()	{
 		//foutlist->Write();
 	}
 
-	fouttree->Write();	
+	fouttree->FlushBaskets();
 	fouttree->Delete();
 	frootfile->Close();
 	//frootfile->Delete();  //closing the file should also free the memory block.  pcb.
