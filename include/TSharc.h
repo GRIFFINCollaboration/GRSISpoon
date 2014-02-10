@@ -7,7 +7,7 @@
 #include <iostream>
 
 #include "TSharcData.h"
-#include "SharcHit.h"
+#include "TSharcHit.h"
 
 #include "TVector3.h" 
 #include "TNamed.h"
@@ -22,22 +22,30 @@ class TSharc : public TSharcData, public TNamed 	{
 		~TSharc();
 
 	public: 
-		void Clear();   
-		void BuildHits();
+		void Clear(Option_t *);		//!
+		void Print(Option_t *);		//!
+		void BuildHits();			//!
 
-		SharcHit *GetSharcHit(int i) {return &sharc_hits[i];};
-		Short_t GetMultiplicity() { return sharc_hits.size();};
+		TSharcHit *GetHit(int i)		{return &sharc_hits.at(i);}	//->
+		Short_t GetMultiplicity()	{return sharc_hits.size();}	//->
 
-		//private:
-		//double GetEnergy()	{	;};
-		TVector3 GetPosition(int FrontDet, int FrontStr, int BackDet, int BackStr);
+		TVector3 GetPosition(TSharcHit*);
+
+
+//	public:
+
+//		virtual inline void SetFront(const UShort_t &DetNbr,const UShort_t &StripNbr,const Double_t &Energy ,const Double_t &TimeCFD,const Double_t &TimeLED,const Double_t &Time = 0, const UInt_t &Charge = 0)
+//		virtual inline void SetBack( const UShort_t &DetNbr,const UShort_t &StripNbr,const Double_t &Energy, const Double_t &TimeCFD,const Double_t &TimeLED,const Double_t &Time = 0, const UInt_t &Charge = 0)
+//		virtual inline void SetPAD(  const UShort_t &DetNbr,const Double_t &Energy,  const Double_t &TimeCFD,const Double_t &TimeLED,const Double_t &Time = 0, const Int_t &Charge = 0)
+
+		
+
 
 	private: 
-		std::vector <SharcHit> sharc_hits;
+		std::vector <TSharcHit> sharc_hits;
 
-		static int totalhits;
         
-   ClassDef(TSharc,1)  // SharcPhysics structure
+   ClassDef(TSharc,2)  // Sharc Analysis structure
 };
 
 

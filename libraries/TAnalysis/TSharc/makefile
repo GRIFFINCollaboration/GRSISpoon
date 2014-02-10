@@ -10,7 +10,7 @@ CFLAGS += $(shell root-config --cflags)
 
 .PHONY: all clean gone
 
-OBJECTS=  TSharc.o TSharcData.o TSharcDataDict.o SharcHit.o SharcHitDict.o TSharcDict.o
+OBJECTS=  TSharc.o TSharcData.o TSharcDataDict.o TSharcHit.o TSharcHitDict.o TSharcDict.o
 
 all: libSharc.so
 
