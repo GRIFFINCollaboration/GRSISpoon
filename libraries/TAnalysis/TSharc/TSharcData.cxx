@@ -1,24 +1,17 @@
-/*****************************************************************************
- * Copyright (C) 2009-2013   this file is part of the NPTool Project         *
- *                                                                           *
- * For the licensing terms see $NPTOOL/Licence/NPTool_Licence                *
- * For the list of contributors see $NPTOOL/Licence/Contributors             *
- *****************************************************************************/
 
-/*****************************************************************************
- * Original Author: Adrien MATTA  contact address: matta@ipno.in2p3.fr       *
- *                                                                           *
- * Creation Date  : November 2012                                            *
- * Last update    :                                                          *
- *---------------------------------------------------------------------------*
- * Decription:                                                               *
- *  This class hold Sharc Raw data                                           *
- *                                                                           *
- *---------------------------------------------------------------------------*
- * Comment:                                                                  *
- *                                                                           *   
- *                                                                           *
- *****************************************************************************/
+//   A class used to hold the raw sharc data before sharc_hits are built
+//   This class is mostly taken from the NPTOOLS foramt.
+//
+//   The major idea here is we stick all the data from an array of TFragments
+//   and put it into these storage containers.  Then we turn this data in an
+//   array of TSharcHits and promtly 'throw this out'  (i.e don't write it to 
+//   the Analysis Tree.
+//
+//	 pcb.
+//
+
+
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -45,6 +38,8 @@ void TSharcData::ClearData()
   fSharc_StripFront_TimeLED.clear();
   fSharc_StripFront_Time.clear();
 
+  fSharc_StripFront_Wave.clear();
+
 
   fSharc_StripBack_DetectorNbr.clear();
   fSharc_StripBack_StripNbr.clear();
@@ -54,6 +49,8 @@ void TSharcData::ClearData()
   fSharc_StripBack_TimeLED.clear();
   fSharc_StripBack_Time.clear();
 
+  fSharc_StripBack_Wave.clear();
+
 
   fSharc_PAD_DetectorNbr.clear();
   fSharc_PAD_Energy.clear();
@@ -62,6 +59,7 @@ void TSharcData::ClearData()
   fSharc_PAD_TimeLED.clear();
   fSharc_PAD_Time.clear();
 
+  fSharc_PAD_Wave.clear();
 
 }
 
@@ -100,8 +98,6 @@ void TSharcData::Print()
     << " Time CFD: " << fSharc_PAD_TimeCFD[i]
     << " Time LED: " << fSharc_PAD_TimeLED[i]
     << " Time    : " << fSharc_PAD_Time[i] << endl;
-
-
   }
 }
 

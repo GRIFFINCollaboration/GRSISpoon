@@ -6,106 +6,78 @@
 
 ClassImp(TSharc)
 
-int TSharc::totalhits = 0;
 
 TSharc::TSharc()	{	}
 
 TSharc::~TSharc()	{	}
 
-void	TSharc::BuildHits()	{
-  //Clear();
-  SharcHit sharchit;
-  sharchit.Clear();
-  //sharc_hits.clear();
 
+
+
+
+void	TSharc::BuildHits()	{
+
+  //  after the data has been taken from the fragement tree, the data
+  //  is stored/correlated breifly in by the tsharcdata class - these 
+  //  function takes the data out of tsharcdata, and puts it into the 
+  //  the tsharchits class.  These tsharchit objects are how we access
+  //  the data stored in the tsharc branch in the analysis tree. 
+  //
+  //  pcb.
+  //
+
+  TSharcHit sharchit;
 
   for(int i=0;i<GetMultiplicityFront();i++)	{	
   	
-    #ifdef DEBUG
-    		std::cout << "F " << GetFront_DetectorNbr(i) << std::endl;
-    #endif
     for(int j=0;j<GetMultiplicityBack();j++)	{	
-      #ifdef DEBUG
-      			std::cout << "\tB " << GetBack_DetectorNbr(j) << std::endl;
-      #endif
+
       if(GetFront_DetectorNbr(i) == GetBack_DetectorNbr(j))	{ //check if same detector
-				sharchit.detectornumber = GetFront_DetectorNbr(i);
-
-				sharchit.delta_e = (GetFront_Energy(i) + GetBack_Energy(j))/2.0;
-
-				sharchit.front_charge = GetFront_Charge(i);
-				sharchit.back_charge = GetBack_Charge(i);
-				sharchit.delta_t			= GetFront_Time(i) ;  //cheak time allignment;
-				sharchit.delta_cfd			= GetFront_TimeCFD(i) ;  //cheak time allignment;
-				sharchit.position = GetPosition(GetFront_DetectorNbr(i), GetFront_StripNbr(i),							
-				GetBack_DetectorNbr(j), GetBack_StripNbr(j));
-				sharchit.pixel = std::make_pair(GetFront_StripNbr(i),GetBack_StripNbr(j));
+				sharchit.SetDetector(GetFront_DetectorNbr(i));
+			
+				sharchit.SetDeltaE(GetFront_Energy(i)); 
+				sharchit.SetFrontCharge(GetFront_Charge(i));
+				sharchit.SetBackCharge(GetBack_Charge(i));
+				sharchit.SetDeltaT(GetFront_Time(i)) ;  		//cheak time allignment;
+				//sharchit.SetDeltaCfd(GetFront_TimeCFD(i));		//cheak time allignment;
 																				
-					//#ifdef DEBUG
-					//				cout << "inside setting energy" << (GetFront_Energy(i) + GetBack_Energy(j))/2.0 << endl;
-					//				cout << "and position: frontDet	"<< GetFront_DetectorNbr(i)<<" Strip	"<< GetFront_StripNbr(i)<<" backDet	"<<	GetBack_DetectorNbr(j)<<" Strip	"<< GetBack_StripNbr(j) <<endl;
-					//				#endif	
-					sharc_hits.push_back(sharchit);																				
-					
+				sharc_hits.push_back(sharchit);																				
       }
     }
   }
-  //std::cout << "===============================================================" << std::endl;
-  //cout << "GetMultiplicityFront(): " << GetMultiplicityFront();
-  //cout <<	"\tGetMultiplicityBack():  " << GetMultiplicityBack();
-  //cout << "\tn sharc hits " << sharc_hits.size() << endl;
-	//cout << "\there 1" << endl;
+
   for(int k=0;k<GetMultiplicityPAD();k++)	{	
-	//cout << "\t\there 1" << endl;
-    //if(GetPAD_Energy(k)<1)
-    //  continue; // stops pads getting set to zero energy with EVERY sharc hit
-      
-//    cout << "P " << GetPAD_DetectorNbr(k) << endl;
-		int oldtotalhits = TSharc::totalhits;
-    for(int l=0;l<sharc_hits.size();l++){
-// cout << "sharc" << sharc_hits.at(l).detectornumber << endl;
-      if(GetPAD_DetectorNbr(k) == sharc_hits.at(l).detectornumber)	{ //check if same detector
-/*
-				cout << "==============================================" << endl;				
-				cout << "totalhits so far = " << ++TSharc::totalhits << endl;
-				cout << "GetPAD_DetectorNbr(k): " << GetPAD_DetectorNbr(k) << endl; 
-				cout << "GetPAD_Energy(k):      " << GetPAD_Energy(k) << endl; 
-				cout << "GetPAD_Charge(k):      " << GetPAD_Charge(k) << endl; 
-				cout << "GetPAD_Time(k):        " << GetPAD_Time(k) << endl; 
-				cout << "GetPAD_TimeCFD(k):     " << GetPAD_TimeCFD(k) << endl; 
-	*/			
-				sharc_hits.at(l).energy = GetPAD_Energy(k);
-				sharc_hits.at(l).charge = GetPAD_Charge(k);
-				sharc_hits.at(l).time = GetPAD_Time(k);
-				sharc_hits.at(l).pad_cfd = GetPAD_TimeCFD(k);
-/*
-				cout << "sharc_hits.at(l).detectornumber: " << sharc_hits.at(l).detectornumber << endl;
-				cout << "sharc_hits.at(l).energy:         " << sharc_hits.at(l).energy << endl;
-				cout << "sharc_hits.at(l).charge:         " << sharc_hits.at(l).charge << endl;
-				cout << "sharc_hits.at(l).time:           " << sharc_hits.at(l).time << endl;
-				cout << "sharc_hits.at(l).pad_cfd:        " << sharc_hits.at(l).pad_cfd << endl;
-				//	cout << "GetPAD_DetectorNbr(k): " << GetPAD_DetectorNbr(k) << "\tenergy " << GetPAD_Energy(k) << endl;
-				cout << "==============================================" << endl;
-*/
+	//int oldtotalhits = TSharc::totalhits;
+    for(int l=0;l<sharc_hits.size();l++)	{
+      if(GetPAD_DetectorNbr(k) == sharc_hits.at(l).GetDetectorNumber())	{ //check if same detector
+				
+				sharc_hits.at(l).SetPadE(GetPAD_Energy(k));
+				sharc_hits.at(l).SetPadCharge(GetPAD_Charge(k));
+				sharc_hits.at(l).SetPadT(GetPAD_Time(k));
+				//sharc_hits.at(l).SetPadCFD(GetPAD_TimeCFD(k));
       }
     }
-/*
-		if(oldtotalhits == TSharc::totalhits)	{
-				cout << DRED << "\t==============================================" << RESET_COLOR << endl;
-				cout << DRED << "\tPAD?DETECTOR MATCH NOT FOUND!!" << RESET_COLOR << endl;
-				cout << DRED << "\tGetPAD_DetectorNbr(k): " << RESET_COLOR << GetPAD_DetectorNbr(k) << endl; 
-				cout << DRED << "\tGetPAD_Energy(k):      " << RESET_COLOR << GetPAD_Energy(k) << endl; 
-				cout << DRED << "\tGetPAD_Charge(k):      " << RESET_COLOR << GetPAD_Charge(k) << endl; 
-				cout << DRED << "\tGetPAD_Time(k):        " << RESET_COLOR << GetPAD_Time(k) << endl; 
-				cout << DRED << "\tGetPAD_TimeCFD(k):     " << RESET_COLOR << GetPAD_TimeCFD(k) << endl; 
-				cout << DRED << "\t==============================================" << RESET_COLOR << endl;
-		}
-*/
   }
 }
 
 
-TVector3 TSharc::GetPosition(int FrontDet, int FrontStr, int BackDet, int BackStr)	{
+TVector3 TSharc::GetPosition(TSharcHit *hit)	{
+  // given a tsharchit, this function gets
+  // it's pixel and detector number and returns
+  // a TVector3 pointing to the hits position from 
+  // the `center` of teh area.	
+  //
+  // pcb.
+  //
+
+
+
+  int FrontDet = hit->GetDetectorNumber();
+  int FrontStr = hit->GetPixel().first;
+  int BackDet  = hit->GetDetectorNumber();
+  int BackStr  = hit->GetPixel().second;
+
+
   TVector3 position;
   double stripBpitch = 48.0/48;
   double stripFpitch = 72.0/24;
@@ -143,21 +115,30 @@ TVector3 TSharc::GetPosition(int FrontDet, int FrontStr, int BackDet, int BackSt
     else
       position.SetZ(-z);
   }
-  
-  
-  
-  
   return position;
 }
 
 
 
 
-void TSharc::Clear()	{
+void TSharc::Clear(Option_t *option)	{
   //cout << "clearing " << endl;
   ClearData();
   sharc_hits.clear();
   //cout <<" size: " << sharc_hits.size() << endl;
+  return;
 }
+
+void TSharc::Print(Option_t *option)	{
+  printf("not yet written...\n");
+  return;
+}
+
+
+
+
+
+
+
 
 
