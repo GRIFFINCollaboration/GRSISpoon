@@ -22,11 +22,10 @@ int main(int argc,char **argv)	{
 	}
 
 	else if(gSCOPE->IsInteractive()>0)	{
-		printf("TigScope::instance()->IsPyMode() == %i\n",TigScope::instance()->IsPyMode());
+		//printf("TigScope::instance()->IsPyMode() == %i\n",TigScope::instance()->IsPyMode());
 		input = TigInput::instance(TigScope::instance()->IsPyMode());			
 		input->Run(true);
 	}
-	
 	
 
 	return 0;

@@ -4,7 +4,6 @@
 #include <sstream>
 #include <iomanip>
 
-
 #include "RootIOManager.h"
 #include "TigScope.h"
 
@@ -194,9 +193,11 @@ bool RootIOManager::CloseRootFile()	{
 	if(foutlist)	{
 		//foutlist->Write();
 	}
-	
+
+	fouttree->Write();	
+	fouttree->Delete();
 	frootfile->Close();
-	frootfile->Delete();
+	//frootfile->Delete();  //closing the file should also free the memory block.  pcb.
 
 	frootfile	= 0;
 	fouttree	= 0;

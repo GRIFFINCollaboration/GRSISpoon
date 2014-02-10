@@ -37,6 +37,9 @@ TigScope::TigScope(int argc,char** argv)	{
 	fmidasevent		=	0;
 	ftigfragment	= 0;
 
+	fTotalFragments = 0;
+	fTigScope = this;		
+
 	wavehist = new TList();
 
 	std::string grsi_settings;	
@@ -51,12 +54,8 @@ TigScope::TigScope(int argc,char** argv)	{
 
 	HandleOptions(argc,argv);
 	
-	fTigScope = this;		
-
-	fTotalFragments = 0;
-
-	SetOptions();
 	SetRootEnv();	
+	SetOptions();
 }
 
 TigScope::~TigScope()	{	}
