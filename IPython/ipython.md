@@ -1,8 +1,9 @@
 #Setup
 
-##Create a Profile
+###Create a Profile:
 TBD - name 'nbserver'.
 
+###Put stuff in the right place:
 All the files controlled here have to be put in the appropriate places, after creating a profile to host your IPython notebook.  Script coming soon :)
 
 - Under `~/.ipython/`, create a directory `extensions`; place `GRSIextension.py` in that new directory.
