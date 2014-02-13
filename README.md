@@ -21,7 +21,7 @@ The above diagram visualizes some of the details of where data goes and who does
 
 ##Usage
 
-GRSISpoon relies on MIDAS and ROOT (versions TBD).  With them installed and working, follow these steps to get GRSISpoon off the ground:
+GRSISpoon relies on MIDAS post-January 2014 and ROOT 5.34; it has successfully compiled and run on 64 bit SL6 and Ubuntu.  With the dependencies installed and working, follow these steps to get GRSISpoon off the ground:
 
 1. Run the setup script, SOURCEME.sh or .csh depending on your shell preference.  Make sure the paths to ROOT and MIDAS are set correctly therein!
 2. do `make` at GRSISpoon's root; hopefully everything compiles
