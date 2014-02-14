@@ -1,12 +1,96 @@
 <style>
 
-h1{
-    background-color: #67eea0
-}
-
+/*headings////////////////////////////////////////////////////*/
 h1, h2, h3, h4, h5, h6 {
     border-left: 5px solid #27ae60;
     padding-left: 15px;
+}
+
+
+canvas#GRSIlogo{
+    float:left;
+}
+
+div#showGuts{
+    color: #16BDFF;
+    display: inline-block;
+    height: 3em;
+    padding: 1em;
+    padding-top:1.5em;
+    float: left;
+    -webkit-transition: text-shadow 0.3s ease-in; /*Safari & Chrome*/
+    transition: text-shadow 0.3s ease-in;
+    -moz-transition: text-shadow 0.3s ease-in; /* Firefox 4 */
+}
+
+div#showGuts:hover{
+    text-shadow: 1px 0px 20px #16BDFF;
+}
+
+/*buttons, links, other things to click on////////////////////*/
+
+/*beat the notebook styles into shape/////////////////////////*/
+div#notebook {
+    padding: 0;
+    opacity: 0;  /*need to fade in after setup*/
+    -webkit-transition: opacity 0.3s ease-in; /*Safari & Chrome*/
+    transition: opacity 0.3s ease-in;
+    -moz-transition: opacity 0.3s ease-in; /* Firefox 4 */
+}
+
+div.container {
+    margin: 0;
+    width: 100%;
+}
+
+div.cell {
+    padding-left: calc((100% - 1120px) / 2);
+    padding-right: calc((100% - 1120px) / 2);
+    margin: 0;
+    border: 0;
+}
+
+div.cell.selected{
+    border: 0;
+    border-radius: 0;
+}
+
+div.end_space {
+    background-color: #222222;
+}
+
+/*section colors///////////////////////////////////////////////*/
+
+div#internalHeader{
+    background-color: #222222;
+}
+
+div#plotWidget{
+    background-color: #FFFFFF;
+}
+
+div#systemUseWidget{
+    background-color: #CEC9CE;
+}
+
+/*footer///////////////////////////////////////////////////////*/
+div.end_space{
+    text-align: center;
+    font: 120%;
+    color: #DDDDDD;
+    padding: 3em;
+}
+
+div.end_space a{
+    color: #16BDFF;
+}
+
+div.end_space a:hover{
+    color: #FF6600;
+}
+
+div.end_space a:visited{
+    color: #CEC9CE;
 }
 
 </style>
