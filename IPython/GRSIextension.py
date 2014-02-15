@@ -5,5 +5,10 @@
 #IPython notebook server from.
 
 def load_ipython_extension(ipython):
+    #import useful python things
     ipython.ex('import rootnotes')
     ipython.ex('import rootprint')
+
+    #do some javascript setup:
+    #ipython.ex('from IPython.display import Javascript')
+    #ipython.ex('Javascript("console.log(1337)")')

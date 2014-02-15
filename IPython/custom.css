@@ -1,12 +1,137 @@
 <style>
 
-h1{
-    background-color: #67eea0
-}
-
+/*headings////////////////////////////////////////////////////*/
 h1, h2, h3, h4, h5, h6 {
     border-left: 5px solid #27ae60;
     padding-left: 15px;
+}
+
+
+canvas#GRSIlogo{
+    float:left;
+}
+
+/*header//////////////////////////////////////////////////////*/
+div#topNav{
+    display:inline-block;
+    background-color: rgba(0,0,0,0.6);
+}
+
+.headerLinks{
+    color: #16BDFF;   
+    display: inline-block;
+    height: 3em;   
+    padding: 1em;
+    padding-top:1.5em;
+    float: left;
+    -webkit-transition: text-shadow 0.3s ease-in; /*Safari & Chrome*/
+    transition: text-shadow 0.3s ease-in;
+    -moz-transition: text-shadow 0.3s ease-in; /* Firefox 4 */ 
+}
+
+.headerLinks:hover{
+    text-shadow: 1px 0px 20px #16BDFF;
+}
+
+a.headerLinks{
+    text-decoration: none !important;
+}
+
+a.headerLinks:hover{
+    color: #16BDFF; 
+}
+
+a.headerLinks:visited{
+    color: #16BDFF;      
+}
+
+p#tagBlock{
+    clear:both;
+    font-size: 800%;
+    line-height: 100%;
+    color: #FFFFFF;
+    width: 6em;
+    margin-top: 0.5em;
+}
+
+
+/*beat the notebook styles into shape/////////////////////////*/
+div#notebook {
+    padding: 0;
+    opacity: 0;  /*need to fade in after setup*/
+    -webkit-transition: opacity 0.3s ease-in; /*Safari & Chrome*/
+    transition: opacity 0.3s ease-in;
+    -moz-transition: opacity 0.3s ease-in; /* Firefox 4 */
+}
+
+div.container {
+    margin: 0;
+    width: 100%;
+}
+
+div.cell {
+    padding-left: calc((100% - 1120px) / 2);
+    padding-right: calc((100% - 1120px) / 2);
+    margin: 0;
+    border: 0;
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+div.cell.selected{
+    border: 0;
+    border-radius: 0;
+}
+
+div.end_space {
+    background-color: #32425C;
+}
+
+div.output_subarea {
+    padding: 0;
+}
+
+div.output_wrapper{
+    margin: 0;
+}
+
+/*section colors///////////////////////////////////////////////*/
+
+div#internalHeader{
+    background: -webkit-linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url('headerImage.jpg');
+    background: -moz-linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url('headerImage.jpg');
+    background: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url('headerImage.jpg');
+    min-height: 500px;
+    background-size: cover;
+    padding-top: 0;
+}
+
+div#plotWidget{
+    background-color: #FFFFFF;
+}
+
+div#systemUseWidget{
+    background-color: #EBEFF2;
+}
+
+/*footer///////////////////////////////////////////////////////*/
+div.end_space{
+    text-align: center;
+    font: 120%;
+    color: #DDDDDD;
+    padding: 3em;
+}
+
+div.end_space a{
+    color: #16BDFF;
+}
+
+div.end_space a:hover{
+    color: #FF6600;
+}
+
+div.end_space a:visited{
+    color: #CEC9CE;
 }
 
 </style>
