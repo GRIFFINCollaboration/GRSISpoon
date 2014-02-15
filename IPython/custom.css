@@ -11,23 +11,49 @@ canvas#GRSIlogo{
     float:left;
 }
 
-div#showGuts{
-    color: #16BDFF;
+/*header//////////////////////////////////////////////////////*/
+div#topNav{
+    display:inline-block;
+    background-color: rgba(0,0,0,0.6);
+}
+
+.headerLinks{
+    color: #16BDFF;   
     display: inline-block;
-    height: 3em;
+    height: 3em;   
     padding: 1em;
     padding-top:1.5em;
     float: left;
     -webkit-transition: text-shadow 0.3s ease-in; /*Safari & Chrome*/
     transition: text-shadow 0.3s ease-in;
-    -moz-transition: text-shadow 0.3s ease-in; /* Firefox 4 */
+    -moz-transition: text-shadow 0.3s ease-in; /* Firefox 4 */ 
 }
 
-div#showGuts:hover{
+.headerLinks:hover{
     text-shadow: 1px 0px 20px #16BDFF;
 }
 
-/*buttons, links, other things to click on////////////////////*/
+a.headerLinks{
+    text-decoration: none !important;
+}
+
+a.headerLinks:hover{
+    color: #16BDFF; 
+}
+
+a.headerLinks:visited{
+    color: #16BDFF;      
+}
+
+p#tagBlock{
+    clear:both;
+    font-size: 800%;
+    line-height: 100%;
+    color: #FFFFFF;
+    width: 6em;
+    margin-top: 0.5em;
+}
+
 
 /*beat the notebook styles into shape/////////////////////////*/
 div#notebook {
@@ -48,6 +74,8 @@ div.cell {
     padding-right: calc((100% - 1120px) / 2);
     margin: 0;
     border: 0;
+    padding-top: 100px;
+    padding-bottom: 100px;
 }
 
 div.cell.selected{
@@ -56,13 +84,26 @@ div.cell.selected{
 }
 
 div.end_space {
-    background-color: #222222;
+    background-color: #32425C;
+}
+
+div.output_subarea {
+    padding: 0;
+}
+
+div.output_wrapper{
+    margin: 0;
 }
 
 /*section colors///////////////////////////////////////////////*/
 
 div#internalHeader{
-    background-color: #222222;
+    background: -webkit-linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url('headerImage.jpg');
+    background: -moz-linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url('headerImage.jpg');
+    background: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url('headerImage.jpg');
+    min-height: 500px;
+    background-size: cover;
+    padding-top: 0;
 }
 
 div#plotWidget{
@@ -70,7 +111,7 @@ div#plotWidget{
 }
 
 div#systemUseWidget{
-    background-color: #CEC9CE;
+    background-color: #EBEFF2;
 }
 
 /*footer///////////////////////////////////////////////////////*/
