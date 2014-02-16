@@ -10,7 +10,7 @@ CFLAGS += $(shell root-config --cflags)
 
 .PHONY: all clean gone
 
-OBJECTS= TCloverData.o TCloverDataDict.o TCrystalData.o TCrystalDataDict.o TigressHit.o TigressHitDict.o TTigress.o TTigressDict.o
+OBJECTS= TBGOData.o TBGODataDict.o TCrystalData.o TCrystalDataDict.o TTigressHit.o TTigressHitDict.o TCrystalHit.o TCrystalHitDict.o TTigress.o TTigressDict.o
 
 all: libTigress.so
 

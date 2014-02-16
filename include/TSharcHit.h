@@ -33,8 +33,8 @@ class TSharcHit : public TObject 	{
 
 	public:
 
-		void Clear(Option_t* = "");	//!
-		void Print(Option_t* = "");	//!
+		virtual void Clear(Option_t* = "");	//!
+		virtual void Print(Option_t* = "");	//!
 
 		Double_t GetDeltaE()	{	return d_energy;	};	//!
 		Double_t GetDeltaT()	{	return d_time;		};	//!

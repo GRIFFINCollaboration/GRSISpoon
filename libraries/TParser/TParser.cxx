@@ -19,12 +19,19 @@ TParser *TParser::instance()	{
 }
 
 TParser::TParser()	{
+	ResetCounters();
+}
 
-	fLastMidasId		=	0;
-	fLastTriggerId	=	0;
 
+void TParser::ResetCounters()	{
+	fLastMidasId   = 0;
+	fLastTriggerId = 0;
+	
+	//fragment_id_map->clear();
 
 }
+
+
 
 TParser::~TParser()	{	}
 
@@ -37,146 +44,129 @@ int TParser::TigressDATAToFragment(int *data, int size,unsigned int midasserialn
 	int FragmentsFound = 1;
 
 	TTigFragment *eventfragment = new TTigFragment();//currentfragment;
-	eventfragment->Clear();	
-	//TFragmentQueue::instance()->Add(eventfragment);
+	//eventfragment->Clear();	
 
 	bool badtimestamp = false;
-
-	//FragmentsFound = 1;
 	bool needtodeletelast = false;
 	eventfragment->MidasTimeStamp = midastime;
 	eventfragment->MidasId = midasserialnumber;	 
 
-	//printf("\tMidas ID = %i\n",midasserialnumber);
-	
-	if(fLastMidasId == 0x0)
+	//if(fLastMidasId == 0x0)
 		fLastMidasId = midasserialnumber;
-	else if((fLastMidasId+1) == midasserialnumber)
-		fLastMidasId = midasserialnumber;
-	else	{
+	//else if((fLastMidasId+1) == midasserialnumber)
+	//	fLastMidasId = midasserialnumber;
+	//else	{
 		//printf(RED"\tmissing midas ids!\t LastMidasID = %i\t CurrentMidasId = %i\n"RESET_COLOR,fLastMidasId,midasserialnumber);
 		fLastMidasId = midasserialnumber;
-	}
+	//}
 	
 	for(int x=0;x<size;x++)	{
 		int dword =	*(data+x);
 		unsigned int type	=	(dword & 0xf0000000); //>> 28;
 		int slave =	(dword & 0x0ff00000) >> 20;
-	  int value =	(dword & 0x0fffffff);
+		int value =	(dword & 0x0fffffff);
 		switch(type)	{
 			case 0x00000000: // waveform data 
-        if(eventfragment->wavebuffer.size() > (100000) ) {printf("number of wave samples found is to great\n"); break;}       
-        if (value & 0x00002000) {
-          int temp =  value & 0x00003fff;
-          temp = ~temp;
-          temp = (temp & 0x00001fff) + 1;
-          //eventfragment->waveform.Fill(eventfragment->SamplesFound++,-temp); 
+				if(eventfragment->wavebuffer.size() > (100000) ) {
+					printf("number of wave samples found is to great\n"); 
+					break;
+				}       
+				if (value & 0x00002000) {
+					int temp =  value & 0x00003fff;
+					temp = ~temp;
+					temp = (temp & 0x00001fff) + 1;
 					eventfragment->wavebuffer.push_back(-temp);	//eventfragment->SamplesFound++;
-        } else {
-          //eventfragment->waveform.Fill(eventfragment->SamplesFound++,(value & 0x00001fff));  
+				} else {
 					eventfragment->wavebuffer.push_back((value & 0x00001fff)); //eventfragment->SamplesFound++;
-        }
+				}
 				if ((value >> 14) & 0x00002000) {
-				  int temp =  (value >> 14) & 0x00003fff;
-          temp = ~temp;
-          temp = (temp & 0x00001fff) + 1;
-		     	//eventfragment->waveform.Fill(eventfragment->SamplesFound++,-temp); 
+					int temp =  (value >> 14) & 0x00003fff;
+					temp = ~temp;
+					temp = (temp & 0x00001fff) + 1;
 					eventfragment->wavebuffer.push_back(-temp);	//eventfragment->SamplesFound++;
-        } else {
-          //eventfragment->waveform.Fill(eventfragment->SamplesFound++,((value >> 14) & 0x00001fff));       
+				} else {
 					eventfragment->wavebuffer.push_back( ((value >> 14) & 0x00001fff) );	//eventfragment->SamplesFound++;
-        }
+				}
 				break; 
-      case 0x10000000: // trapeze data 
+			case 0x10000000: // trapeze data 
 				//currently not used.
-      	break;          
-      case 0x40000000: // CFD Time 
-	eventfragment->SlowRiseTime = value & 0x08000000;
-	eventfragment->Cfd = value & 0x07ffffff;
-	{
+				break;          
+			case 0x40000000: // CFD Time 
+				eventfragment->SlowRiseTime = value & 0x08000000;
+				eventfragment->Cfd = value & 0x07ffffff;
+				{
+		 			// remove vernier for now and calculate the time to the trigger
+					int tsBits;
+					int cfdBits;
+					if ( eventfragment->DigitizerType == "tig10" ) {
+						cfdBits = (eventfragment->Cfd >> 4);
+						tsBits  = eventfragment->TimeStampLow & 0x007fffff;
 
-	  // remove vernier for now and calculate the time to the trigger
-	  int tsBits;
-	  int cfdBits;
-	  if ( eventfragment->DigitizerType == "tig10" ) {
-	  	cfdBits = (eventfragment->Cfd >> 4);
-	  	tsBits  = eventfragment->TimeStampLow & 0x007fffff;
-
-		// probably should check that there hasn't been any wrap around here
-		eventfragment->TimeToTrig = tsBits - cfdBits;
-
-	  } else if ( eventfragment->DigitizerType == "tig64" ) {
-	    eventfragment->TimeToTrig = (eventfragment->Cfd >> 5);
-	    // cfdBits	= (eventfragment->Cfd >> 5);
-	    // tsBits  = eventfragment->TimeStampLow & 0x003fffff;
-	  } else {
-	  	printf("CFD obtained without knowing digitizer type with midas Id = %d!\n", 
-	  		eventfragment->MidasId);
-	  }
-	}
-        break;
-      case 0x50000000: // Charge 
-				if( strncmp(eventfragment->DigitizerType.c_str(),"tig10",5) == 0)	{
-					eventfragment->PileUp = (value &  0x04000000);
-					eventfragment->Charge	= (value &	0x03ffffff);
-					if(value & 0x02000000)	{
-						eventfragment->Charge = -( (~(value & 0x01ffffff)) & 0x01ffffff)+1;
+						// probably should check that there hasn't been any wrap around here
+						eventfragment->TimeToTrig = tsBits - cfdBits;
+					} else if ( eventfragment->DigitizerType == "tig64" ) {
+						eventfragment->TimeToTrig = (eventfragment->Cfd >> 5);
+						// cfdBits	= (eventfragment->Cfd >> 5);
+						// tsBits  = eventfragment->TimeStampLow & 0x003fffff;
+					} else {
+						printf("CFD obtained without knowing digitizer type with midas Id = %d!\n",eventfragment->MidasId);
+	  				}
+				}		
+				break;
+				case 0x50000000: // Charge 
+					if( strncmp(eventfragment->DigitizerType.c_str(),"tig10",5) == 0)	{
+						eventfragment->PileUp = (value &  0x04000000);
+						eventfragment->Charge	= (value &	0x03ffffff);
+						if(value & 0x02000000)	{
+							eventfragment->Charge = -( (~(value & 0x01ffffff)) & 0x01ffffff)+1;
+						}
+					}	
+					else if( strncmp(eventfragment->DigitizerType.c_str(),"tig64",5) == 0) {
+						eventfragment->Charge	= (value &	0x003fffff);
+						if(value & 0x00200000)	{
+							eventfragment->Charge = -( (~(value & 0x001fffff)) & 0x001fffff)+1;
+						}
 					}
-										
-				}
-				else if( strncmp(eventfragment->DigitizerType.c_str(),"tig64",5) == 0) {
-					eventfragment->Charge	= (value &	0x003fffff);
-					if(value & 0x00200000)	{
-						eventfragment->Charge = -( (~(value & 0x001fffff)) & 0x001fffff)+1;
+					else{	//printf("%i  problem extracting charge, digitizer not set(?)\n", error++); IsBad = true;}
+							//printf("%i  problem extracting charge, digitizer not set(?)\n", error++);  // IsBad = true;
+						eventfragment->DigitizerType = "unknown";
+						eventfragment->Charge	= (value &	0x03ffffff);
+						if(value & 0x02000000)	{
+							eventfragment->Charge = -( (~(value & 0x01ffffff)) & 0x01ffffff)+1;
+						}
 					}
-				}
-//				else if( (fragmentlist.size()>0) && (eventfragment->TimeStampLow ==-1) && (strncmp(GetLastFragment()->DigitizerType.c_str(),"tig64",5) == 0) )	{
-//					eventfragment->DigitizerType = "tig64";	
-//					eventfragment->Charge	= value; //(value &	0x0fffffff);
-//				}
-				else{ //printf("%i  problem extracting charge, digitizer not set(?)\n", error++); IsBad = true;}
-					//printf("%i  problem extracting charge, digitizer not set(?)\n", error++);  // IsBad = true;
-					eventfragment->DigitizerType = "unknown";
-					eventfragment->Charge	= (value &	0x03ffffff);
-					if(value & 0x02000000)	{
-						eventfragment->Charge = -( (~(value & 0x01ffffff)) & 0x01ffffff)+1;
+        			break;
+				case 0x60000000: // led ?? leading edge!
+					eventfragment->Led = (value & 0x07ffffff);
+        			break;
+      			case 0x80000000: // Event header 		
+					{
+		  				unsigned int LastTriggerIdHiBits = fLastTriggerId & 0xFF000000; // highest 8 bits, remainder will be determined by the reported value
+	  					unsigned int LastTriggerIdLoBits = fLastTriggerId & 0x00FFFFFF;
+						if ( value < fgMaxTriggerId / 10 ) {
+							// the trigger id has wrapped around	
+							if ( LastTriggerIdLoBits > fgMaxTriggerId * 9 / 10 ) {
+								eventfragment->TriggerId = LastTriggerIdHiBits + value + fgMaxTriggerId;
+								printf(DBLUE "We are looping new trigger id = %d, last trigger hi bits = %d, last trigger lo bits = %d, value = %d, 				midas = %d" RESET_COLOR "\n", eventfragment->TriggerId, LastTriggerIdHiBits, LastTriggerIdLoBits, value, 	midasserialnumber);				
+							} else {
+								eventfragment->TriggerId = LastTriggerIdHiBits + value;
+							}
+						} else if ( value < fgMaxTriggerId * 9 / 10 ) {
+							eventfragment->TriggerId = LastTriggerIdHiBits + value;
+						} else {
+							if ( LastTriggerIdLoBits < fgMaxTriggerId / 10 ) {
+								eventfragment->TriggerId = LastTriggerIdHiBits + value - fgMaxTriggerId;
+								printf(DRED "We are backwards looping new trigger id = %d, last trigger hi bits = %d, last trigger lo bits = %d, value = %d, midas = %d" RESET_COLOR "\n", eventfragment->TriggerId, LastTriggerIdHiBits, LastTriggerIdLoBits, value, midasserialnumber);
+							} else {
+								eventfragment->TriggerId = LastTriggerIdHiBits + value;			
+							}
+						}	
 					}
-
-				}
-        break;
-      case 0x60000000: // led ?? leading edge!
-				eventfragment->Led = (value & 0x07ffffff);
-        break;
-      case 0x80000000: // Event header 		
-	{
-	  unsigned int LastTriggerIdHiBits = fLastTriggerId & 0xFF000000; // highest 8 bits, remainder will be determined by the reported value
-	  unsigned int LastTriggerIdLoBits = fLastTriggerId & 0x00FFFFFF;
-	  if ( value < fgMaxTriggerId / 10 ) {
-		  // the trigger id has wrapped around	
-		  if ( LastTriggerIdLoBits > fgMaxTriggerId * 9 / 10 ) {
-				eventfragment->TriggerId = LastTriggerIdHiBits + value + fgMaxTriggerId;
-		  	printf(DBLUE "We are looping new trigger id = %d, last trigger hi bits = %d, last trigger lo bits = %d, value = %d, 				midas = %d" RESET_COLOR "\n", eventfragment->TriggerId, LastTriggerIdHiBits, LastTriggerIdLoBits, value, 	midasserialnumber);				
-			} else {
-				eventfragment->TriggerId = LastTriggerIdHiBits + value;
-			}
-	  } else if ( value < fgMaxTriggerId * 9 / 10 ) {
-	    eventfragment->TriggerId = LastTriggerIdHiBits + value;
-	  } else {
-			if ( LastTriggerIdLoBits < fgMaxTriggerId / 10 ) {
-				eventfragment->TriggerId = LastTriggerIdHiBits + value - fgMaxTriggerId;
-				 printf(DRED "We are backwards looping new trigger id = %d, last trigger hi bits = %d, last trigger lo bits = %d, value = %d, midas = %d" RESET_COLOR "\n", eventfragment->TriggerId, LastTriggerIdHiBits, LastTriggerIdLoBits, value, midasserialnumber);
-			}	 else {
-		    eventfragment->TriggerId = LastTriggerIdHiBits + value;			
-		  }
-	  }	
-	}
-	fragment_id_map[value]++;
-	eventfragment->FragmentId = fragment_id_map[value];
-	
-	fLastTriggerId = eventfragment->TriggerId;
-	
-	break; 
-      case 0xa0000000:  // timestamp
+					//fragment_id_map[value]++;
+					//eventfragment->FragmentId = fragment_id_map[value];
+					fLastTriggerId = eventfragment->TriggerId;
+					break; 
+				case 0xa0000000:  // timestamp
 				{
 					int time[5];
 					time[0] = *(data + x);
@@ -306,8 +296,8 @@ int TParser::TigressDATAToFragment(int *data, int size,unsigned int midasserialn
 			eventfragment->MidasTimeStamp			=	temp->MidasTimeStamp;
 			eventfragment->MidasId						=	temp->MidasId;
 			eventfragment->TriggerId					=	temp->TriggerId;
-			fragment_id_map[value]++;
-		  eventfragment->FragmentId = fragment_id_map[value];
+			//fragment_id_map[value]++;
+		  	//eventfragment->FragmentId = fragment_id_map[value];
 			eventfragment->TriggerBitPattern	=	temp->TriggerBitPattern;	
 			eventfragment->DigitizerType			=	temp->DigitizerType; 
 

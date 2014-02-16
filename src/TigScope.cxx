@@ -109,6 +109,11 @@ void TigScope::Initialize(void) {	}
 void TigScope::BeginRun(int transition,int run,int time)	{
 	printf("Begin run called.\n");
 	fTotalFragments = 0;
+
+	TParser::instance()->ResetCounters();
+	TFragmentQueue::instance()->Clear("force");
+
+
 //	fflush(stdout);
 	CalibrationManager::instance()->ReadXMLOdb(GetODB());
 	if(CalibrationManager::instance()->UseCALFromFile())
@@ -118,6 +123,8 @@ void TigScope::BeginRun(int transition,int run,int time)	{
 		TFragmentQueue::instance()->StartStatusUpdate();
 //	if(IsOnline())
 //		TFragmentQueue::instance()->StartStatusUpdate();
+
+
 
 //	printf( " done.\n");			
 }
@@ -510,7 +517,7 @@ void TigScope::SetOptions()	{
 
 void TigScope::SetRootEnv()	{
 	gEnv->SetValue("Rint.Logon",GetEnv()->GetValue("GRSI.Logon",""));
-
+	gEnv->SetValue("Rint.History",GetEnv()->GetValue("GRSI.History",""));
 
 }
 

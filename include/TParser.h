@@ -3,7 +3,7 @@
 #define TPARSER_H
 
 #include <ctime>
-#include <map>
+//#include <map>
 
 #include <TObject.h>
 
@@ -17,11 +17,13 @@ class TParser : public TObject	{
 		~TParser();
 		static TParser *instance();
 
+		void ResetCounters();
+
 	private:
 		static const unsigned int fgMaxTriggerId;
 		unsigned int fLastMidasId;
 		unsigned int fLastTriggerId;
-		std::map<int,int> fragment_id_map;
+		//std::map<int,int> fragment_id_map;
 
 
 	public:

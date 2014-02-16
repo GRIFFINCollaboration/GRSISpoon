@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <queue>
-
+#include <map>
 
 #ifndef __CINT__
 #define _GLIBCXX_USE_NANOSLEEP 1
@@ -47,6 +47,9 @@ class TFragmentQueue : public TObject {
 		unsigned int fTotalFragsIn;
 		unsigned int fTotalFragsOut;	
 
+		std::map<int,int> fragment_id_map;	
+
+
 #ifndef __CINT__
 #ifndef NO_MUTEX
 	public:
@@ -74,6 +77,9 @@ class TFragmentQueue : public TObject {
 
 		bool Running() { return !fStop;}
 		void Stop() { fStop = true;}
+
+
+		void Clear(Option_t *opt = "");
 		
 		ClassDef(TFragmentQueue,0);
 };
