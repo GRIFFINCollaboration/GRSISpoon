@@ -47,10 +47,14 @@ void testGauntlet()	{
 		}
 
 	}
+
 	percent = (float)i/(float)nentries_st * 100;
 	printf("\t %.1f %% done. %.2f sec elapsed.             \n\n",percent,w.RealTime()); 
-	//printf("\n\n"); 
-	
+	printf("\n"); 
+	int NumberBuiltFragments = CheckEventIndexing(contenderTree);
+	printf("Fragments in FragmentTree  = %i\n",contenderTree->GetEntries());
+	printf("Fragments in from in Index = %i\n",NumberBuiltFragments); 
+
 	return;
 };
 
@@ -161,10 +165,31 @@ int CompareFragments(TTigFragment *frag1, TTigFragment *frag2)	{
 		printf("Triggers accepted do not match!\n");
 		return -1;				
 	}
-
-
-
-
 };
+
+
+int CheckEventIndexing(TTree *tree)	{
+
+	int Total = 0; 
+
+	int MinTriggerId = tree->GetMinimum("TriggerId");
+	int MaxTriggerId = tree->GetMaximum("TriggerId");
+
+	if(!tree->GetTreeIndex())	{
+		printf("Tree Index not found, building index....\t");
+		tree->BuildIndex("TriggerId","FragmentId");	
+		printf(" done.\n");
+	}
+	
+
+	for(int x=MinTriggerId;x<=MaxTriggerId;x++)	{
+		int fragno = 1;
+		while(tree->GetEntryNumberWithIndex(x,fragno++) != -1)	{
+			Total += 1;
+		}
+	}
+	return Total;
+}
+
 
 
