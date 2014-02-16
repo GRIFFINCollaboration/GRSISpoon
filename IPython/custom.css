@@ -112,7 +112,7 @@ div#systemUseWidget{
 
 /*footer///////////////////////////////////////////////////////*/
 div.end_space{
-    background-color: #666666; /*#32425C;*/
+    background-color: #444444; /*#32425C;*/
     text-align: center;
     font: 120%;
     color: #DDDDDD;
@@ -121,16 +121,36 @@ div.end_space{
     padding-bottom: 50px;
     height: 300px
 }
-/*
-td#gitLogo{
-    background: url('GitHub-Mark-32px.png'); 
+
+div.end_space table{
+    margin-left:70px;
+    margin-top:1em;
 }
-*/
-ul#footerLinks{
-    list-style-type: none;
-    width: 200px;
+
+div.end_space div.textBlock{
     float: left;
+    margin-top:33px;
+}
+
+div.textBlock p{
     text-align: left;
+}
+
+div.end_space table td{
+    padding: 0px 20px 0px 20px;
+}
+
+div.end_space a{
+    text-decoration: none !important;
+    color: #999999;
+} 
+
+div.end_space a:hover{
+    color: #EEEEEE !important;
+}
+    
+div.end_space a:visited{
+    color: #999999;
 }
 
 canvas#footerImage{
