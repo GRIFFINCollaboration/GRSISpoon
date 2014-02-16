@@ -83,10 +83,6 @@ div.cell.selected{
     border-radius: 0;
 }
 
-div.end_space {
-    background-color: #32425C;
-}
-
 div.output_subarea {
     padding: 0;
 }
@@ -116,22 +112,49 @@ div#systemUseWidget{
 
 /*footer///////////////////////////////////////////////////////*/
 div.end_space{
+    background-color: #444444; /*#32425C;*/
     text-align: center;
     font: 120%;
     color: #DDDDDD;
-    padding: 3em;
+    padding-left: calc((100% - 1120px) / 2);
+    padding-right: calc((100% - 1120px) / 2);
+    padding-bottom: 50px;
+    height: 300px
+}
+
+div.end_space table{
+    margin-left:70px;
+    margin-top:1em;
+}
+
+div.end_space div.textBlock{
+    float: left;
+    margin-top:33px;
+}
+
+div.textBlock p{
+    text-align: left;
+}
+
+div.end_space table td{
+    padding: 0px 20px 0px 20px;
 }
 
 div.end_space a{
-    color: #16BDFF;
-}
+    text-decoration: none !important;
+    color: #999999;
+} 
 
 div.end_space a:hover{
-    color: #FF6600;
+    color: #EEEEEE !important;
+}
+    
+div.end_space a:visited{
+    color: #999999;
 }
 
-div.end_space a:visited{
-    color: #CEC9CE;
+canvas#footerImage{
+    float: right;
 }
 
 </style>
