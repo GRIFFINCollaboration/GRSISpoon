@@ -3,15 +3,13 @@
 
 
 #include <vector>
-#include <stdio.h>
-#include <iostream>
+#include <cstdio>
 
 #include "TSharcData.h"
 #include "TSharcHit.h"
 
-#include "TVector3.h" 
-#include "TNamed.h"
-#include "TMath.h"
+#include <TVector3.h>
+#include <TNamed.h>
 
 #include "Globals.h"
 
@@ -22,21 +20,25 @@ class TSharc : public TSharcData, public TNamed 	{
 		~TSharc();
 
 	public: 
-		void Clear(Option_t *);		//!
-		void Print(Option_t *);		//!
+		void Clear(Option_t * = "");		//!
+		void Print(Option_t * = "");		//!
 		void BuildHits();			//!
 
 		TSharcHit *GetHit(int i)		{return &sharc_hits.at(i);}	//->
 		Short_t GetMultiplicity()	{return sharc_hits.size();}	//->
 
 		TVector3 GetPosition(TSharcHit*);
+		double GetDeadLayer(TSharcHit*);
 
+		static TVector3 GetPosition(int detector, int frontstrip, int backstrip);	//!
+		static double   GetDeadLayer(int detector, int frontstrip, int backstrip);	//!
 
 //	public:
 
 //		virtual inline void SetFront(const UShort_t &DetNbr,const UShort_t &StripNbr,const Double_t &Energy ,const Double_t &TimeCFD,const Double_t &TimeLED,const Double_t &Time = 0, const UInt_t &Charge = 0)
 //		virtual inline void SetBack( const UShort_t &DetNbr,const UShort_t &StripNbr,const Double_t &Energy, const Double_t &TimeCFD,const Double_t &TimeLED,const Double_t &Time = 0, const UInt_t &Charge = 0)
 //		virtual inline void SetPAD(  const UShort_t &DetNbr,const Double_t &Energy,  const Double_t &TimeCFD,const Double_t &TimeLED,const Double_t &Time = 0, const Int_t &Charge = 0)
+
 
 		
 

@@ -9,6 +9,8 @@
 #include <TSocket.h>
 #include <TPython.h>
 
+#include "Getline.h"
+
 #include <signal.h>
 
 #include "Globals.h"
@@ -88,11 +90,15 @@ TigInput::~TigInput()
 {
    SafeDelete(fTIGInterruptHandler);
 //   SafeDelete(fSocketClientNetFolder);
+//	Getlinem(kCleanUp, 0);
+//	printf("\n\n");
 }
 
 
 bool TigInput::HandleTermInput()
 {
+//	const char *line = Getline(0);
+//	printf("\n line = %s \n",line);
 	return TRint::HandleTermInput();
 //   return true;
 }
