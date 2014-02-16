@@ -2,74 +2,125 @@
 #include <iostream>
 #include "TTigress.h"
 
-#include "TRandom.h"
-#include "TMath.h"
+#include <TRandom.h>
+#include <TMath.h>
+
 ClassImp(TTigress)
 
-TTigress::TTigress()	{	}
+double TTigress::beta = 0.0;
+
+bool TTigress::fSetSegmentHits = true;
+bool TTigress::fSetBGOHits = true;
+
+bool TTigress::fSetCoreWave = false;
+bool TTigress::fSetSegmentWave = false;
+bool TTigress::fSetBGOWave = false;
+
+
+TTigress::TTigress()	{
+	Clear();
+}
 
 TTigress::~TTigress()	{	}
+
+void TTigress::Clear(Option_t *opt)	{
+
+	TCrystalData::Clear();
+	TBGOData::Clear();
+
+	tigress_hits.clear();
+	addback_hits.clear();
+
+}
 
 
 void	TTigress::BuildHits()	{
 	//Clear();
-	TigressHit tigresshit;
-	tigresshit.Clear();
-	//std::cout << " GetMultiplicityGe()  " <<   GetMultiplicityGe() << std::endl;
 
-	TRandom rand;
-	rand.SetSeed();
+	TCrystalHit *temp_crystal = new TCrystalHit();
 
-	for(int i=0;i<GetMultiplicityGe();i++)	{
-		double eng_sum = 0.0;
-		double eng_cen = 0.0;
-		double time = 0.0;
-		TVector3 pos;
-		TVector3 pos_sm;
-		pos.SetXYZ(0,0,0);
-		pos_sm.SetXYZ(0,0,0);
-		eng_cen = GetGeCrystal(i).GetCoreEnergy();
-		if(eng_cen < 10 ) 
-			continue;
-		time = GetGeCrystal(i).GetCoreTime();
-			double largest =0;
-		for(int j=0;j<GetGeCrystal(i).GetSegmentMultiplicity();j++)	{
-			if(GetGeCrystal(i).GetSegmentEnergy(j) > largest){
-				largest = GetGeCrystal(i).GetSegmentEnergy(j);
-				pos = GetPosition(GetGeCloverNbr(i),GetGeCrystal(i).GetCrystalNumber(),GetGeCrystal(i).GetSegmentNumber(j));
-      }
-      			    
-			if(GetGeCrystal(i).GetSegmentEnergy(j) > 0){
-				eng_sum += GetGeCrystal(i).GetSegmentEnergy(j);
-				TVector3 v;
-				TVector3 p;
-		  	p	= GetPosition(GetGeCloverNbr(i),GetGeCrystal(i).GetCrystalNumber(),GetGeCrystal(i).GetSegmentNumber(j));
-				if( (GetGeCrystal(i).GetSegmentNumber(j)>0) && (GetGeCrystal(i).GetSegmentNumber(j)<5) )	{
-					v.SetXYZ(rand.Gaus(p.X(),15), rand.Gaus(p.Y(),15), rand.Gaus(p.Z(),15) );
-				}
-				else	{
-					v.SetXYZ(rand.Gaus(p.X(),15), rand.Gaus(p.Y(),15), rand.Gaus(p.Z(),15) );
-				}
-				//pos += p;
-				pos_sm =  pos_sm + GetGeCrystal(i).GetSegmentEnergy(j) * ( p + v);
-		  }
+	//TRandom rand;
+	//rand.SetSeed();
+	//First build the core hits.
+	for(int i=0;i<GetCoreMultiplicity();i++)	{
+		TTigressHit corehit;
+		temp_crystal->Clear();
 
-		  
+                temp_crystal->SetCharge(GetCoreCharge(i));
+                temp_crystal->SetEnergy(GetCoreEnergy(i));
+                temp_crystal->SetTime(GetCoreTime(i));
+                temp_crystal->SetCfd(GetCoreCFD(i));
+
+		if(fSetCoreWave)	{
+                	temp_crystal->SetWave(GetCoreWave(i));
 		}
-		pos_sm 	*= 1./eng_sum;
-		//pos *= 1./eng_sum;
-		tigresshit.detectornumber = GetGeCrystal(i).GetCrystalNumber();
-		tigresshit.energy = eng_cen;
-		tigresshit.time = time;
-		tigresshit.position = pos;
-		tigresshit.position_smeared = pos_sm;
+		
+		corehit.SetCore(*temp_crystal);	
+		corehit.SetDetectorNumber(GetCloverNumber(i));
+        corehit.SetCrystalNumber(GetCoreNumber(i));
 
-    tigress_hits.push_back(tigresshit);
-
+		tigress_hits.push_back(corehit);
 	}
+
+	//sort ??
+	
+	for(int i=0;i<tigress_hits.size();i++)	{
+	   for(int j=0;j<GetSegmentMultiplicity();j++)	{
+	      if((tigress_hits[i].GetDetectorNumber() == GetSegCloverNumber(j))  && (tigress_hits[i].GetCrystalNumber() == GetSegCoreNumber(j))) {
+	         tigress_hits[i].CheckFirstHit(GetSegmentCharge(j),GetSegmentNumber(j));
+                 if(fSetSegmentHits)   {		
+                    temp_crystal->Clear();
+
+                    temp_crystal->SetSegmentNumber(GetSegmentNumber(j));
+
+                    temp_crystal->SetCharge(GetSegmentCharge(j));
+                    temp_crystal->SetEnergy(GetSegmentEnergy(j));
+                    temp_crystal->SetTime(GetSegmentTime(j));
+                    temp_crystal->SetCfd(GetSegmentCFD(j));
+
+                    if(fSetSegmentWave) {
+                       temp_crystal->SetWave(GetSegmentWave(j));
+                    }
+                    tigress_hits[i].SetSegment(*temp_crystal);
+                 }
+	      }	
+	   }
+           if(fSetBGOHits)  {
+              for(int j=0;j<GetBGOMultiplicity();j++)  {
+	         if((tigress_hits[i].GetDetectorNumber() == GetBGOCloverNumber(j))  && (tigress_hits[i].GetCrystalNumber() == GetBGOCoreNumber(j))) {
+		    temp_crystal->Clear();
+
+                    temp_crystal->SetSegmentNumber(GetBGOPmNbr(j));
+
+                    temp_crystal->SetCharge(GetBGOCharge(j));
+                    temp_crystal->SetEnergy(GetBGOEnergy(j));
+                    temp_crystal->SetTime(GetBGOTime(j));
+                    temp_crystal->SetCfd(GetBGOCFD(j));
+
+                    if(fSetBGOWave) {
+                       temp_crystal->SetWave(GetBGOWave(j));
+                    }			
+		    tigress_hits[i].SetBGO(*temp_crystal);	
+                 }
+              }
+           }
+	}
+
+
+
+	delete temp_crystal;
+
+}
+
+double TTigress::GetDopplerEnergy(TTigressHit *hit)	{
+
 }
 
 
+
+TVector3 TTigress::GetPosition(TTigressHit *hit)  {
+	return TTigress::GetPosition(hit->GetDetectorNumber(),hit->GetCrystalNumber(),hit->GetInitialHit());	
+}
 
 TVector3 TTigress::GetPosition(int DetNbr,int CryNbr,int SegNbr)	{
 
@@ -297,10 +348,10 @@ TVector3 TTigress::GetPosition(int DetNbr,int CryNbr,int SegNbr)	{
 
 
 
-void TTigress::DoAddBack()	{ 
+void TTigress::BuildAddBack()	{ 
 	if(tigress_hits.size() ==0	)
 		return;
-
+/*
 	addback_hits.clear();
 	addback_hits.push_back(tigress_hits[0]);
 	std::set<int> seen;
@@ -348,16 +399,8 @@ void TTigress::DoAddBack()	{
 		cout << j << "\t" << addback_hits[j].energy << "\t" << addback_hits[j].position.X() << "\t" << addback_hits[j].position.Y() << "\t" << addback_hits[j].position.Z() << endl;
 	}
  cout << "======================================================" << endl;
-
+*/
 	
-}
-
-
-
-void TTigress::Clear()	{
-	ClearData();
-	tigress_hits.clear();
-	addback_hits.clear();	
 }
 
 

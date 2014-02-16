@@ -30,22 +30,55 @@ TFragmentQueue::TFragmentQueue()	{
 	//printf(DRED "\n\tFragment Queue Created." RESET_COLOR "\n");
 	fFragsInQueue = 0;
 
-	fragments_in  = 0;		
-	fragments_out = 0;
-
 	sw = new TStopwatch();
 	sw->Start();
 
 	fStop = false;
 
+	Clear();
+
 	//StartStatusUpdate();
 
-	fTotalFragsIn = 0;
-	fTotalFragsOut = 0;
 }
 
 TFragmentQueue::~TFragmentQueue()	{	}
 
+
+void TFragmentQueue::Clear(Option_t *opt)	{
+	bool locked =false;
+	if(!fFragmentQueue.empty())	{
+		while(!TFragmentQueue::All.try_lock())	{
+			//do nothing
+		}
+		locked = true;
+	}
+
+	if(fFragsInQueue != 0)	{
+		if(strncmp(opt,"force",5))	{
+			printf(RED "\n\tWarning, discarding %i Fragemnts!\n",fFragsInQueue); 
+			while(!fFragmentQueue.empty()){
+				fFragmentQueue.pop();
+			}	
+			fFragsInQueue = 0;
+		}
+		else	{
+			printf(RED "\n\tCan not reset Q Counters; %i Fragments still in Queue!!\n",fFragsInQueue);	
+			return;
+		}
+	}
+
+	fragments_in  = 0;		
+	fragments_out = 0;
+
+	fTotalFragsIn = 0;
+	fTotalFragsOut = 0;
+
+	sw->Reset();
+
+	if(locked)
+		TFragmentQueue::All.unlock();
+	return;
+}
 
 
 void TFragmentQueue::StartStatusUpdate()	{
@@ -63,17 +96,14 @@ void TFragmentQueue::StopStatusUpdate()	{
 
 
 void TFragmentQueue::Add(TTigFragment *frag)	{
-	CalibrationManager::instance()->CalibrateFragment(frag);
 
-	//if(fTotalFragsIn == 0){
-	//	printf("\nIn fragment queue %i\n", frag->MidasId);
-	//}
+    //when we move to multithreaded parsing, these three lines will 
+    //need to move inside the lock.  pcb.
+	CalibrationManager::instance()->CalibrateFragment(frag);
+	fragment_id_map[frag->TriggerId]++;
+	frag->FragmentId = fragment_id_map[frag->TriggerId];
 
 	
-		//std::unique_lock<std::mutex> sorted(Sorted,std::defer_lock);
-
-
-		//sorted.lock();
 		
 		while(!TFragmentQueue::Sorted.try_lock())	{
 			//do nothing	
