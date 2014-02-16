@@ -22,6 +22,7 @@ $([IPython.events]).on('notebook_loaded.Notebook', function(){
         window.scalepickr = custom.scalepickr;
         window.mpstatJS = custom.mpstatJS;
         window.illustrateMpstat = custom.illustrateMpstat;
+        window.footerImage = custom.footerImage;
 
         //hide guts:
         document.getElementById('hideGuts').onclick();
@@ -39,7 +40,17 @@ $([IPython.events]).on('notebook_loaded.Notebook', function(){
             window.systemLoadMonitorLoop = window.setInterval(mpstatJS, 5000);
 
             //use the end_space as a footer, write some stuff there:
-            document.querySelector('.end_space').innerHTML = 'GRSISpoon Developed by the GRIFFIN Collaboration - fork us on <a href="https://github.com/GRIFFINCollaboration/GRSISpoon">Github</a> - powered by the <a href="http://ipython.org/notebook.html">IPython Notebook</a>'
+            var footer = document.querySelector('.end_space'),
+                footerTableHTML;
+
+            footerTableHTML = "<table><tr><td><img src='static/custom/GitHub-Mark-32px.png'></img></td><td>hosted</td></tr>";
+            footerTableHTML += "<tr><td><img src='static/custom/GitHub-Mark-32px.png'></img></td><td>powered</td></tr>";
+            footerTableHTML += "<tr><td><img src='static/custom/GitHub-Mark-32px.png'></img></td><td>created</td></tr></table>"                
+            footerTableHTML += "<canvas id='footerImage' width='550' height='300'></canvas>";
+
+            footer.innerHTML = footerTableHTML;
+
+            footerImage('footerImage', 2);
 
             //fade everything in after setup
             document.getElementById('notebook').style.opacity = 1;

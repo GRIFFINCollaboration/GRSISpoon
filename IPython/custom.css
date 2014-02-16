@@ -83,10 +83,6 @@ div.cell.selected{
     border-radius: 0;
 }
 
-div.end_space {
-    background-color: #32425C;
-}
-
 div.output_subarea {
     padding: 0;
 }
@@ -116,22 +112,29 @@ div#systemUseWidget{
 
 /*footer///////////////////////////////////////////////////////*/
 div.end_space{
+    background-color: #666666; /*#32425C;*/
     text-align: center;
     font: 120%;
     color: #DDDDDD;
-    padding: 3em;
+    padding-left: calc((100% - 1120px) / 2);
+    padding-right: calc((100% - 1120px) / 2);
+    padding-bottom: 50px;
+    height: 300px
+}
+/*
+td#gitLogo{
+    background: url('GitHub-Mark-32px.png'); 
+}
+*/
+ul#footerLinks{
+    list-style-type: none;
+    width: 200px;
+    float: left;
+    text-align: left;
 }
 
-div.end_space a{
-    color: #16BDFF;
-}
-
-div.end_space a:hover{
-    color: #FF6600;
-}
-
-div.end_space a:visited{
-    color: #CEC9CE;
+canvas#footerImage{
+    float: right;
 }
 
 </style>
