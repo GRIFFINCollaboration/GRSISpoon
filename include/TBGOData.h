@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "Globals.h"
+#include "TTigFragment.h"
 
 #include <TObject.h>
 
@@ -54,7 +55,16 @@ class TBGOData : public TObject	{
 			SetBGOLED(BGOTimeLED);
 			SetBGOTime(BGOTime);
 		};	//!
-
+		inline void SetBGO(TTigFragment *frag,int BGOCrystalNbr, int BGOPmNbr )	{
+			SetBGOCrystalNbr(BGOCrystalNbr);
+			SetBGOPmNbr(BGOPmNbr);
+			SetBGOCharge(frag->Charge);
+			SetBGOEnergy(frag->ChargeCal);
+			SetBGOCFD(frag->Cfd);
+			SetBGOLED(frag->Led);
+			SetBGOTime(frag->TimeToTrig);
+		};	//! overload function added by sjc
+		
 		/////////////////////           GETTERS           ////////////////////////
         inline UShort_t GetBGOCloverNumber(const unsigned &i)       {return fBGO_CloverNbr.at(i);} //!
 		inline UShort_t GetBGOCoreNumber(const unsigned &i)      {return fBGO_CrystalNbr.at(i);}//!

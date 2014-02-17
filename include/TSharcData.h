@@ -18,6 +18,7 @@ using namespace std ;
 
 // ROOT
 #include "TObject.h"
+#include "TTigFragment.h"
 
 class TSharcData : public TObject  {
 private:
@@ -99,7 +100,17 @@ public:
 		SetFront_TimeLED(TimeLED);
 		SetFront_Time(Time);
  		SetFront_Charge(Charge);
-	};	//!
+	};	//! sets the front using explicit inputs
+	inline void SetFront(TTigFragment *frag,int DetNbr, int StripNbr )	{
+		SetFront_DetectorNbr(DetNbr);
+		SetFront_StripNbr(StripNbr);
+		SetFront_Energy(frag->ChargeCal);
+		SetFront_TimeCFD(frag->Cfd);
+		SetFront_TimeLED(frag->Led);
+		SetFront_Time(frag->TimeToTrig);
+ 		SetFront_Charge(frag->Charge);
+	};	//! overload function that sets the front using fragment (updated by sjc)
+	
 	inline void SetBack(const UShort_t &DetNbr,const UShort_t &StripNbr,const Double_t &Energy,const Double_t &TimeCFD,const Double_t &TimeLED,const Double_t &Time = 0, const UInt_t &Charge = 0)	{
 		SetBack_DetectorNbr(DetNbr);
 		SetBack_StripNbr(StripNbr);
@@ -109,6 +120,16 @@ public:
 		SetBack_Time(Time);
 		SetBack_Charge(Charge);
 	};	//!
+	inline void SetBack(TTigFragment *frag,int DetNbr, int StripNbr )	{
+		SetBack_DetectorNbr(DetNbr);
+		SetBack_StripNbr(StripNbr);
+		SetBack_Energy(frag->ChargeCal);
+		SetBack_TimeCFD(frag->Cfd);
+		SetBack_TimeLED(frag->Led);
+		SetBack_Time(frag->TimeToTrig);
+ 		SetBack_Charge(frag->Charge);
+	};	//! (updated by sjc)
+	
 	inline void SetPAD(const UShort_t &DetNbr,const Double_t &Energy,const Double_t &TimeCFD,const Double_t &TimeLED,const Double_t &Time = 0, const Int_t &Charge = 0)	{
 		SetPAD_DetectorNbr(DetNbr);
 		SetPAD_Energy(Energy);
@@ -117,7 +138,15 @@ public:
 		SetPAD_Time(Time);
 		SetPAD_Charge(Charge);
 	};	//!
-  
+	inline void SetPAD(TTigFragment *frag,int DetNbr)	{
+		SetPAD_DetectorNbr(DetNbr);
+		SetPAD_Energy(frag->ChargeCal);
+		SetPAD_TimeCFD(frag->Cfd);
+		SetPAD_TimeLED(frag->Led);
+		SetPAD_Time(frag->TimeToTrig);
+ 		SetPAD_Charge(frag->Charge);
+	};	//! (updated by sjc)  
+	
   ///////////i//////////           GETTERS           ////////////////////////
   inline UShort_t GetFront_DetectorNbr(const unsigned int &i) const {return fSharc_StripFront_DetectorNbr[i];}	//!
   inline UShort_t GetFront_StripNbr(const unsigned int &i)    const {return fSharc_StripFront_StripNbr[i];}		//!
