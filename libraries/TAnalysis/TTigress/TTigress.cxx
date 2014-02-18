@@ -35,6 +35,11 @@ void TTigress::Clear(Option_t *opt)	{
 }
 
 
+void TTigress::Print(Option_t *opt)	{
+  printf("not yet written...\n");
+  return;
+}
+
 void	TTigress::BuildHits()	{
 	//Clear();
 

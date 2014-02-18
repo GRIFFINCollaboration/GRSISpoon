@@ -9,10 +9,10 @@
 #include "Globals.h"
 #include "TTigFragment.h"
 
-#include <TObject.h>
+//#include <TObject.h>
 
 
-class TBGOData : public TObject	{
+class TBGOData {
 
 	private:
 

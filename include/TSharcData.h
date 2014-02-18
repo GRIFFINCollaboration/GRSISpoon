@@ -17,10 +17,10 @@
 using namespace std ;
 
 // ROOT
-#include "TObject.h"
+//#include "TObject.h"
 #include "TTigFragment.h"
 
-class TSharcData : public TObject  {
+class TSharcData  {
 private:
   // Sharc
   // Energy
@@ -101,7 +101,7 @@ public:
 		SetFront_Time(Time);
  		SetFront_Charge(Charge);
 	};	//! sets the front using explicit inputs
-	inline void SetFront(TTigFragment *frag,UShort_t &DetNbr, UShort_t &StripNbr )	{
+	inline void SetFront(TTigFragment *frag,const UShort_t &DetNbr,const UShort_t &StripNbr )	{
 		SetFront_DetectorNbr(DetNbr);
 		SetFront_StripNbr(StripNbr);
 		SetFront_Energy(frag->ChargeCal);

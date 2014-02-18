@@ -8,9 +8,9 @@
 #include "Globals.h"
 #include "TTigFragment.h"
 
-#include <TObject.h>
+//#include <TObject.h>
 
-class TCrystalData : public TObject {
+class TCrystalData  {
 
 	private:
 		std::vector<UShort_t> fClover_Nbr;		//!
@@ -60,7 +60,7 @@ class TCrystalData : public TObject {
 			SetCoreTime(CrystalTime);		
 		}	//!
 
-		inline void SetCore(TTigFragment *frag,UShort_t &CloverNbr, UShort_t &CoreNbr )	{
+		inline void SetCore(TTigFragment *frag,const UShort_t &CloverNbr,const UShort_t &CoreNbr )	{
 		
 				SetCloverNumber(CloverNbr);
 				SetCoreNumber(CoreNbr);

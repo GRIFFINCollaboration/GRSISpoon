@@ -9,19 +9,19 @@
 #include "TSharcHit.h"
 
 #include <TVector3.h>
-#include <TNamed.h>
+#include <TObject.h>
 
 #include "Globals.h"
 
 
-class TSharc : public TSharcData, public TNamed 	{
+class TSharc : public TSharcData, public TObject 	{
 	public:
 		TSharc();
 		~TSharc();
 
 	public: 
-		void Clear(Option_t * = "");		//!
-		void Print(Option_t * = "");		//!
+		virtual void Clear(Option_t * = "");		//!
+		virtual void Print(Option_t * = "");		//!
 		void BuildHits();			//!
 
 		TSharcHit *GetHit(int i)		{return &sharc_hits.at(i);}	//->
