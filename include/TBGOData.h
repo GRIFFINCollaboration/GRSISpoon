@@ -56,7 +56,7 @@ class TBGOData : public TObject	{
 			SetBGOLED(BGOTimeLED);
 			SetBGOTime(BGOTime);
 		};	//!
-		inline void SetBGO(TTigFragment *frag,const UShort_t &BGOClover ,const UShort_t &BGOCrystalNbr, const UShort_t &BGOPmNbr )	{
+		inline void SetBGO(TTigFragment *frag,const UShort_t &BGOCloverNbr ,const UShort_t &BGOCrystalNbr, const UShort_t &BGOPmNbr )	{
 			SetBGOCloverNbr(BGOCloverNbr);
 			SetBGOCrystalNbr(BGOCrystalNbr);
 			SetBGOPmNbr(BGOPmNbr);

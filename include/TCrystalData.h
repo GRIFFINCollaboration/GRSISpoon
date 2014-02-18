@@ -94,7 +94,7 @@ class TCrystalData : public TObject {
 			SetSegmentTime(SegmentTime);
 		}	//!
 
-		inline void SetSegment(TTigFragment *frag,const UShort_t &CloverNbr, const UShort_t &CoreNbr, const Short_t *SegmentNumber )	{
+		inline void SetSegment(TTigFragment *frag,const UShort_t &CloverNbr, const UShort_t &CoreNbr, const UShort_t &SegmentNumber )	{
 		
 				SetSegCloverNumber(CloverNbr);
 				SetSegCoreNumber(CoreNbr);
