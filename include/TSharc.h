@@ -10,11 +10,12 @@
 
 #include <TVector3.h>
 #include <TObject.h>
+#include <TNamed.h>
 
 #include "Globals.h"
 
 
-class TSharc : public TSharcData, public TObject 	{
+class TSharc : public TSharcData, public TNamed 	{
 	public:
 		TSharc();
 		~TSharc();

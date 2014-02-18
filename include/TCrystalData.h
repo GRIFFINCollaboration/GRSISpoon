@@ -8,9 +8,9 @@
 #include "Globals.h"
 #include "TTigFragment.h"
 
-//#include <TObject.h>
+#include <TObject.h>
 
-class TCrystalData  {
+class TCrystalData : public TObject {
 
 	private:
 		std::vector<UShort_t> fClover_Nbr;		//!
@@ -132,7 +132,7 @@ class TCrystalData  {
 		inline unsigned int GetCoreMultiplicity()		{return fCore_Nbr.size();}	//!
 		inline unsigned int GetSegmentMultiplicity()		{return fSegment_Nbr.size();}	//!
 		
-		ClassDef(TCrystalData,0)  // TCloverData structure
+		ClassDef(TCrystalData,0) //! // TCloverData structure
 };
 
 

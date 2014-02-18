@@ -17,10 +17,10 @@
 using namespace std ;
 
 // ROOT
-//#include "TObject.h"
+#include "TObject.h"
 #include "TTigFragment.h"
 
-class TSharcData  {
+class TSharcData : public TObject  {
 private:
   // Sharc
   // Energy
@@ -52,12 +52,12 @@ private:
   vector<vector<Int_t> > fSharc_PAD_Wave;				//!
 
 public:
-  TSharcData();
-  virtual ~TSharcData();
+  TSharcData();															//!
+  virtual ~TSharcData(); //!
   
-  void ClearData();
+  void ClearData(); //!
   //void Clear(const Option_t*) {};
-  void Print();
+  void Print(); //!
   
   /////////////////////           SETTERS           ////////////////////////
   inline void SetFront_DetectorNbr(const UShort_t &DetNbr){fSharc_StripFront_DetectorNbr.push_back(DetNbr);}	//!
@@ -184,7 +184,7 @@ public:
   inline unsigned int GetMultiplicityBack()  const {return fSharc_StripBack_DetectorNbr.size();}				//!
   inline unsigned int GetMultiplicityPAD()   const {return fSharc_PAD_DetectorNbr.size();}						//!
  
-  ClassDef(TSharcData,0)  // SharcData structure
+  ClassDef(TSharcData,0)  //!  // SharcData structure 
 };
 
 #endif
