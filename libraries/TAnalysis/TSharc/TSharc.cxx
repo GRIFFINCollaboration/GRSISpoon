@@ -38,8 +38,13 @@ void	TSharc::BuildHits()	{
 			
 				sharchit.SetDeltaE(GetFront_Energy(i)); 
 				sharchit.SetFrontCharge(GetFront_Charge(i));
-				sharchit.SetBackCharge(GetBack_Charge(i));
+				sharchit.SetBackCharge(GetBack_Charge(j));
 				sharchit.SetDeltaT(GetFront_Time(i)) ;  		//cheak time allignment;
+
+				sharchit.SetFrontCFD(GetFront_TimeCFD(i));
+				sharchit.SetBackCFD(GetBack_TimeCFD(j));			
+
+				sharchit.SetPixel(GetFront_StripNbr(i),GetBack_StripNbr(j));
 				//sharchit.SetDeltaCfd(GetFront_TimeCFD(i));		//cheak time allignment;
 																				
 				sharc_hits.push_back(sharchit);																				

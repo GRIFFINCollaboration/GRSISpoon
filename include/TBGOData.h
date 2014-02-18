@@ -46,7 +46,8 @@ class TBGOData : public TObject	{
 
 		inline void SetBGOWave(const std::vector<int> &BGOWave)		{fBGO_Wave.push_back(BGOWave);}		//!
 
-		inline void SetBGO(const UShort_t &BGOCrystalNbr, const UShort_t &BGOPmNbr, const Int_t &BGOCharge, const Double_t &BGOEnergy, const Double_t &BGOTimeCFD, const Double_t &BGOTimeLED, const Double_t &BGOTime = 0)	{
+		inline void SetBGO(const UShort_t &BGOCloverNbr, const UShort_t &BGOCrystalNbr, const UShort_t &BGOPmNbr, const Int_t &BGOCharge, const Double_t &BGOEnergy, const Double_t &BGOTimeCFD, const Double_t &BGOTimeLED, const Double_t &BGOTime = 0)	{
+			SetBGOCloverNbr(BGOCloverNbr);
 			SetBGOCrystalNbr(BGOCrystalNbr);
 			SetBGOPmNbr(BGOPmNbr);
 			SetBGOCharge(BGOCharge);
@@ -55,7 +56,8 @@ class TBGOData : public TObject	{
 			SetBGOLED(BGOTimeLED);
 			SetBGOTime(BGOTime);
 		};	//!
-		inline void SetBGO(TTigFragment *frag,int BGOCrystalNbr, int BGOPmNbr )	{
+		inline void SetBGO(TTigFragment *frag,const UShort_t &BGOClover ,const UShort_t &BGOCrystalNbr, const UShort_t &BGOPmNbr )	{
+			SetBGOCloverNbr(BGOCloverNbr);
 			SetBGOCrystalNbr(BGOCrystalNbr);
 			SetBGOPmNbr(BGOPmNbr);
 			SetBGOCharge(frag->Charge);

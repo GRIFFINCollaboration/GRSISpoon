@@ -16,8 +16,11 @@ class TSharcHit : public TObject 	{
 
 		int				front_strip;	//
 		unsigned int	front_charge;	//	
+		double 			front_cfd;		//	
+
 		int				back_strip;		//
 		unsigned int	back_charge;	//
+		double			back_cfd;		// 		
 
 		unsigned int	pad_charge;		//
 
@@ -48,12 +51,21 @@ class TSharcHit : public TObject 	{
 		unsigned int GetFrontCharge() 	{	return	front_charge;	}	//!
 		unsigned int GetBackCharge()	{	return	back_charge;	}	//!
 		unsigned int GetPadCharge()		{	return	pad_charge;		}	//!
-					
+		
+		unsigned int GetFrontStrip()	{	return	front_strip;	}	//!
+		unsigned int GetBackStrip()		{	return	back_strip;		}	//!
+			
+		double GetFrontCFD()	{	return front_cfd;	}	//!
+		double GetBackCFD()		{	return back_cfd;	}	//!
 
 		void SetDeltaE(const double &energy)	{	d_energy = energy;	}	//!
 		void SetDeltaT(const double &time)		{	d_time = time;	}		//!
 		void SetPadE(const double &energy)		{	p_energy = energy;	}	//!
 		void SetPadT(const double &time)		{	p_time = time;	}		//!
+
+		void SetFrontCFD(const double &cfd)		{	front_cfd = cfd;	} //!
+		void SetBackCFD(const double &cfd)		{	back_cfd = cfd;		} //!
+
 
 		void SetPixel(const int &front, const  int &back)	{front_strip = front; back_strip = back;}	//!
 		void SetDetector(const int &detector)	{	detectornumber = detector;	}						//!

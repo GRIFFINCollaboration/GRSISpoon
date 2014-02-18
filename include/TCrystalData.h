@@ -60,7 +60,7 @@ class TCrystalData : public TObject {
 			SetCoreTime(CrystalTime);		
 		}	//!
 
-		inline void SetCore(TTigFragment *frag,int CloverNbr, int CoreNbr )	{
+		inline void SetCore(TTigFragment *frag,UShort_t &CloverNbr, UShort_t &CoreNbr )	{
 		
 				SetCloverNumber(CloverNbr);
 				SetCoreNumber(CoreNbr);
@@ -94,10 +94,11 @@ class TCrystalData : public TObject {
 			SetSegmentTime(SegmentTime);
 		}	//!
 
-		inline void SetSegment(TTigFragment *frag,int CloverNbr, int CoreNbr )	{
+		inline void SetSegment(TTigFragment *frag,const UShort_t &CloverNbr, const UShort_t &CoreNbr, const Short_t *SegmentNumber )	{
 		
 				SetSegCloverNumber(CloverNbr);
-				SetSegmentNumber(CoreNbr);
+				SetSegCoreNumber(CoreNbr);
+				SetSegmentNumber(SegmentNumber);
 				SetSegmentEnergy(frag->ChargeCal);		
 				SetSegmentCharge(frag->Charge);
 				SetSegmentCFD(frag->Cfd);		

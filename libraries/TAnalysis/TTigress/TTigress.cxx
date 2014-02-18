@@ -1,5 +1,6 @@
 
 #include <iostream>
+
 #include "TTigress.h"
 
 #include <TRandom.h>
@@ -39,17 +40,16 @@ void	TTigress::BuildHits()	{
 
 	TCrystalHit *temp_crystal = new TCrystalHit();
 
-	//TRandom rand;
-	//rand.SetSeed();
 	//First build the core hits.
 	for(int i=0;i<GetCoreMultiplicity();i++)	{
+
 		TTigressHit corehit;
 		temp_crystal->Clear();
 
-                temp_crystal->SetCharge(GetCoreCharge(i));
-                temp_crystal->SetEnergy(GetCoreEnergy(i));
-                temp_crystal->SetTime(GetCoreTime(i));
-                temp_crystal->SetCfd(GetCoreCFD(i));
+		temp_crystal->SetCharge(GetCoreCharge(i));
+        temp_crystal->SetEnergy(GetCoreEnergy(i));
+        temp_crystal->SetTime(GetCoreTime(i));
+        temp_crystal->SetCfd(GetCoreCFD(i));
 
 		if(fSetCoreWave)	{
                 	temp_crystal->SetWave(GetCoreWave(i));
@@ -81,7 +81,7 @@ void	TTigress::BuildHits()	{
                     if(fSetSegmentWave) {
                        temp_crystal->SetWave(GetSegmentWave(j));
                     }
-                    tigress_hits[i].SetSegment(*temp_crystal);
+                    tigress_hits.at(i).SetSegment(*temp_crystal);
                  }
 	      }	
 	   }
@@ -100,7 +100,7 @@ void	TTigress::BuildHits()	{
                     if(fSetBGOWave) {
                        temp_crystal->SetWave(GetBGOWave(j));
                     }			
-		    tigress_hits[i].SetBGO(*temp_crystal);	
+		    		tigress_hits.at(i).SetBGO(*temp_crystal);	
                  }
               }
            }

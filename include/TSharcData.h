@@ -101,7 +101,7 @@ public:
 		SetFront_Time(Time);
  		SetFront_Charge(Charge);
 	};	//! sets the front using explicit inputs
-	inline void SetFront(TTigFragment *frag,int DetNbr, int StripNbr )	{
+	inline void SetFront(TTigFragment *frag,UShort_t &DetNbr, UShort_t &StripNbr )	{
 		SetFront_DetectorNbr(DetNbr);
 		SetFront_StripNbr(StripNbr);
 		SetFront_Energy(frag->ChargeCal);
@@ -120,7 +120,7 @@ public:
 		SetBack_Time(Time);
 		SetBack_Charge(Charge);
 	};	//!
-	inline void SetBack(TTigFragment *frag,int DetNbr, int StripNbr )	{
+	inline void SetBack(TTigFragment *frag,const UShort_t &DetNbr, const UShort_t &StripNbr )	{
 		SetBack_DetectorNbr(DetNbr);
 		SetBack_StripNbr(StripNbr);
 		SetBack_Energy(frag->ChargeCal);
@@ -138,7 +138,7 @@ public:
 		SetPAD_Time(Time);
 		SetPAD_Charge(Charge);
 	};	//!
-	inline void SetPAD(TTigFragment *frag,int DetNbr)	{
+	inline void SetPAD(TTigFragment *frag,const UShort_t &DetNbr)	{
 		SetPAD_DetectorNbr(DetNbr);
 		SetPAD_Energy(frag->ChargeCal);
 		SetPAD_TimeCFD(frag->Cfd);
