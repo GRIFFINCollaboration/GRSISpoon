@@ -35,9 +35,9 @@ class TFragment : public TObject	{
     
     std::vector<int>  wavebuffer;	//->	
       
-    virtual void	Clear(); //!
-    virtual void 	Print(); //!
+    virtual void	Clear(const Option_t * /* option */ =""); //!
+    virtual void 	Print(const Option_t * /* option */ ="") const; //!
         
-    ClassDef(TFragment,1);  // TFragment structure
+    ClassDef(TFragment,2);  // TFragment structure
 };
 #endif // TFRAGMENT_H

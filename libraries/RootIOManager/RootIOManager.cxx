@@ -70,7 +70,7 @@ void RootIOManager::OpenOutFile(int runnumber, int subrunnumber, char *filename)
    }
    if (runnumber == 0) {
       if (outputPath.Length() != 0) {
-	 frootfile = new TFile(Form("%s/%s", outputPath, filename), "RECREATE");
+	 frootfile = new TFile(Form("%s/%s", outputPath.Data(), filename), "RECREATE");
       } else {
 	 frootfile = new TFile(filename, "RECREATE");
       }
