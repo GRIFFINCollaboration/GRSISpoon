@@ -35,10 +35,11 @@ src: libraries
 $(ALLDIRS):
 	@$(MAKE) -C $@
 
-grsisort: src
-	mv $^/grsisort bin/$@
+grsisort: src bin
+	mv $</$@ bin/$@
 
-
+bin:
+	@mkdir $@
 
 clean:
 	@$(RM) *~
