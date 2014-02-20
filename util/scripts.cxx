@@ -1,3 +1,4 @@
+// put the includes here, even though this probably won't quite work properly when compiled
 #include <vector>
 
 #include <TFile.h>
@@ -6,9 +7,11 @@
 #include <TString.h>
 #include <TTree.h>
 
+// almost any quick analysis will end up using the tree and a fragment
 TTree *tree = NULL;
 TTigFragment *frag = new TTigFragment;
 
+// construct a TGraph from an arbitrary STL vector, useful for ROOT plotting
 template< typename T >
 TGraph* makeGraph(const vector<T> &v, const char *name = "vectorGraph")
 {
@@ -26,6 +29,7 @@ TGraph* makeGraph(const vector<T> &v, const char *name = "vectorGraph")
   return graph;
 }
 
+// construct a TH1 from an arbitrary STL vector, useful for ROOT plotting
 template<typename T, typename U>
 U* makeHistoCommon(const vector<T> &v, const char *hisName = "vectorHis")
 {
@@ -42,16 +46,19 @@ U* makeHistoCommon(const vector<T> &v, const char *hisName = "vectorHis")
   return his;
 }
 
+// specific function for integer vectors
 TH1* makeHisto(const vector<int> &v, const char *hisName = "vectorHis")
 {
   return makeHistoCommon<int,TH1I>(v, hisName);
 }
 
+// specific function for double vectors
 TH1* makeHisto(const vector<double> &v, const char *hisName = "vectorHis")
 {
   return makeHistoCommon<int,TH1D>(v, hisName);
 }
 
+// draw the next waveform that we find associated with an event
 void DrawNext(void)
 {
   static Int_t evno=0;
@@ -72,6 +79,9 @@ void DrawNext(void)
   his->Draw();
 }
 
+// plot two TTree Draw commands from different files f1, f2 on the same canvas
+//   two different selections can be used (selection1, selection2)
+//   hisrange like "(4000,0,4000)" can give arbitrary binning
 void CompareDraw(TFile *f1, TFile *f2, const char *varexp, const char *hisrange, const char *selection, const char *selection2)
 {
   TString expr;
@@ -95,11 +105,13 @@ void CompareDraw(TFile *f1, TFile *f2, const char *varexp, const char *hisrange,
   }
 }
 
+// compare one selection from two different files
 void CompareDraw(TFile *f1, TFile *f2, const char *varexp, const char *hisrange, const char *selection)
 {
   CompareDraw(f1,f2,varexp,hisrange,selection,selection);
 }
 
+// compare two selections from one file
 void CompareDraw(TFile *f1, const char *varexp, const char *hisrange, const char *selection, const char *selection2)
 {
   CompareDraw(f1,f1,varexp,hisrange,selection,selection2);
@@ -107,8 +119,10 @@ void CompareDraw(TFile *f1, const char *varexp, const char *hisrange, const char
 
 void scripts()
 {
+  // empty function in case someone does a ".x"
 }
 
+// do th linking for the template functions if we are in an interactive session
 #ifdef __CINT__
 #pragma link C++ function makeGraph<int>(const vector<int> &, const char *)
 #pragma link C++ function makeGraph<double>(const vector<double> &, const char *)

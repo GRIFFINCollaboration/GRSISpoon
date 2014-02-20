@@ -1,3 +1,11 @@
+/*
+ * Loop over all indexed events in a list of trees and call processEvent() and processFragment() declared
+ *   elsewhere to construct relevant histograms. Works both in interactive ROOT session as well as in a
+ *   compiled program.
+ * Trees are determined by looking into all loaded files and looking for ones with a corresponding
+ *   FragmentTree. Compiled program can pass list of files via command line arguments.
+ ** /
+
 #include <iomanip>
 #include <iostream>
 #include <set>
@@ -38,6 +46,7 @@ int process(void)
 
   chain->Reset();
 
+  // find all the relevant files by looking in the big ROOT object
   TSeqCollection *files = gROOT->GetListOfFiles();
   TIterator *it = files->MakeIterator();
   TFile *f;
@@ -46,6 +55,7 @@ int process(void)
   int numTrees = 0;
 
   while ( (obj = it->Next()) != NULL) {
+    // find any files with FragmentTree in them
     f = (TFile *)obj;    
     obj = f->FindObjectAny("FragmentTree");
     if (obj) {
@@ -59,7 +69,8 @@ int process(void)
   w.Start();
   int numChainEntries = chain->GetEntries();
   int treeNumber, lastTreeNumber = -1;
-
+  
+  // make an output file
   if (outFile == NULL) {
     outFile = new TFile("output.root", "recreate");
   }
@@ -126,6 +137,7 @@ int process(void)
 #ifndef __CINT__
 int main(int argc, char **argv)
 {
+  // treat all command line arguments as files we want to chain
   for (int i=1; i < argc; i++) {
     new TFile(argv[i]);
   }

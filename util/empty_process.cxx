@@ -20,6 +20,7 @@ void processEvent(const std::vector<TTigFragment> &ev)
 
 void empty_process()
 {
+   // just in case one wants to execute this with ".x" in an interactive ROOT session
    process();
 }
 
