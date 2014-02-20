@@ -23,7 +23,7 @@ The above diagram visualizes some of the details of where data goes and who does
 
 GRSISpoon relies on MIDAS post-January 2014 and ROOT 5.34; it has successfully compiled and run on 64 bit SL6 and Ubuntu.  With the dependencies installed and working, follow these steps to get GRSISpoon off the ground:
 
-1. Run the setup script, SOURCEME.sh or .csh depending on your shell preference.  Make sure the paths to ROOT and MIDAS are set correctly therein!
+1. Run the setup script, SOURCEME.sh or .csh depending on your shell preference.  Make sure the paths to ROOT and MIDAS are set correctly therein!  Note that if MIDASSYS and ROOTSYS environment vairables were set before running this script, this script won't overwrite them, so ensure they are set correctly first, or that they are unset initially and pointed correctly in the script.
 2. do `make` at GRSISpoon's root; hopefully everything compiles
 3. `./bin/grsisort` launches the program in interactive mode
 
