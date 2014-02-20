@@ -10,18 +10,15 @@ class TTigFragment:public TFragment {
  public:
    TTigFragment(void);
    ~TTigFragment();
-
-
-
-    std::string DigitizerType;  //->      // currently tig10 or tig64
+   
+   std::string DigitizerType;  //->      // currently tig10 or tig64
    int ODBType;                 //->
 
-    std::string ChannelName;    //->
+   std::string ChannelName;    //->
    int ChannelNumber;           //->
 
    int Led;                     //->
    int TimeToTrig;              //->
-
 
    float ChargeCal;             //->
 
@@ -49,7 +46,5 @@ class TTigFragment:public TFragment {
 
     ClassDef(TTigFragment, 13); // TTigFragment structure
 };
-
-
 
 #endif                          // TTIGFRAGMENT_H

@@ -31,7 +31,7 @@ class TFragment : public TObject	{
     int Cfd;	//->
     int Charge;	//->
 
-  	unsigned long TimeStamp;
+    unsigned long TimeStamp;
     
     std::vector<int>  wavebuffer;	//->	
       
@@ -40,4 +40,5 @@ class TFragment : public TObject	{
         
     ClassDef(TFragment,2);  // TFragment structure
 };
+
 #endif // TFRAGMENT_H
