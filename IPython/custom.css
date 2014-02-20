@@ -91,7 +91,7 @@ div.output_wrapper{
     margin: 0;
 }
 
-/*section colors///////////////////////////////////////////////*/
+/*splash header//////////////////////////////////////*/
 
 div#internalHeader{
     background: -webkit-linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url('headerImage.jpg');
@@ -102,17 +102,54 @@ div#internalHeader{
     padding-top: 0;
 }
 
+/*file browser widget////////////////////////////////////*/
+div#fileBrowserWidget{
+    background-color: #EBEFF2;
+}
+
+ul.fileList{
+    float: left;
+    list-style-type: none;
+    height: 300px;
+    min-width: 15%;
+    border: 1px solid #777777;
+    border-radius: 1em;
+    margin: 1em;
+    overflow:scroll;
+    padding: 1em 0px 1em 0px;
+}
+
+ul#unselectedFiles{
+    background-color: #ccd0d1;
+}
+
+ul#selectedFiles{
+    background-color:#1edc81;
+}
+
+li {
+    padding-left: 1em;
+    line-height: 150%;
+}
+
+li.fileHidden{
+    display: none;
+}
+
+
+/*plot widget/////////////////////////////////////////////*/
 div#plotWidget{
     background-color: #FFFFFF;
 }
 
+/*system load widget///////////////////////////////////////*/
 div#systemUseWidget{
     background-color: #EBEFF2;
 }
 
 /*footer///////////////////////////////////////////////////////*/
 div.end_space{
-    background-color: #444444; /*#32425C;*/
+    background-color: #222222; /*#444444; /*#32425C;*/
     text-align: center;
     font: 120%;
     color: #DDDDDD;
