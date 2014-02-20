@@ -27,7 +27,8 @@ TFragment.o: TFragment.cxx
 TFragmentDict.o: TFragmentDict.cxx
 	g++ -c -fPIC $(CFLAGS) $< $(INC) `root-config --cflags`
 
-TFragmentDict.cxx: $(INCD)/TFragment.h
+%Dict.cxx: $(INCD)/%.h
+	$(RM) $@ $(patsubst %.cxx,%.h,$@)
 	rootcint $@ -c $<
 
 TTigFragment.o: TTigFragment.cxx
@@ -35,9 +36,6 @@ TTigFragment.o: TTigFragment.cxx
 
 TTigFragmentDict.o: TTigFragmentDict.cxx
 	g++ -c -fPIC $(CFLAGS) TTigFragmentDict.cxx $(INC) `root-config --cflags`
-
-TTigFragmentDict.cxx: $(INCD)/TTigFragment.h
-	rootcint TTigFragmentDict.cxx -c $(INCD)/TTigFragment.h
 
 ########################################
 ########################################
@@ -48,8 +46,6 @@ TFragmentQueue.o: TFragmentQueue.cxx
 TFragmentQueueDict.o: TFragmentQueueDict.cxx
 	g++ -c -fPIC $(CFLAGS) -DNO_MUTEX TFragmentQueueDict.cxx $(INC) `root-config --cflags`
 
-TFragmentQueueDict.cxx: $(INCD)/TFragmentQueue.h
-	rootcint TFragmentQueueDict.cxx -c $(INCD)/TFragmentQueue.h
 
 ########################################
 ########################################
