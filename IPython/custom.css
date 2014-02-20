@@ -21,8 +21,7 @@ div#topNav{
     color: #16BDFF;   
     display: inline-block;
     height: 3em;   
-    padding: 1em;
-    padding-top:1.5em;
+    padding: 1.5em 1em 0em 1em;
     float: left;
     -webkit-transition: text-shadow 0.3s ease-in; /*Safari & Chrome*/
     transition: text-shadow 0.3s ease-in;
@@ -110,11 +109,11 @@ div#fileBrowserWidget{
 ul.fileList{
     float: left;
     list-style-type: none;
-    height: 300px;
-    min-width: 15%;
+    height: 40em;
+    width: 22.5em;
     border: 1px solid #777777;
     border-radius: 1em;
-    margin: 1em;
+    margin: 1em 2em 1em 0em;
     overflow:scroll;
     padding: 1em 0px 1em 0px;
 }
@@ -132,10 +131,45 @@ li {
     line-height: 150%;
 }
 
+ul#unselectedFiles li, ul#selectedFiles li{
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+
 li.fileHidden{
     display: none;
 }
 
+ul#unselectedFiles li.fileSelected::after{
+    color: #1EDC81;
+    content: "\f058";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    float:right;
+    padding-right:1em;
+}
+
+ul#selectedFiles li.fileSelected::after{ 
+    color: #e74c3c;
+    content: "\f057";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    float:right;
+    padding-right:1em;
+}
+
+div#fileWidgetHint{
+    width: 15em;
+    padding: 1em;
+    color: #3F4C4D;
+    margin-top: 17em;
+    margin-left: 2.75em;
+}
 
 /*plot widget/////////////////////////////////////////////*/
 div#plotWidget{
