@@ -112,23 +112,17 @@ ul.fileList{
     height: 40em;
     width: 22.5em;
     border: 1px solid #777777;
-    border-radius: 1em;
-    margin: 1em 2em 1em 0em;
+    /*border-radius: 1em;
+    margin: 1em 2em 1em 0em;*/
+    margin:0;
     overflow:scroll;
-    padding: 1em 0px 1em 0px;
-}
-
-ul#unselectedFiles{
-    background-color: #ccd0d1;
-}
-
-ul#selectedFiles{
-    background-color:#1edc81;
+    /*padding: 1em 0px 1em 0px;*/
+    background-color: #222222;
 }
 
 li {
     padding-left: 1em;
-    line-height: 150%;
+    line-height: 200%;
 }
 
 ul#unselectedFiles li, ul#selectedFiles li{
@@ -166,7 +160,7 @@ ul#selectedFiles li.fileSelected::after{
 div#fileWidgetHint{
     width: 15em;
     padding: 1em;
-    color: #3F4C4D;
+    color: #9FACAD;
     margin-top: 17em;
     margin-left: 2.75em;
 }
