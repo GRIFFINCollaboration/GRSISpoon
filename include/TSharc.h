@@ -4,6 +4,12 @@
 
 #include <vector>
 #include <cstdio>
+#include <map>
+#ifndef __CINT__
+#include <tuple>
+#endif
+#include <utility>
+
 
 #include "TSharcData.h"
 #include "TSharcHit.h"
@@ -23,13 +29,13 @@ class TSharc : public TSharcData, public TNamed 	{
 	public: 
 		virtual void Clear(Option_t * = "");		//!
 		virtual void Print(Option_t * = "");		//!
-		void BuildHits();			//!
+		void BuildHits(Option_t * = "");			//!
 
 		TSharcHit *GetHit(int i)		{return &sharc_hits.at(i);}	//->
 		Short_t GetMultiplicity()	{return sharc_hits.size();}	//->
 
-		TVector3 GetPosition(TSharcHit*);
-		double GetDeadLayer(TSharcHit*);
+//		TVector3 GetPosition(TSharcHit*);
+//		double GetDeadLayer(TSharcHit*);
 
 		static TVector3 GetPosition(int detector, int frontstrip, int backstrip);	//!
 		static double   GetDeadLayer(int detector, int frontstrip, int backstrip);	//!

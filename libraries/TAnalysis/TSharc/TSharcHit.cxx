@@ -29,9 +29,31 @@ void TSharcHit::Clear(Option_t *options)	{
 
 	detectornumber	=	0;	//
 
+	position.SetXYZ(0,0,1); // 
+
 }
 
 void TSharcHit::Print(Option_t *options)	{
 			//printf("Sharc hit energy: %f\n",d_energy);
 			//printf("Sharc hit time:   %f\n",d_time);
 }
+
+bool TSharcHit::Compare(TSharcHit *lhs, TSharcHit *rhs)	{
+	if(lhs->GetDetectorNumber() < rhs->GetDetectorNumber())	{
+		if(lhs->GetFrontStrip() < rhs->GetFrontStrip())	{
+			if(lhs->GetFrontCFD() < rhs->GetFrontCFD())	{
+				if(lhs->GetBackStrip() < rhs->GetBackStrip())	{
+					if(lhs->GetBackCFD() < rhs->GetBackCFD())	{
+						return true;
+					}
+				}
+			}	
+		}
+	}
+	
+	return false;
+	
+}
+
+
+

@@ -34,10 +34,14 @@ class TSharcHit : public TObject 	{
 
 		int detectornumber;	//
 
+		TVector3 position;  //
+
 	public:
 
 		virtual void Clear(Option_t* = "");	//!
 		virtual void Print(Option_t* = "");	//!
+
+		static bool Compare(TSharcHit *lhs,TSharcHit *rhs);
 
 		Double_t GetDeltaE()	{	return d_energy;	};	//!
 		Double_t GetDeltaT()	{	return d_time;		};	//!
@@ -58,6 +62,8 @@ class TSharcHit : public TObject 	{
 		double GetFrontCFD()	{	return front_cfd;	}	//!
 		double GetBackCFD()		{	return back_cfd;	}	//!
 
+		TVector3 GetPosition()	{	return position;	}	//!
+
 		void SetDeltaE(const double &energy)	{	d_energy = energy;	}	//!
 		void SetDeltaT(const double &time)		{	d_time = time;	}		//!
 		void SetPadE(const double &energy)		{	p_energy = energy;	}	//!
@@ -66,6 +72,7 @@ class TSharcHit : public TObject 	{
 		void SetFrontCFD(const double &cfd)		{	front_cfd = cfd;	} //!
 		void SetBackCFD(const double &cfd)		{	back_cfd = cfd;		} //!
 
+		void SetPosition(const TVector3 &pos)	{	position = pos;		} //!
 
 		void SetPixel(const int &front, const  int &back)	{front_strip = front; back_strip = back;}	//!
 		void SetDetector(const int &detector)	{	detectornumber = detector;	}						//!

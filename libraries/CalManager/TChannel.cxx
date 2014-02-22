@@ -197,11 +197,11 @@ void TChannel::PrintFormatted()	{
 	printf("\tADDRESS:     \t0x%08x\n",fspc);
 	printf("\tNAME:        \t%s\n",name.c_str());	
 	printf("\tNUMBER:      \t%i\n",number);
-	printf("\tCOEFFICIENTS:\t"); for(int x=0;x<ENGCoefficients.size();x++) {ENGCoefficients.at(x);} printf("\n");
-    printf("\tENG_COEFF:   \t"); for(int x=0;x<ENGCoefficients.size();x++) {ENGCoefficients.at(x);} printf("\n");
-    printf("\tCFD_COEFF:   \t"); for(int x=0;x<CFDCoefficients.size();x++) {CFDCoefficients.at(x);} printf("\n");
-    printf("\tLED_COEFF:   \t"); for(int x=0;x<LEDCoefficients.size();x++) {LEDCoefficients.at(x);} printf("\n");
-    printf("\tTIME_COEFF:  \t"); for(int x=0;x<TIMECoefficients.size();x++){TIMECoefficients.at(x);} printf("\n");
+	printf("\tCOEFFICIENTS:\t"); for(int x=0;x<ENGCoefficients.size();x++) {printf("%f ",ENGCoefficients.at(x));} printf("\n");
+    printf("\tENG_COEFF:   \t"); for(int x=0;x<ENGCoefficients.size();x++) {printf("%f ",ENGCoefficients.at(x));} printf("\n");
+    printf("\tCFD_COEFF:   \t"); for(int x=0;x<CFDCoefficients.size();x++) {printf("%f ",CFDCoefficients.at(x));} printf("\n");
+    printf("\tLED_COEFF:   \t"); for(int x=0;x<LEDCoefficients.size();x++) {printf("%f ",LEDCoefficients.at(x));} printf("\n");
+    printf("\tTIME_COEFF:  \t"); for(int x=0;x<TIMECoefficients.size();x++){printf("%f ",TIMECoefficients.at(x));} printf("\n");
 	//printf("\tSTREAM:      \t\n");
 	printf("\tDETECTOR:    \t%i\n",detector);
 	printf("\tPIXEL:       \t%i %i\n",pixel.first,pixel.second);
