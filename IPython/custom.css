@@ -123,6 +123,7 @@ ul.fileList{
 li {
     padding-left: 1em;
     line-height: 200%;
+    font-size: 150%;
 }
 
 ul#unselectedFiles li, ul#selectedFiles li{
@@ -143,7 +144,7 @@ ul#unselectedFiles li.fileSelected::after{
     font-weight: normal;
     text-decoration: inherit;
     float:right;
-    padding-right:1em;
+    padding: 0em 0.5em 0em 0.5em;
 }
 
 ul#selectedFiles li.fileSelected::after{ 
@@ -154,7 +155,7 @@ ul#selectedFiles li.fileSelected::after{
     font-weight: normal;
     text-decoration: inherit;
     float:right;
-    padding-right:1em;
+    padding: 0em 0.5em 0em 0.5em;
 }
 
 div#fileWidgetHint{
