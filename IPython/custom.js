@@ -57,7 +57,7 @@ $([IPython.events]).on('notebook_loaded.Notebook', function(){
 
             footer.innerHTML = footerTableHTML;
 
-            footerImage('footerImage', 2, '#333333');
+            footerImage('footerImage', 2, '#444444');
 
             //fade everything in after setup
             document.getElementById('notebook').style.opacity = 1;

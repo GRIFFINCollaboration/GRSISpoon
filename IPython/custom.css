@@ -21,8 +21,7 @@ div#topNav{
     color: #16BDFF;   
     display: inline-block;
     height: 3em;   
-    padding: 1em;
-    padding-top:1.5em;
+    padding: 1.5em 1em 0em 1em;
     float: left;
     -webkit-transition: text-shadow 0.3s ease-in; /*Safari & Chrome*/
     transition: text-shadow 0.3s ease-in;
@@ -91,7 +90,7 @@ div.output_wrapper{
     margin: 0;
 }
 
-/*section colors///////////////////////////////////////////////*/
+/*splash header//////////////////////////////////////*/
 
 div#internalHeader{
     background: -webkit-linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url('headerImage.jpg');
@@ -102,17 +101,84 @@ div#internalHeader{
     padding-top: 0;
 }
 
+/*file browser widget////////////////////////////////////*/
+div#fileBrowserWidget{
+    background-color: #EBEFF2;
+}
+
+ul.fileList{
+    float: left;
+    list-style-type: none;
+    height: 40em;
+    width: 22.5em;
+    border: 1px solid #777777;
+    /*border-radius: 1em;
+    margin: 1em 2em 1em 0em;*/
+    margin:0;
+    overflow:scroll;
+    /*padding: 1em 0px 1em 0px;*/
+    background-color: #222222;
+}
+
+li {
+    padding-left: 1em;
+    line-height: 200%;
+    font-size: 150%;
+}
+
+ul#unselectedFiles li, ul#selectedFiles li{
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+
+li.fileHidden{
+    display: none;
+}
+
+ul#unselectedFiles li.fileSelected::after{
+    color: #1EDC81;
+    content: "\f058";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    float:right;
+    padding: 0em 0.5em 0em 0.5em;
+}
+
+ul#selectedFiles li.fileSelected::after{ 
+    color: #e74c3c;
+    content: "\f057";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    float:right;
+    padding: 0em 0.5em 0em 0.5em;
+}
+
+div#fileWidgetHint{
+    width: 15em;
+    padding: 1em;
+    color: #9FACAD;
+    margin-top: 17em;
+    margin-left: 2.75em;
+}
+
+/*plot widget/////////////////////////////////////////////*/
 div#plotWidget{
     background-color: #FFFFFF;
 }
 
+/*system load widget///////////////////////////////////////*/
 div#systemUseWidget{
     background-color: #EBEFF2;
 }
 
 /*footer///////////////////////////////////////////////////////*/
 div.end_space{
-    background-color: #444444; /*#32425C;*/
+    background-color: #222222; /*#444444; /*#32425C;*/
     text-align: center;
     font: 120%;
     color: #DDDDDD;
