@@ -1,117 +1,4 @@
-define(function(){
-    //////////////////////////////////
-    //demo functions    
-    //////////////////////////////////
-    var selected = function(selectID){
-            var select = document.getElementById(selectID),
-                value = select.options[select.selectedIndex].value;
-
-            return value;
-        }
-
-    var drawImg = function(imgId, out_type, out){
-            document.getElementById(imgId).src = 'data:image/png;base64,' + out.data['image/png'];       
-        }
-
-    var exec_code = function(){
-            var kernel = IPython.notebook.kernel;
-            var callbacks = {'output' : drawImg.bind(null, 'imgtarget')};
-            kernel.execute('testVar = "' + selected('plotOptions') + '"');
-            kernel.execute('ROOTplot(testVar)', callbacks, {silent:false});
-        }
-
-    var registerLeafList = function(out_type, out){
-            var rawString = out.data['text/plain'],
-                kernel = IPython.notebook.kernel,
-                options, i, opt;
-            
-            //lose the leading and trailing ' and the trailing &
-            rawString = rawString.slice(1, rawString.length-2)
-        
-            options = rawString.split('&');
-            for(i=0; i<options.length; i++){
-                opt = document.createElement('option');
-                opt.innerHTML = options[i];
-                opt.value = options[i];
-                document.getElementById('plotOptions').appendChild(opt);
-            }
-        }
-    
-    var getListOfVariables = function(){
-            console.log('getting variables...')
-            var kernel = IPython.notebook.kernel;
-            var callbacks = {'output' : registerLeafList};
-            kernel.execute('listtree()', callbacks, {silent:false});
-        }
-
-    //////////////////////////////////////
-    //branding
-    //////////////////////////////////////
-    var GRSISpoon = function(canvasID, size){
-	    var canvas = document.getElementById(canvasID),
-	    context = canvas.getContext('2d')
-
-            context.strokeStyle = '#FFFFFF';
- 
-            context.shadowBlur = size/4;
-            context.shadowColor = '#FFFFFF';
-	    context.lineWidth = 2;
-            context.moveTo(0, 1.3*size);
-	    context.lineTo(3*size, 1.35*size);
-            context.bezierCurveTo(6.5*size, -0.5*size, 6.5*size, 3.5*size, 3*size, 1.65*size)
-	    context.lineTo(0, 1.7*size);
-            context.stroke();
-	
-            context.fillStyle = '#FFFFFF';			
-	    context.font = 0.8*size+'px Arial';
-	    context.fillText('GRSISpoon', 0.2*size, 2.8*size)
-	}
-
-    var footerImage = function(canvasID, size, color){
-            var canvas = document.getElementById(canvasID),
-                context = canvas.getContext('2d'),
-                //how many isotopes are there of each element
-                isotopesPerRow = [1,6,8,8,9,13,15,15,15,16,18,19,19,20,21,23,24,24,22,23,21,20,21,25,25,26,28,28,30,29,30,31,32,33,30,30,32,31],  //Rb last
-                //offset of proton drip line from hydrogen 
-                protonDrip = [1,0,1,1,2,2,2,3,4,5,5,6,7,8,8,9,10,11,12,13,14,15,16,17,18,19,19,21,21,23,24,25,26,27,31,33,33,35],
-                //indices of stable isotopes relative to that element's proton drip
-                stable = [
-                    [], [0,1], [0,1], [2,3], [3], [3,4], [4,5], [4,5], [4,5,6], [5], [5,6,7],
-                    [6], [5,6,7], [6], [6,7,8], [7], [6,7,8,10], [7,9], [6,8,10], [7,9], [6,8,9,10,12],
-                    [9], [8,9,10,11,12], [11], [10,11,12], [11], [9, 11,12,13], [11], [9, 11,12,13,15], [11,13], [10,12,13,14],
-                    [13,15], [12,14,15,16,18], [15], [9,11,12,13,15], [11,13], [11,13,14,15,17], [13]
-                ],
-                cell = 4*size,
-                y0 = $('#'+canvasID).height() - cell/2,
-                i,j;
-
-            for(i=0; i<isotopesPerRow.length; i++){
-                for(j=0; j<isotopesPerRow[i]; j++){
-                    if( stable[i].indexOf(j) != -1 ){
-                        context.strokeStyle = '#FF3399';
-                        context.fillStyle = '#FF3399';
-                    } else{
-                       context.strokeStyle = color;
-                       context.fillStyle = color;
-                    }
-                    context.beginPath();
-                    context.arc(cell*protonDrip[i] + cell/2 + j*cell, y0, size, 0, 2*Math.PI);
-                    context.closePath();
-                    context.fill();
-                    context.stroke();
-                }
-                y0 -= cell;
-                if(y0<0) return;
-            }
-
-        }
-
-
-    //////////////////////////////////////
-    //system load monitor
-    //////////////////////////////////////
-
-    var constructHexColor = function(color){
+    function constructHexColor(color){
             var R = Math.round(color[0]);
             var G = Math.round(color[1]);
             var B = Math.round(color[2]);
@@ -204,7 +91,7 @@ define(function(){
             return constructHexColor([R,G,B]);
         }
 
-    var illustrateMpstat = function(type, mpstat){
+    function illustrateMpstat(type, mpstat){
             var rawString = mpstat.data.split('\n'), 
                 usage = [],                                               //array which will contain the usage in [0,1] of CPU i at index i.
 		canvas = document.getElementById('systemUseCanvas'),
@@ -274,26 +161,10 @@ for(i=0; i<32; i++){
 
         }
 
-    var mpstatJS = function(){
+    function mpstatJS(){
             var kernel = IPython.notebook.kernel;
             var callbacks = {'output' : illustrateMpstat};
             kernel.execute('!mpstat -P ALL', callbacks, {silent:false});
         }
 
-    //////////////////////////////////////
-    //return object
-    //////////////////////////////////////
-    return {
-        selected : selected,
-        drawImg : drawImg,
-        exec_code : exec_code,
-        registerLeafList : registerLeafList,
-        getListOfVariables : getListOfVariables,
-        GRSISpoon : GRSISpoon,
-        constructHexColor : constructHexColor,
-        scalepickr : scalepickr,
-        mpstatJS : mpstatJS,
-        illustrateMpstat : illustrateMpstat,
-        footerImage : footerImage
-    }
-});
+
