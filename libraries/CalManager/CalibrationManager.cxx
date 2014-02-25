@@ -163,7 +163,7 @@ void CalibrationManager::AddChannel(TChannel * channel)
 {
    //    channel->Print();
    AddressChannelMap[channel->fspc] = channel;  //->insert(std::make_pair(fspc_value,fspc));
-   std::string temp = channel->name.substr(0, 10);
+   std::string temp = channel->name; //.substr(0, 10);
    NameChannelMap[temp] = channel;      //->insert(std::make_pair(fspc_value,fspc));
 }
 
@@ -506,12 +506,12 @@ void CalibrationManager::OutputCalFile(std::string calfilenameout)	{
 	//
 	//
 
-	std::map < int, TChannel * >::iterator iter;
+	std::map < std::string, TChannel * >::iterator iter;
 	FILE *c_outputfile;
 	if(calfilenameout.length()>0)	{
 		c_outputfile = freopen (calfilenameout.c_str(),"w",stdout);
 	}
-	for(iter = AddressChannelMap.begin(); iter != AddressChannelMap.end(); iter++)	{
+	for(iter = NameChannelMap.begin(); iter != NameChannelMap.end(); iter++)	{
 		iter->second->PrintFormatted();
 	}
 	if(calfilenameout.length()>0)	{

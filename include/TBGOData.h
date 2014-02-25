@@ -7,8 +7,9 @@
 #include <vector>
 
 #include "Globals.h"
+#include "TTigFragment.h"
 
-#include <TObject.h>
+//#include <TObject.h>
 
 
 class TBGOData : public TObject	{
@@ -45,7 +46,8 @@ class TBGOData : public TObject	{
 
 		inline void SetBGOWave(const std::vector<int> &BGOWave)		{fBGO_Wave.push_back(BGOWave);}		//!
 
-		inline void SetBGO(const UShort_t &BGOCrystalNbr, const UShort_t &BGOPmNbr, const Int_t &BGOCharge, const Double_t &BGOEnergy, const Double_t &BGOTimeCFD, const Double_t &BGOTimeLED, const Double_t &BGOTime = 0)	{
+		inline void SetBGO(const UShort_t &BGOCloverNbr, const UShort_t &BGOCrystalNbr, const UShort_t &BGOPmNbr, const Int_t &BGOCharge, const Double_t &BGOEnergy, const Double_t &BGOTimeCFD, const Double_t &BGOTimeLED, const Double_t &BGOTime = 0)	{
+			SetBGOCloverNbr(BGOCloverNbr);
 			SetBGOCrystalNbr(BGOCrystalNbr);
 			SetBGOPmNbr(BGOPmNbr);
 			SetBGOCharge(BGOCharge);
@@ -54,7 +56,17 @@ class TBGOData : public TObject	{
 			SetBGOLED(BGOTimeLED);
 			SetBGOTime(BGOTime);
 		};	//!
-
+		inline void SetBGO(TTigFragment *frag,const UShort_t &BGOCloverNbr ,const UShort_t &BGOCrystalNbr, const UShort_t &BGOPmNbr )	{
+			SetBGOCloverNbr(BGOCloverNbr);
+			SetBGOCrystalNbr(BGOCrystalNbr);
+			SetBGOPmNbr(BGOPmNbr);
+			SetBGOCharge(frag->Charge);
+			SetBGOEnergy(frag->ChargeCal);
+			SetBGOCFD(frag->Cfd);
+			SetBGOLED(frag->Led);
+			SetBGOTime(frag->TimeToTrig);
+		};	//! overload function added by sjc
+		
 		/////////////////////           GETTERS           ////////////////////////
         inline UShort_t GetBGOCloverNumber(const unsigned &i)       {return fBGO_CloverNbr.at(i);} //!
 		inline UShort_t GetBGOCoreNumber(const unsigned &i)      {return fBGO_CrystalNbr.at(i);}//!
@@ -69,7 +81,7 @@ class TBGOData : public TObject	{
 
 		inline unsigned int GetBGOMultiplicity()  {return fBGO_PmNbr.size();}			//!
 
-  ClassDef(TBGOData,0)  // TBgoData structure
+  ClassDef(TBGOData,0) //!  // TBgoData structure
 };
 
 

@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "Globals.h"
+#include "TTigFragment.h"
 
 #include <TObject.h>
 
@@ -59,6 +60,18 @@ class TCrystalData : public TObject {
 			SetCoreTime(CrystalTime);		
 		}	//!
 
+		inline void SetCore(TTigFragment *frag,const UShort_t &CloverNbr,const UShort_t &CoreNbr )	{
+		
+				SetCloverNumber(CloverNbr);
+				SetCoreNumber(CoreNbr);
+				SetCoreEnergy(frag->ChargeCal);		
+				SetCoreCharge(frag->Charge);
+				SetCoreCFD(frag->Cfd);		
+				SetCoreLED(frag->Led);		
+				SetCoreTime(frag->TimeToTrig);		
+		}; //! updated by sjc
+
+
 		inline void SetSegCloverNumber(const UShort_t &CloverNumber)	{fSeg_Clover_Nbr.push_back(CloverNumber);}	//!
 		inline void SetSegCoreNumber(const UShort_t &CoreNumber)	{fSeg_Core_Nbr.push_back(CoreNumber);}	//!
 		inline void SetSegmentNumber(const UShort_t &SegmentNumber)	{fSegment_Nbr.push_back(SegmentNumber);}	//!
@@ -80,6 +93,20 @@ class TCrystalData : public TObject {
 			SetSegmentLED(SegmentTimeLED);
 			SetSegmentTime(SegmentTime);
 		}	//!
+
+		inline void SetSegment(TTigFragment *frag,const UShort_t &CloverNbr, const UShort_t &CoreNbr, const UShort_t &SegmentNumber )	{
+		
+				SetSegCloverNumber(CloverNbr);
+				SetSegCoreNumber(CoreNbr);
+				SetSegmentNumber(SegmentNumber);
+				SetSegmentEnergy(frag->ChargeCal);		
+				SetSegmentCharge(frag->Charge);
+				SetSegmentCFD(frag->Cfd);		
+				SetSegmentLED(frag->Led);		
+				SetSegmentTime(frag->TimeToTrig);		
+		}; //! updated by sjc
+
+
 
 		inline UShort_t GetCloverNumber(const unsigned int &i)	{return fClover_Nbr.at(i);}	//!
 		inline UShort_t GetCoreNumber(const unsigned int &i)	{return fCore_Nbr.at(i);}	//!
@@ -105,7 +132,7 @@ class TCrystalData : public TObject {
 		inline unsigned int GetCoreMultiplicity()		{return fCore_Nbr.size();}	//!
 		inline unsigned int GetSegmentMultiplicity()		{return fSegment_Nbr.size();}	//!
 		
-		ClassDef(TCrystalData,0)  // TCloverData structure
+		ClassDef(TCrystalData,0) //! // TCloverData structure
 };
 
 
