@@ -31,15 +31,28 @@ Alternatively, you can launch as `./bin/grsisort -p 9091` to launch a server lis
 
 ##Testing
 
-Currently, the test suite for GRSISpoon is a simple procedure:
+GRSISpoon maintains a test suite to check that new code hasn't broken any existing features, and to ensure that bugs and regressions do not re-emerge when identified.  When working on a bug, please add whatever tests you are using to track down the bug to either of the independent test suites or the in-situ run flag.  When producing a new feature, please also construct a set of tests that check all assumptions made in its construction.
+
+Currently, the test suite for GRSISpoon has two steps: fragment building and physics testing.  Both must pass with no complaints, or your changes will be reverted!  If you think there is a good reason why your changes make the tests fail, open an issue to discuss the situation before attempting a merge.
+
+####Fragment Building
+
+This simple test just makes sure raw data builds to the same fragment tree it always has.  The data is small and ships with GRSISpoon; to run the test, do:
 
 1.  Sort the benchmark file ./testSuite/run27422_000.mid
 2.  Run the root macro `root -b -l ./testSuite/testGauntlet.C`
 3.  The macro will tell you all is well (so pls PR!), or that something failed (pls fix or justify before PR).
 
-The test just compares the tree you get from sorting the benchmark file with the tree I got from sorting the benchmark file, and demands they are identical up to timestamps.  As an added bonus, `testGauntlet.C` should serve as an example of how to read GRSISpoon's ROOT output.
+The test just compares the tree you get from sorting the benchmark file with the tree I got from sorting the benchmark file, and demands they are identical up to timestamps.
 
-Please note that passing the test suite is *required* for merging code into the collaboration's repo!  If you think there is a good reason why your changes don't match, open an issue to discuss the situation before attempting a merge.
+####Physics Testing
+`./testSuite/testPhysics.C` runs a battery of tests to check that sensible physics results are being extracted when sorting a run of source data.  To run it:
+
+1.  Near the top of `testPhysics.C` there is an example of how to compile it; change the paths to something appropriate, make sure you've sourced `SOURCEME.(c)sh`, and compile.
+2.  The raw data for this test is too big to ship with the package; current prescribed file is at `grsmid01.triumf.ca:/data1/tigress/GRSISpoonEffTest/fragment27495_000.root`
+3.  Run as `./testPhysics fragment27495_000.root`.
+
+The physics testing runs the following tests [X].  
 
 ##Style Conventions
 GRSISpoon code obeys the [Kronut Style Convention](http://root.cern.ch/drupal/content/c-coding-conventions).  A quick
