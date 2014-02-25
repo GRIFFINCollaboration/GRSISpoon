@@ -120,3 +120,42 @@ function gradientList(){
     })
 
 }
+
+
+//parse match <query> to files, and toggle those files.  li elements match if their innerHTML matches <query>, with * wildcards.
+function fileTextQuery(query){
+                
+    var parsedQuery = query.split('*'),
+        fileElts = document.querySelectorAll('ul.fileList li'),
+        i, match, latestIndex;
+        
+    [].forEach.call(fileElts, function(elt){
+        match = true;
+        latestIndex = 0;
+
+        //not for hidden elements
+        if(elt.className.indexOf('fileHidden') != -1){
+            match = false;
+
+        } else {
+            for(i=0; i<parsedQuery.length; i++){
+                //bail if the stirng fragment isn't in the right place:
+                if(elt.innerHTML.indexOf(parsedQuery[i], latestIndex) == -1 ){
+                    match = false;
+                    break;
+                    console.log('fragment not found')
+                } else{
+                    latestIndex = elt.innerHTML.indexOf(parsedQuery[i], latestIndex);
+                }
+            }
+        }
+
+        if(match){
+            if(elt.className.indexOf('fileSelected') != -1)
+                elt.className = elt.className.slice(0, ' ');
+            else
+                elt.className += ' fileSelected';
+        }
+    })
+
+}
