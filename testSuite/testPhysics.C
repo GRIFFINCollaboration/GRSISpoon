@@ -35,8 +35,11 @@ using namespace std;
 #define THRESH 5 
 #define GATE_LOW 1170
 #define GATE_HIGH 1176
+#define COUNTS_LOW 1329
+#define COUNTS_HIGH 1336
 #define ROOT_VIRT_SIZE    500000000  //  500MB 
 #define DEBUG 0
+#define MIN_ENTRIES 100 // minimum entries in a histogram for it to be included in the final report
 
 // Global/static Variables
 TApplication* App;  // Pointer to root environment for plotting etc
@@ -145,7 +148,7 @@ int main(int argc, char **argv) {
 	 
       CoincEff(evFrags);  // Function to process each event
       
-      if(j%500 ==0) {
+      if(j%5000 ==0) {
          cout << "Processed " << j << " / " << NumTreeEvents << " events" << endl;
       }
      
@@ -349,7 +352,7 @@ int InitCoincEff() {
    char name[512], title[512];
    int Clover, Crystal;  
    
-   hStatHist = new TH1F("Stats","Stats Spectrum",4096,0,4095);
+   hStatHist = new TH1F("Stats","Stats Spectrum",4096,0,4096);
    for(Clover=0;Clover<CLOVERS;Clover++) {
       sprintf(name,"TIG%02d AB",Clover+1); 
       sprintf(title,"TIG%02d Clover Add-Back Energy (keV)",Clover+1);     
@@ -372,13 +375,34 @@ int InitCoincEff() {
 
 int FinalCoincEff()	{
 
-   cout << "Finalising...." << endl;
-
    int Clover, Crystal;  
+   int N;
+
+   // Now generate report
+   cout << endl << "Gate between " << GATE_LOW << " and " << GATE_HIGH << " keV" << endl;
+   cout << "Checking efficiency between " << COUNTS_LOW << " and " << COUNTS_HIGH << " keV" << endl;
+   N = (int)hStatHist->GetBinContent(2);
+   cout << endl << "Core channels (" << N << "counts passed gate)" << endl;
+   for(Clover=0;Clover<CLOVERS;Clover++) {
+      for(Crystal=0;Crystal<CRYSTALS;Crystal++) {
+         //cout << "Clover " << Clover+1;
+         if(hCoreEn[Clover][Crystal]->GetEntries() < MIN_ENTRIES) {
+            //cout << "Clover " << Clover+1 << " Crystal " << Num2Col(Crystal) << " : ";
+            //cout << "Skipping! (" << hCoreEn[Clover][Crystal]->GetEntries() << " entries)" << endl;
+         }
+         else {
+            cout << "Clover " << Clover+1 << " Crystal " << Num2Col(Crystal) << " : ";
+            cout << hCoreEn[Clover][Crystal]->Integral(COUNTS_LOW,COUNTS_HIGH) << " counts (";
+            cout <<  hCoreEn[Clover][Crystal]->Integral(COUNTS_LOW,COUNTS_HIGH) / N << " %)" << endl;
+         }
+      }
+   }
+
+   cout << "Writing spectra...." << endl;
+   
+   // Write spectra to file:
    outfile->cd();
-   
-   hStatHist->Write();
-   
+   hStatHist->Write();   
    for(Clover=0;Clover<CLOVERS;Clover++) {
       hCloverABEn[Clover]->Write();
    }
@@ -395,7 +419,7 @@ int FinalCoincEff()	{
          hCoreEnGated[Clover][Crystal]->Write();
       }
    }
-   
+   // Close file
    outfile->Close();
    
 	return 1;
