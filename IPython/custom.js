@@ -10,20 +10,6 @@ $([IPython.events]).on('notebook_loaded.Notebook', function(){
     //$.getScript('/static/custom/util.js' );
     //load_ext('util');
 
-    require(['custom/util'], function(custom){
-        
-        window.selected = custom.selected;
-        window.drawImg = custom.drawImg;
-        window.exec_code = custom.exec_code;
-        window.registerLeafList = custom.registerLeafList;
-        window.getListOfVariables = custom.getListOfVariables;
-        window.GRSISpoon = custom.GRSISpoon;
-        window.constructHexColor = custom.constructHexColor;
-        window.scalepickr = custom.scalepickr;
-        window.mpstatJS = custom.mpstatJS;
-        window.illustrateMpstat = custom.illustrateMpstat;
-        window.footerImage = custom.footerImage;
-
         //hide guts:
         document.getElementById('hideGuts').onclick();
 
@@ -63,8 +49,6 @@ $([IPython.events]).on('notebook_loaded.Notebook', function(){
             document.getElementById('notebook').style.opacity = 1;
         }, 500);
  
-    } );
-
     //console logs all the custom events available :)
     //console.log($._data($([IPython.events])[0], "events" ));
 
