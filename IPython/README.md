@@ -40,7 +40,7 @@ And your profile should be good to go.
 
 
 ###Put stuff in the right place:
-All the files controlled here have to be put in the appropriate places, after creating a profile to host your IPython notebook.  distributeFiles.sh will do these three bullet points for you, if you've created the directory structure exactly as prescribed.
+All the files controlled here have to be put in the appropriate places, after creating a profile to host your IPython notebook.  `distributeFiles.sh` will do these three bullet points for you, if you've created the directory structure exactly as prescribed.
 
 - Under `~/.ipython/`, create a directory `extensions`; place `GRSIextension.py` in that new directory.
 - Under `~/.ipython/profile_nbserver`, create a directory `static/custom`; place `custom.css`, `custom.js`, and `util.js` therein.
