@@ -85,6 +85,7 @@ int main(int argc, char **argv) {
 	int NumTreeEvents = -1;
 	int FirstTreeEvent = -1;
 	int FragCount = 0;
+   TFile *FileIn = 0;
    
    // Timing
    TStopwatch StopWatch;
@@ -102,9 +103,14 @@ int main(int argc, char **argv) {
    }
 
    //open input file
-	//TFile *FileIn = new TFile("/media/data1/Experiments/tigress/TigTest/run27401_TIG06_GeClovSing_152Eu/fragment27401_000.root");
-	//TFile *FileIn = new TFile("/media/data1/Experiments/tigress/TigTest/run26831_TIG_GeSingPS2_60Co_Nov13/fragment26831_001.root");
-	TFile *FileIn = new TFile("/media/data1/Experiments/tigress/TigTest/run27498_TIG12_GeClovSing_60Co_Feb14/fragment27498_000.root");
+   if(argc<1) {
+      cout << "No input file!" << endl;
+      return -1;
+   }
+   else{
+      FileIn = new TFile(argv[1]);
+   }
+
 	if(!FileIn) {
 	   printf("Error opening file!\n");
 	   return -1;
